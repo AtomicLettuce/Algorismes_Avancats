@@ -1,3 +1,12 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+
+# Ignorar .iml
+*.iml
+
+# Ignorar output compilat
+*/out/
+
+# Ignorar carpeta .idea
+*/.idea/
