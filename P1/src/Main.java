@@ -1,5 +1,15 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Martí puta pederasta");
+        // Això és un comentari.
+        saludar();
+        System.out.println("Quèè pasa puta?");
+
     }
+
+    private static void saludar() {
+        System.out.println("keke");
+        System.out.println("O/");
+    }
+
+    // JEJE
 }
