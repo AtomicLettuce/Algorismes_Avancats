@@ -1,15 +1,17 @@
 public class Main {
+
+    private Model model = new Model();
+    private Controlador controlador = new Controlador(model);
+    private Vista vista = new Vista();
+
     public static void main(String[] args) {
-        // Això és un comentari.
-        saludar();
-        System.out.println("Quèè pasa puta?");
-
+        new Main().inici();
     }
 
-    private static void saludar() {
-        System.out.println("keke");
-        System.out.println("O/");
+    public void inici() {
+        System.out.println("Hola!");
+        model.comunicacio("100000000");
+        controlador.comunicacio("oN");
     }
 
-    // JEJE
 }
