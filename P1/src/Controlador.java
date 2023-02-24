@@ -1,8 +1,11 @@
+import interfaces.InterficieComunicacio;
+import model.Model;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Controlador extends Thread implements Comunicacio {
+public class Controlador extends Thread implements InterficieComunicacio {
     // Necessitarem accedir a les dades per a calcular la moda.
     private Model dades;
     public Controlador(Model dades) {
