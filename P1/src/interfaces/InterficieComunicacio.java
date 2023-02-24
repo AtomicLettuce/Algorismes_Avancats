@@ -1,4 +1,6 @@
+package interfaces;
+
 // Interface per a que tots incorporin el mètode comunicació.
-public interface Comunicacio {
+public interface InterficieComunicacio {
     public void comunicacio(String instruccio);
 }
