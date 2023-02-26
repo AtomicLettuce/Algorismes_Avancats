@@ -1,3 +1,5 @@
+package Controlador;
+
 import interfaces.InterficieComunicacio;
 import model.Model;
 
@@ -143,9 +145,9 @@ public class Controlador extends Thread implements InterficieComunicacio {
     @Override
     public void comunicacio(String instruccio) {
         switch (instruccio) {
-            case "oN" -> oN(dades.getArrayAOrdenar()) ;
-            case "oNlogN" -> oNlogN(dades.getArrayAOrdenar());
-            case "oNN" -> oNN(dades.getArrayAOrdenar());
+            case "oN" -> oN(dades.getArray()) ;
+            case "oNlogN" -> oNlogN(dades.getArray());
+            case "oNN" -> oNN(dades.getArray());
             default -> {
                 //ERROR!
             }

@@ -12,7 +12,7 @@ public class Model implements InterficieComunicacio {
     // Nombre màxim que generà el random.
     private final int numeroMaxim = 100000;
     // Array de dades.
-    private int[] arrayAOrdenar;
+    private int[] array;
 
     // Generam amb una longitud fixada pel paràmetre d'entrada.
     private void generarArray(int n) {
@@ -25,12 +25,12 @@ public class Model implements InterficieComunicacio {
         }
 
         // Seteam el nou array.
-        arrayAOrdenar = arrayGenerat;
+        array = arrayGenerat;
     }
 
-    // Getter necesari per la classe 'Controlador'.
-    public int[] getArrayAOrdenar() {
-        return arrayAOrdenar;
+    // Getter necesari per la classe 'Controlador.Controlador'.
+    public int[] getArray() {
+        return array;
     }
 
     @Override
