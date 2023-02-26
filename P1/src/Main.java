@@ -1,3 +1,6 @@
+import model.Model;
+import view.Vista;
+
 public class Main {
 
     private Model model = new Model();

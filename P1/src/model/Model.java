@@ -1,6 +1,10 @@
+package model;
+
+import interfaces.InterficieComunicacio;
+
 import java.util.Random;
 
-public class Model implements Comunicacio {
+public class Model implements InterficieComunicacio {
 
     // Random per a crear l'array per a calcular la moda, inicialitzat amb una llavor
     // per a que cada vegada que s'executi posi els mateixos números.
