@@ -1,3 +1,4 @@
+import Controlador.Controlador;
 import model.Model;
 import view.Vista;
 
