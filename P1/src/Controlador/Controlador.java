@@ -1,7 +1,7 @@
 package Controlador;
 
-import interfaces.InterficieComunicacio;
-import model.Model;
+import P1.interfaces.InterficieComunicacio;
+import P1.model.Model;
 
 import java.util.Arrays;
 import java.util.HashMap;

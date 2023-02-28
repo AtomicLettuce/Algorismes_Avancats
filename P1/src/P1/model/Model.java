@@ -1,6 +1,6 @@
-package model;
+package P1.model;
 
-import interfaces.InterficieComunicacio;
+import P1.interfaces.InterficieComunicacio;
 
 import java.util.Random;
 

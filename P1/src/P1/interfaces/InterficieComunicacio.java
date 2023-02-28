@@ -1,4 +1,4 @@
-package interfaces;
+package P1.interfaces;
 
 // Interface per a que tots incorporin el mètode comunicació.
 public interface InterficieComunicacio {
