@@ -1,12 +1,14 @@
+package P1;
+
 import Controlador.Controlador;
-import model.Model;
-import view.Vista;
+import P1.model.Model;
+import P1.view.Vista;
 
 public class Main {
 
     private Model model = new Model();
     private Controlador controlador = new Controlador(model);
-    private Vista vista = new Vista();
+    private Vista vista;
 
     public static void main(String[] args) {
         new Main().inici();
@@ -14,8 +16,9 @@ public class Main {
 
     public void inici() {
         System.out.println("Hola!");
-        model.comunicacio("100000000");
-        controlador.comunicacio("oN");
+        vista=new Vista("pinga", this);
+        //model.comunicacio("100000000");
+        //controlador.comunicacio("oN");
     }
 
 }
