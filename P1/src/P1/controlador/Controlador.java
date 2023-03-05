@@ -1,5 +1,6 @@
-package Controlador;
+package P1.controlador;
 
+import P1.Main;
 import P1.interfaces.InterficieComunicacio;
 import P1.model.Model;
 
@@ -8,10 +9,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Controlador extends Thread implements InterficieComunicacio {
-    // Necessitarem accedir a les dades per a calcular la moda.
+    // Punters necesaris per accedir als altres elements del model.
+    private Main main;
     private Model dades;
-    public Controlador(Model dades) {
+
+    private static final int NALGORITMES = 3;
+    private static final int[] NITERACIONS = {100,1000,10000,100000};
+
+    public Controlador(Main main, Model dades) {
+        // Assignam els punters.
+        this.main = main;
         this.dades = dades;
+        // Inicialitzam la matriu de temps.
+        main.comunicacio("Inicialitzar_Temps " + NALGORITMES + " " + NITERACIONS.length);
+    }
+
+    // Métode run que espera la petició de calcular la moda.
+    @Override
+    public void run() {
+        super.run();
+    }
+
+    // Mètode que posa en marxa el procés de càlcul de tots els algoritmes i les diferents iteracions.
+    private void inici() {
+        // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
+        for (int idx = 0; idx < NITERACIONS.length; idx++) {
+            //O(N)
+            Thread oN = new Thread(this);
+            //O(N log N)
+            Thread oNLN = new Thread();
+            //O(NN)
+            Thread oNN = new Thread();
+
+        }
     }
 
     // Mètode amb un cost computacional de O(n), implementat amb un HashMap.
@@ -31,7 +61,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
     }
 
     private int hashModa(int[] arr) {
-        // Declaram el hashmap de Key, Value integers, un per el nombre trobat i l'altre per el número
+        // Declaram el hashmap de Key, Value integers, un pel nombre trobat i l'altre pel nombre
         // d'aparicions d'aquesta key.
         HashMap<Integer, Integer> hashMap = new HashMap<>();
 
@@ -144,7 +174,12 @@ public class Controlador extends Thread implements InterficieComunicacio {
 
     @Override
     public void comunicacio(String instruccio) {
+        if(instruccio.equals("run")) {
+            this.inici();
+        } else {
+            // Amollar error.
+            System.err.println("Paràmetre incorrecte per al controlador");
+        }
 
     }
-
 }

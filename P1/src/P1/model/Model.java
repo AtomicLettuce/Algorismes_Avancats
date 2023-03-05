@@ -1,10 +1,14 @@
 package P1.model;
 
+import P1.Main;
 import P1.interfaces.InterficieComunicacio;
 
 import java.util.Random;
 
 public class Model implements InterficieComunicacio {
+
+    // Punter al main.
+    Main main;
 
     // Matriu que guardarà els temps que tarda cada algorisme
     // Cada fila comptindrà els temps de cada algorisme
@@ -19,6 +23,10 @@ public class Model implements InterficieComunicacio {
 
     // Matriu que guarda les dades. Cada fila de la matriu correspon a un vector
     private int[][] vectors;
+
+    public Model(Main main) {
+        this.main = main;
+    }
 
     // Generam amb una longitud fixada pel paràmetre d'entrada.
     private void generarVectors(int dim, int qt) {
@@ -49,7 +57,6 @@ public class Model implements InterficieComunicacio {
 
     @Override
     public void comunicacio(String instruccio) {
-        // COMPROVAR SI LA COMUNICACIÓ FUNCIONA AIXÍ.
-        //generarVectors(Integer.parseInt(instruccio));
+
     }
 }
