@@ -180,5 +180,6 @@ public class Controlador extends Thread implements InterficieComunicacio {
             // Amollar error.
             System.err.println("Paràmetre incorrecte per al controlador");
         }
+
     }
 }
