@@ -12,7 +12,7 @@ public class Model implements InterficieComunicacio {
 
     // Matriu que guardarà els temps que tarda cada algorisme
     // Cada fila comptindrà els temps de cada algorisme
-    private Integer matriu_temps[][];
+    private Float matriu_temps[][];
 
 
     // Random per a crear l'array per a calcular la moda, inicialitzat amb una llavor
@@ -47,15 +47,15 @@ public class Model implements InterficieComunicacio {
     }
 
     public void inicialitzar_temps(int rows, int columns){
-        matriu_temps = new Integer[rows][columns];
+        matriu_temps = new Float[rows][columns];
         for (int i=0;i<rows;i++){
             for (int j =0;j<columns;j++){
-                matriu_temps[rows][columns]=null;
+                matriu_temps[rows-1][columns-1]=null;
             }
         }
     }
 
-    public void setTemps(int row, int colum, int nValor) {
+    public void setTemps(int row, int colum, Float nValor) {
         matriu_temps[row][colum] = nValor;
     }
 

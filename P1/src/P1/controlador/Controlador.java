@@ -14,14 +14,14 @@ public class Controlador extends Thread implements InterficieComunicacio {
     private Model dades;
 
     private static final int NALGORITMES = 3;
-    private static final int[] NITERACIONS = {100,1000,10000,100000};
+    private static final int[] NITERACIONS = {1000,10000,100000};
 
     public Controlador(Main main, Model dades) {
         // Assignam els punters.
         this.main = main;
         this.dades = dades;
         // Inicialitzam la matriu de temps.
-        main.comunicacio("Inicialitzar_Temps " + NALGORITMES + " " + NITERACIONS.length);
+        main.comunicacio("Inicialitzar_Temps " + NALGORITMES+ " " + NITERACIONS.length);
     }
 
     // Métode run que espera la petició de calcular la moda.
@@ -35,25 +35,31 @@ public class Controlador extends Thread implements InterficieComunicacio {
         try {
             // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
             for (int idx = 0; idx < NITERACIONS.length; idx++) {
-                main.comunicacio("Generar_vectors " + idx + " " + NALGORITMES);
+                System.out.println("comenća la ronda "+idx);
+                main.comunicacio("Generar_vectors " + NITERACIONS[idx] + " " + NALGORITMES);
                 int[][] vectors = dades.getVectors();
 
                 //O(N)
-                int[] posN = {idx, 0};
+                int[] posN = {0, idx};
                 Thread oN = new Thread(new oN(vectors[0], main, posN));
+
                 oN.start();
-                oN.join();
+
+
 
                 //O(N log N)
-                int[] posNlogN = {idx, 1};
+                int[] posNlogN = {1, idx};
                 Thread oNlogN = new Thread(new oNlogN(vectors[1], main, posNlogN));
                 oNlogN.start();
-                oNlogN.join();
+
 
                 //O(NN)
-                int[] posNN = {idx, 2};
+                int[] posNN = {2,idx};
                 Thread oNN = new Thread(new oNN(vectors[2], main, posNN));
                 oNN.start();
+
+                oN.join();
+                oNlogN.join();
                 oNN.join();
             }
         } catch (Exception e) {
@@ -75,6 +81,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
         public void run() {
             float temps = calcular(this.aOrdenar);
             main.comunicacio("Actualitzar_Temps " + posTemps[0] + " " + posTemps[1] + " " + temps);
+            System.out.println("acaba oN "+ posTemps[1]+ " temps "+temps);
         }
 
         // Mètode amb un cost computacional de O(n), implementat amb un HashMap.
@@ -133,16 +140,17 @@ public class Controlador extends Thread implements InterficieComunicacio {
         public void run() {
             float temps = calcular(this.aOrdenar);
             main.comunicacio("Actualitzar_Temps " + posTemps[0] + " " + posTemps[1] + " " + temps);
+            System.out.println("acaba oNLog "+ posTemps[1]+ " temps "+temps);
         }
 
         // Mètode amb un cost computacional de O(n * log n), implementat l'algoritme MergeSort.
         private float calcular(int[] arr) {
-            float tInicial = System.currentTimeMillis();
+            float tInicial = System.nanoTime();
 
             mergeSort(arr,0, arr.length - 1);
 
-            float tFinal = System.currentTimeMillis();
-            float tTotal = tInicial - tFinal;
+            float tFinal = System.nanoTime();
+            float tTotal = tFinal  -tInicial ;
 
             return tTotal;
         }
@@ -208,15 +216,16 @@ public class Controlador extends Thread implements InterficieComunicacio {
         public void run() {
             float temps = calcular(this.aOrdenar);
             main.comunicacio("Actualitzar_Temps " + posTemps[0] + " " + posTemps[1] + " " + temps);
+            System.out.println("acaba oNN "+ posTemps[1]+ " temps "+temps);
         }
 
         private float calcular(int[] arr) {
-            float tInicial = System.currentTimeMillis();
+            float tInicial = System.nanoTime();
 
             int[] pVectorial = producteVectorial(arr);
 
-            float tFinal = System.currentTimeMillis();
-            float tTotal = tInicial - tFinal;
+            float tFinal = System.nanoTime();
+            float tTotal = tFinal- tInicial  ;
 
             System.out.println(tTotal);
             return tTotal;

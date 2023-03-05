@@ -22,9 +22,9 @@ public class Main implements InterficieComunicacio {
 
     public void inici() {
         System.out.println("Hola!");
-        vista=new Vista("pinga", this);
-        //model.comunicacio("100000000");
-        //controlador.comunicacio("oN");
+        //vista=new Vista("pinga", this);
+        controlador.comunicacio("run");
+        System.out.println("prova");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Main implements InterficieComunicacio {
             String params[] = instruccio.split(" ");
             int rows = Integer.parseInt(params[1]);
             int columns = Integer.parseInt(params[2]);
-            int nouValor = Integer.parseInt(params[3]);
+            Float nouValor = Float.parseFloat(params[3]);
             model.setTemps(rows, columns, nouValor);
         }
 
