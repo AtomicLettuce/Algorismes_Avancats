@@ -1,16 +1,14 @@
 package P1;
 
-import Controlador.Controlador;
+import P1.controlador.Controlador;
 import P1.interfaces.InterficieComunicacio;
 import P1.model.Model;
 import P1.view.Vista;
 
 public class Main implements InterficieComunicacio {
-
-    private Model model = new Model();
-    //private Controlador controlador = new Controlador(model);
+    private Model model = new Model(this);
+    private Controlador controlador = new Controlador(this, model);
     private Vista vista;
-
 
     public static void main(String[] args) {
         new Main().inici();
@@ -34,6 +32,7 @@ public class Main implements InterficieComunicacio {
                 // Tornar a pintar la GUI
                 break;
         }
+
         // Format: "Inicialitzar_Temps 'rows' 'columns'"
         if(instruccio.startsWith("Inicialitzar_Temps")){
             String params[]=instruccio.split(" ");
