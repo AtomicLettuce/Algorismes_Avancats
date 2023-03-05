@@ -13,16 +13,21 @@ public class Vista extends JFrame implements InterficieComunicacio, WindowListen
     private Main main;
     private Container contingut;
 
+    protected boolean actualitzar=true;
+
     public Vista(String nom, Main main){
         super(nom);
         this.main=main;
         // Inicialitzar interfície gràfica
         contingut = this.getContentPane();
         contingut.setLayout(new BorderLayout());
-        PanellDibuix pd = new PanellDibuix(1000,800,null,null);
+        PanellDibuix pd = new PanellDibuix(1000,800,main.getModel(),this);
         this.add(BorderLayout.CENTER,pd);
         addWindowListener(this);
         mostrar();
+    }
+    public void actualitzar(){
+        actualitzar=true;
     }
 
     public void mostrar(){
