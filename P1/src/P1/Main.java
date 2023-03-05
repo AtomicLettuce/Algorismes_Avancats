@@ -8,7 +8,7 @@ import P1.view.Vista;
 public class Main implements InterficieComunicacio {
 
     private Model model = new Model();
-    private Controlador controlador = new Controlador(model);
+    //private Controlador controlador = new Controlador(model);
     private Vista vista;
 
 
@@ -33,7 +33,13 @@ public class Main implements InterficieComunicacio {
             case "Actualitzar":
                 // Tornar a pintar la GUI
                 break;
-
+        }
+        // Format: "Inicialitzar_Temps 'rows' 'columns'"
+        if(instruccio.startsWith("Inicialitzar_Temps")){
+            String params[]=instruccio.split(" ");
+            int rows=Integer.parseInt(params[1]);
+            int columns = Integer.parseInt(params[2]);
+            model.inicialitzar_temps(rows, columns);
         }
     }
 }
