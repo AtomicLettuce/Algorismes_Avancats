@@ -36,6 +36,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
         for (int idx = 0; idx < NITERACIONS.length; idx++) {
             //O(N)
             Thread oN = new Thread(this);
+            oN.run();
             //O(N log N)
             Thread oNLN = new Thread();
             //O(NN)
@@ -44,11 +45,12 @@ public class Controlador extends Thread implements InterficieComunicacio {
         }
     }
 
+
+
     // Mètode amb un cost computacional de O(n), implementat amb un HashMap.
     private float oN(int[] arr) {
         // Capturam el temps a l'inici del programa.
         float tInicial = System.nanoTime();
-
         // Calculam la moda.
         int moda = hashModa(arr);
 
