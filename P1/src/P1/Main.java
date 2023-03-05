@@ -8,8 +8,8 @@ import P1.view.Vista;
 public class Main implements InterficieComunicacio {
 
     public static boolean CONTINUAR=true;
-    private Model model = new Model();
-    //private Controlador controlador = new Controlador(model);
+    private Model model = new Model(this);
+    private Controlador controlador = new Controlador(this, model);
     private Vista vista;
 
     public Model getModel() {
@@ -22,9 +22,9 @@ public class Main implements InterficieComunicacio {
 
     public void inici() {
         System.out.println("Hola!");
-        vista=new Vista("pinga", this);
-        //model.comunicacio("100000000");
-        //controlador.comunicacio("oN");
+        //vista=new Vista("pinga", this);
+        controlador.comunicacio("run");
+        System.out.println("prova");
     }
 
     @Override
@@ -43,10 +43,27 @@ public class Main implements InterficieComunicacio {
 
         // Format: "Inicialitzar_Temps 'rows' 'columns'"
         if(instruccio.startsWith("Inicialitzar_Temps")){
-            String params[]=instruccio.split(" ");
+            String params[] = instruccio.split(" ");
             int rows=Integer.parseInt(params[1]);
             int columns = Integer.parseInt(params[2]);
             model.inicialitzar_temps(rows, columns);
+        }
+
+        // Format: "Generar_vectors 'rows' 'columns' 'valor'"
+        if(instruccio.startsWith("Actualitzar_Temps")){
+            String params[] = instruccio.split(" ");
+            int rows = Integer.parseInt(params[1]);
+            int columns = Integer.parseInt(params[2]);
+            Float nouValor = Float.parseFloat(params[3]);
+            model.setTemps(rows, columns, nouValor);
+        }
+
+        // Format: "Generar_vectors 'longitud' 'N algoritmes'"
+        if(instruccio.startsWith("Generar_vectors")) {
+            String params[] = instruccio.split(" ");
+            int longitud = Integer.parseInt(params[1]);
+            int nAlgoritmes = Integer.parseInt(params[2]);
+            model.generarVectors(longitud, nAlgoritmes);
         }
     }
 }

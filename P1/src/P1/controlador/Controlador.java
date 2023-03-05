@@ -14,14 +14,14 @@ public class Controlador extends Thread implements InterficieComunicacio {
     private Model dades;
 
     private static final int NALGORITMES = 3;
-    private static final int[] NITERACIONS = {100,1000,10000,100000};
+    private static final int[] NITERACIONS = {1000,10000,100000};
 
     public Controlador(Main main, Model dades) {
         // Assignam els punters.
         this.main = main;
         this.dades = dades;
         // Inicialitzam la matriu de temps.
-        main.comunicacio("Inicialitzar_Temps " + NALGORITMES + " " + NITERACIONS.length);
+        main.comunicacio("Inicialitzar_Temps " + NALGORITMES+ " " + NITERACIONS.length);
     }
 
     // Métode run que espera la petició de calcular la moda.
@@ -32,144 +32,220 @@ public class Controlador extends Thread implements InterficieComunicacio {
 
     // Mètode que posa en marxa el procés de càlcul de tots els algoritmes i les diferents iteracions.
     private void inici() {
-        // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
-        for (int idx = 0; idx < NITERACIONS.length; idx++) {
-            //O(N)
-            Thread oN = new Thread(this);
-            //O(N log N)
-            Thread oNLN = new Thread();
-            //O(NN)
-            Thread oNN = new Thread();
+        try {
+            // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
+            for (int idx = 0; idx < NITERACIONS.length; idx++) {
+                System.out.println("comenća la ronda "+idx);
+                main.comunicacio("Generar_vectors " + NITERACIONS[idx] + " " + NALGORITMES);
+                int[][] vectors = dades.getVectors();
 
+                //O(N)
+                int[] posN = {0, idx};
+                Thread oN = new Thread(new oN(vectors[0], main, posN));
+
+                oN.start();
+
+
+
+                //O(N log N)
+                int[] posNlogN = {1, idx};
+                Thread oNlogN = new Thread(new oNlogN(vectors[1], main, posNlogN));
+                oNlogN.start();
+
+
+                //O(NN)
+                int[] posNN = {2,idx};
+                Thread oNN = new Thread(new oNN(vectors[2], main, posNN));
+                oNN.start();
+
+                oN.join();
+                oNlogN.join();
+                oNN.join();
+            }
+        } catch (Exception e) {
+            System.err.println(e.getLocalizedMessage());
         }
     }
 
-    // Mètode amb un cost computacional de O(n), implementat amb un HashMap.
-    private float oN(int[] arr) {
-        // Capturam el temps a l'inici del programa.
-        float tInicial = System.nanoTime();
+    private class oN extends Thread {
+        int[] aOrdenar;
+        Main main;
+        int[] posTemps;
+        public oN(int[] aOrdenar, Main main, int[] pos) {
+            this.aOrdenar = aOrdenar;
+            this.main = main;
+            this.posTemps = pos;
+        }
 
-        // Calculam la moda.
-        int moda = hashModa(arr);
+        @Override
+        public void run() {
+            float temps = calcular(this.aOrdenar);
+            main.comunicacio("Actualitzar_Temps " + posTemps[0] + " " + posTemps[1] + " " + temps);
+            System.out.println("acaba oN "+ posTemps[1]+ " temps "+temps);
+        }
 
-        // Obtenim el que ha tardat a executar-se.
-        float tFinal = System.nanoTime();
-        float tTotal = tFinal - tInicial;
+        // Mètode amb un cost computacional de O(n), implementat amb un HashMap.
+        private float calcular(int[] arr) {
+            // Capturam el temps a l'inici del programa.
+            float tInicial = System.nanoTime();
+            // Calculam la moda.
+            int moda = hashModa(arr);
 
-        System.out.println(tTotal + "ns");
-        return tTotal;
+            // Obtenim el que ha tardat a executar-se.
+            float tFinal = System.nanoTime();
+            float tTotal = tFinal - tInicial;
+
+            //System.out.println(tTotal + "ns");
+            return tTotal;
+        }
+
+        private int hashModa(int[] arr) {
+            // Declaram el hashmap de Key, Value integers, un pel nombre trobat i l'altre pel nombre
+            // d'aparicions d'aquesta key.
+            HashMap<Integer, Integer> hashMap = new HashMap<>();
+
+            // Recorrem l'array dentrada i actualizam el valor de trobats.
+            for(int element: arr) {
+                if(hashMap.containsKey(element)) {
+                    int nAparicions = hashMap.get(element);
+                    hashMap.put(element, nAparicions++);
+                } else {
+                    hashMap.put(element, 1);
+                }
+            }
+
+            // Calculam la moda, si trobam un nombre d'aparicions major a l'actual es converteix en moda.
+            int nMaxima = arr[0];
+            for (Map.Entry<Integer, Integer> entrada: hashMap.entrySet()) {
+                if(entrada.getValue() > nMaxima) {
+                    nMaxima = entrada.getKey();
+                }
+            }
+
+            return nMaxima;
+        }
     }
 
-    private int hashModa(int[] arr) {
-        // Declaram el hashmap de Key, Value integers, un pel nombre trobat i l'altre pel nombre
-        // d'aparicions d'aquesta key.
-        HashMap<Integer, Integer> hashMap = new HashMap<>();
+    private class oNlogN extends Thread {
+        int[] aOrdenar;
+        Main main;
+        int[] posTemps;
+        public oNlogN(int[] aOrdenar, Main main, int[] pos) {
+            this.aOrdenar = aOrdenar;
+            this.main = main;
+            this.posTemps = pos;
+        }
 
-        // Recorrem l'array dentrada i actualizam el valor de trobats.
-        for(int element: arr) {
-            if(hashMap.containsKey(element)) {
-                int nAparicions = hashMap.get(element);
-                hashMap.put(element, nAparicions++);
-            } else {
-                hashMap.put(element, 1);
+        @Override
+        public void run() {
+            float temps = calcular(this.aOrdenar);
+            main.comunicacio("Actualitzar_Temps " + posTemps[0] + " " + posTemps[1] + " " + temps);
+            System.out.println("acaba oNLog "+ posTemps[1]+ " temps "+temps);
+        }
+
+        // Mètode amb un cost computacional de O(n * log n), implementat l'algoritme MergeSort.
+        private float calcular(int[] arr) {
+            float tInicial = System.nanoTime();
+
+            mergeSort(arr,0, arr.length - 1);
+
+            float tFinal = System.nanoTime();
+            float tTotal = tFinal  -tInicial ;
+
+            return tTotal;
+        }
+
+        public static void mergeSort(int[] arr, int left, int right) {
+            if (left < right) {
+                int middle = (left + right) / 2; // encontrar el punto medio del arreglo
+                mergeSort(arr, left, middle); // ordenar la primera mitad del arreglo
+                mergeSort(arr, middle + 1, right); // ordenar la segunda mitad del arreglo
+                merge(arr, left, middle, right); // unir las dos mitades ordenadas
             }
         }
 
-        // Calculam la moda, si trobam un nombre d'aparicions major a l'actual es converteix en moda.
-        int nMaxima = arr[0];
-        for (Map.Entry<Integer, Integer> entrada: hashMap.entrySet()) {
-            if(entrada.getValue() > nMaxima) {
-                nMaxima = entrada.getKey();
+        public static void merge(int[] arr, int left, int middle, int right) {
+            int n1 = middle - left + 1;
+            int n2 = right - middle;
+            int[] L = new int[n1];
+            int[] R = new int[n2];
+            for (int i = 0; i < n1; ++i)
+                L[i] = arr[left + i];
+            for (int j = 0; j < n2; ++j)
+                R[j] = arr[middle + 1 + j];
+
+            int i = 0, j = 0;
+            int k = left;
+            while (i < n1 && j < n2) {
+                if (L[i] <= R[j]) {
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
             }
-        }
 
-        return nMaxima;
-    }
-
-    // Mètode amb un cost computacional de O(n * log n), implementat l'algoritme MergeSort.
-    private float oNlogN(int[] arr) {
-        float tInicial = System.currentTimeMillis();
-
-        mergeSort(arr,0, arr.length - 1);
-
-        float tFinal = System.currentTimeMillis();
-        float tTotal = tInicial - tFinal;
-
-        System.out.println(tTotal);
-        return tTotal;
-    }
-
-    public static void mergeSort(int[] arr, int left, int right) {
-        if (left < right) {
-            int middle = (left + right) / 2; // encontrar el punto medio del arreglo
-            mergeSort(arr, left, middle); // ordenar la primera mitad del arreglo
-            mergeSort(arr, middle + 1, right); // ordenar la segunda mitad del arreglo
-            merge(arr, left, middle, right); // unir las dos mitades ordenadas
-        }
-    }
-
-    public static void merge(int[] arr, int left, int middle, int right) {
-        int n1 = middle - left + 1;
-        int n2 = right - middle;
-        int[] L = new int[n1];
-        int[] R = new int[n2];
-        for (int i = 0; i < n1; ++i)
-            L[i] = arr[left + i];
-        for (int j = 0; j < n2; ++j)
-            R[j] = arr[middle + 1 + j];
-
-        int i = 0, j = 0;
-        int k = left;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
+            while (i < n1) {
                 arr[k] = L[i];
                 i++;
-            } else {
+                k++;
+            }
+
+            while (j < n2) {
                 arr[k] = R[j];
                 j++;
+                k++;
             }
-            k++;
-        }
-
-        while (i < n1) {
-            arr[k] = L[i];
-            i++;
-            k++;
-        }
-
-        while (j < n2) {
-            arr[k] = R[j];
-            j++;
-            k++;
         }
     }
 
-    // Mètode amb un cost computacional de O(n^2), calculam el producte vectorial amb el mateix.
-    private float oNN(int[] arr) {
-        float tInicial = System.currentTimeMillis();
+    private class oNN extends Thread {
+        int[] aOrdenar;
+        Main main;
+        int[] posTemps;
 
-        int[] pVectorial = producteVectorial(arr);
-
-        float tFinal = System.currentTimeMillis();
-        float tTotal = tInicial - tFinal;
-
-        System.out.println(tTotal);
-        return tTotal;
-    }
-
-    private int[] producteVectorial(int[] arr) {
-        // Cream el nou array amb el producte i l'inicialitzam a 0s.
-        int[] producte = new int[arr.length];
-        Arrays.fill(producte, 0);
-
-        // Algorisme per aplicar el producte vectorial.
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                producte[i] = producte[i] + (producte[i] * producte[j]);
-            }
+        public oNN(int[] aOrdenar, Main main, int[] pos) {
+            this.aOrdenar = aOrdenar;
+            this.main = main;
+            this.posTemps = pos;
         }
 
-        return producte;
+        @Override
+        public void run() {
+            float temps = calcular(this.aOrdenar);
+            main.comunicacio("Actualitzar_Temps " + posTemps[0] + " " + posTemps[1] + " " + temps);
+            System.out.println("acaba oNN "+ posTemps[1]+ " temps "+temps);
+        }
+
+        private float calcular(int[] arr) {
+            float tInicial = System.nanoTime();
+
+            int[] pVectorial = producteVectorial(arr);
+
+            float tFinal = System.nanoTime();
+            float tTotal = tFinal- tInicial  ;
+
+            System.out.println(tTotal);
+            return tTotal;
+        }
+
+        // Mètode amb un cost computacional de O(n^2), calculam el producte vectorial amb el mateix.
+        private int[] producteVectorial(int[] arr) {
+            // Cream el nou array amb el producte i l'inicialitzam a 0s.
+            int[] producte = new int[arr.length];
+            Arrays.fill(producte, 0);
+
+            // Algorisme per aplicar el producte vectorial.
+            for (int i = 0; i < arr.length; i++) {
+                for (int j = 0; j < arr.length; j++) {
+                    producte[i] = producte[i] + (producte[i] * producte[j]);
+                }
+            }
+
+            return producte;
+        }
     }
 
     @Override
@@ -180,6 +256,5 @@ public class Controlador extends Thread implements InterficieComunicacio {
             // Amollar error.
             System.err.println("Paràmetre incorrecte per al controlador");
         }
-
     }
 }
