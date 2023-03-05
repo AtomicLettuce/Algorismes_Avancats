@@ -126,6 +126,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
         public oNlogN(int[] aOrdenar, Main main, int[] pos) {
             this.aOrdenar = aOrdenar;
             this.main = main;
+            this.posTemps = pos;
         }
 
         @Override
@@ -200,6 +201,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
         public oNN(int[] aOrdenar, Main main, int[] pos) {
             this.aOrdenar = aOrdenar;
             this.main = main;
+            this.posTemps = pos;
         }
 
         @Override
