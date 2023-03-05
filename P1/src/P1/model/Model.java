@@ -29,7 +29,7 @@ public class Model implements InterficieComunicacio {
     }
 
     // Generam amb una longitud fixada pel paràmetre d'entrada.
-    private void generarVectors(int dim, int qt) {
+    public void generarVectors(int dim, int qt) {
         vectors = new int[qt][dim];
 
         // Omplim matriu de dades
@@ -47,12 +47,16 @@ public class Model implements InterficieComunicacio {
     }
 
     public void inicialitzar_temps(int rows, int columns){
-        matriu_temps=new Integer[rows][columns];
+        matriu_temps = new Integer[rows][columns];
         for (int i=0;i<rows;i++){
             for (int j =0;j<columns;j++){
                 matriu_temps[rows][columns]=null;
             }
         }
+    }
+
+    public void setTemps(int row, int colum, int nValor) {
+        matriu_temps[row][colum] = nValor;
     }
 
     @Override
