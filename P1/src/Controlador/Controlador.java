@@ -144,14 +144,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
 
     @Override
     public void comunicacio(String instruccio) {
-        switch (instruccio) {
-            case "oN" -> oN(dades.getVectors()) ;
-            case "oNlogN" -> oNlogN(dades.getVectors());
-            case "oNN" -> oNN(dades.getVectors());
-            default -> {
-                //ERROR!
-            }
-        }
+
     }
 
 }

@@ -50,6 +50,6 @@ public class Model implements InterficieComunicacio {
     @Override
     public void comunicacio(String instruccio) {
         // COMPROVAR SI LA COMUNICACIÓ FUNCIONA AIXÍ.
-        generarVectors(Integer.parseInt(instruccio));
+        //generarVectors(Integer.parseInt(instruccio));
     }
 }
