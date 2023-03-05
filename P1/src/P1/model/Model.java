@@ -6,36 +6,50 @@ import java.util.Random;
 
 public class Model implements InterficieComunicacio {
 
+    // Matriu que guardarà els temps que tarda cada algorisme
+    // Cada fila comptindrà els temps de cada algorisme
+    private Integer matriu_temps[][];
+
+
     // Random per a crear l'array per a calcular la moda, inicialitzat amb una llavor
     // per a que cada vegada que s'executi posi els mateixos números.
     private final Random rand = new Random(42);
     // Nombre màxim que generà el random.
-    private final int numeroMaxim = 100000;
-    // Array de dades.
-    private int[] array;
+    private static final int MAXIM_VALUE = 100000;
+
+    // Matriu que guarda les dades. Cada fila de la matriu correspon a un vector
+    private int[][] vectors;
 
     // Generam amb una longitud fixada pel paràmetre d'entrada.
-    private void generarArray(int n) {
-        // Nou array temporal.
-        int[] arrayGenerat = new int[n];
+    private void generarVectors(int dim, int qt) {
+        vectors = new int[qt][dim];
 
-        // Omplim l'array.
-        for (int i = 0; i < n; i++) {
-            arrayGenerat[i] = rand.nextInt(numeroMaxim);
+        // Omplim matriu de dades
+        for (int i = 0; i < dim; i++) {
+            int number= rand.nextInt(MAXIM_VALUE);
+            for(int j=0;j<qt;j++){
+                vectors[j][i]=number;
+            }
         }
-
-        // Seteam el nou array.
-        array = arrayGenerat;
     }
 
     // Getter necesari per la classe 'Controlador.Controlador'.
-    public int[] getArray() {
-        return array;
+    public int[][] getVectors() {
+        return vectors;
+    }
+
+    public void inicialitzar_temps(int rows, int columns){
+        matriu_temps=new Integer[rows][columns];
+        for (int i=0;i<rows;i++){
+            for (int j =0;j<columns;j++){
+                matriu_temps[rows][columns]=null;
+            }
+        }
     }
 
     @Override
     public void comunicacio(String instruccio) {
         // COMPROVAR SI LA COMUNICACIÓ FUNCIONA AIXÍ.
-        generarArray(Integer.parseInt(instruccio));
+        generarVectors(Integer.parseInt(instruccio));
     }
 }
