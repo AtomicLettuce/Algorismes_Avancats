@@ -5,29 +5,32 @@ import P1.interfaces.InterficieComunicacio;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class Vista extends JFrame implements InterficieComunicacio, WindowListener{
+public class Vista extends JFrame implements InterficieComunicacio, WindowListener, ActionListener {
 
     private Main main;
     private Container contingut;
-
-    protected boolean actualitzar=true;
-
+    private Monitor_Vista mv;
+    JButton arrancar;
     public Vista(String nom, Main main){
         super(nom);
         this.main=main;
         // Inicialitzar interfície gràfica
         contingut = this.getContentPane();
         contingut.setLayout(new BorderLayout());
-        PanellDibuix pd = new PanellDibuix(1000,800,main.getModel(),this);
+        mv=new Monitor_Vista();
+        PanellDibuix pd = new PanellDibuix(1000,800,main.getModel(),this,mv);
         this.add(BorderLayout.CENTER,pd);
+
         addWindowListener(this);
         mostrar();
     }
     public void actualitzar(){
-        actualitzar=true;
+        mv.notificarActualitzar();
     }
 
     public void mostrar(){
@@ -47,6 +50,17 @@ public class Vista extends JFrame implements InterficieComunicacio, WindowListen
         main.comunicacio("Aturar");
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (e.getActionCommand()){
+            case "Arrancar":
+                main.comunicacio("run");
+
+            case "Aturar":
+                main.comunicacio("Aturar");
+        }
+
+    }
 
     @Override
     public void windowOpened(WindowEvent e) {}
@@ -60,6 +74,5 @@ public class Vista extends JFrame implements InterficieComunicacio, WindowListen
     public void windowActivated(WindowEvent e) {}
     @Override
     public void windowDeactivated(WindowEvent e) {}
-
 
 }

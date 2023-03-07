@@ -3,11 +3,13 @@ package P1;
 import P1.controlador.Controlador;
 import P1.interfaces.InterficieComunicacio;
 import P1.model.Model;
+import P1.view.Monitor_Vista;
 import P1.view.Vista;
 
 public class Main implements InterficieComunicacio {
 
     public static boolean CONTINUAR=true;
+    private Monitor_Vista mv;
     private Model model = new Model(this);
     private Controlador controlador = new Controlador(this, model);
     private Vista vista;
@@ -22,9 +24,9 @@ public class Main implements InterficieComunicacio {
 
     public void inici() {
         System.out.println("Hola!");
-        //vista=new Vista("pinga", this);
+        mv=new Monitor_Vista();
+        vista=new Vista("pinga", this);
         controlador.comunicacio("run");
-        System.out.println("prova");
     }
 
     @Override
@@ -34,6 +36,8 @@ public class Main implements InterficieComunicacio {
                 System.out.println("Aturant...");
                 // Aturar tots els fils i aturar el programa
                 CONTINUAR=false;
+                // Per permetra a la vista acabar correctament
+                vista.actualitzar();
                 break;
             case "Actualitzar":
                 vista.actualitzar();

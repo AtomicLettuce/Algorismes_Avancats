@@ -14,29 +14,30 @@ public class Controlador extends Thread implements InterficieComunicacio {
     private Model dades;
 
     private static final int NALGORITMES = 3;
-    private static final int[] NITERACIONS = {1000,10000,100000};
 
     public Controlador(Main main, Model dades) {
         // Assignam els punters.
         this.main = main;
         this.dades = dades;
         // Inicialitzam la matriu de temps.
-        main.comunicacio("Inicialitzar_Temps " + NALGORITMES+ " " + NITERACIONS.length);
+        main.comunicacio("Inicialitzar_Temps " + NALGORITMES+ " " + dades.NITERACIONS.length);
     }
 
     // Métode run que espera la petició de calcular la moda.
-    @Override
+    /*@Override
     public void run() {
+
         super.run();
-    }
+    }*/
 
     // Mètode que posa en marxa el procés de càlcul de tots els algoritmes i les diferents iteracions.
     private void inici() {
         try {
             // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
-            for (int idx = 0; idx < NITERACIONS.length; idx++) {
+            for (int idx = 0; idx < dades.NITERACIONS.length&&main.CONTINUAR; idx++) {
+                main.comunicacio("Actualitzar");
                 System.out.println("comenća la ronda "+idx);
-                main.comunicacio("Generar_vectors " + NITERACIONS[idx] + " " + NALGORITMES);
+                main.comunicacio("Generar_vectors " + dades.NITERACIONS[idx] + " " + NALGORITMES);
                 int[][] vectors = dades.getVectors();
 
                 //O(N)
@@ -52,15 +53,19 @@ public class Controlador extends Thread implements InterficieComunicacio {
                 Thread oNlogN = new Thread(new oNlogN(vectors[1], main, posNlogN));
                 oNlogN.start();
 
+                // Per tal de que no monopolitzi el dibuix
+                if(idx<2){
+                    //O(NN)
+                    int[] posNN = {2,idx};
+                    Thread oNN = new Thread(new oNN(vectors[2], main, posNN));
+                    oNN.start();
+                    oNN.join();
+                }
 
-                //O(NN)
-                int[] posNN = {2,idx};
-                Thread oNN = new Thread(new oNN(vectors[2], main, posNN));
-                oNN.start();
-
+                // Esperam que aquests fils acabin per tornar a llençar la següent ronda
                 oN.join();
                 oNlogN.join();
-                oNN.join();
+
             }
         } catch (Exception e) {
             System.err.println(e.getLocalizedMessage());
@@ -105,12 +110,17 @@ public class Controlador extends Thread implements InterficieComunicacio {
             HashMap<Integer, Integer> hashMap = new HashMap<>();
 
             // Recorrem l'array dentrada i actualizam el valor de trobats.
-            for(int element: arr) {
-                if(hashMap.containsKey(element)) {
-                    int nAparicions = hashMap.get(element);
-                    hashMap.put(element, nAparicions++);
+            for(int i=0;i<arr.length;i++) {
+                if(hashMap.containsKey(arr[i])) {
+                    int nAparicions = hashMap.get(arr[i]);
+                    hashMap.put(arr[i], nAparicions++);
                 } else {
-                    hashMap.put(element, 1);
+                    hashMap.put(arr[i], 1);
+                }
+                if(i%1000==0){
+                    if(!main.CONTINUAR){
+                        return 0;
+                    }
                 }
             }
 
@@ -136,6 +146,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
             this.posTemps = pos;
         }
 
+
         @Override
         public void run() {
             float temps = calcular(this.aOrdenar);
@@ -155,7 +166,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
             return tTotal;
         }
 
-        public static void mergeSort(int[] arr, int left, int right) {
+        public  void mergeSort(int[] arr, int left, int right) {
             if (left < right) {
                 int middle = (left + right) / 2; // encontrar el punto medio del arreglo
                 mergeSort(arr, left, middle); // ordenar la primera mitad del arreglo
@@ -164,7 +175,10 @@ public class Controlador extends Thread implements InterficieComunicacio {
             }
         }
 
-        public static void merge(int[] arr, int left, int middle, int right) {
+        public  void merge(int[] arr, int left, int middle, int right) {
+            if(!main.CONTINUAR){
+                return;
+            }
             int n1 = middle - left + 1;
             int n2 = right - middle;
             int[] L = new int[n1];
@@ -240,6 +254,11 @@ public class Controlador extends Thread implements InterficieComunicacio {
             // Algorisme per aplicar el producte vectorial.
             for (int i = 0; i < arr.length; i++) {
                 for (int j = 0; j < arr.length; j++) {
+                    if(j%1000==0){
+                        if(!main.CONTINUAR){
+                            return null;
+                        }
+                    }
                     producte[i] = producte[i] + (producte[i] * producte[j]);
                 }
             }
