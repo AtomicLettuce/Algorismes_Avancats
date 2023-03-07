@@ -13,7 +13,7 @@ public class Model implements InterficieComunicacio {
     // Matriu que guardarà els temps que tarda cada algorisme
     // Cada fila comptindrà els temps de cada algorisme
     private Float matriu_temps[][];
-    public static final int[] NITERACIONS = {10000,20000,30000,40000,50000,60000,70000,80000,90000,100000};
+    public static final int[] NITERACIONS = {30000,40000,50000,60000,70000,80000,90000,100000,110000,120000,130000,140000,150000,160000,170000,180000,190000,200000};
 
     // Random per a crear l'array per a calcular la moda, inicialitzat amb una llavor
     // per a que cada vegada que s'executi posi els mateixos números.
