@@ -236,7 +236,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
         private float calcular(int[] arr) {
             float tInicial = System.nanoTime();
 
-            int[] pVectorial = producteVectorial(arr);
+            int[] pVectorial = producte(arr);
 
             float tFinal = System.nanoTime();
             float tTotal = tFinal- tInicial  ;
@@ -246,13 +246,15 @@ public class Controlador extends Thread implements InterficieComunicacio {
         }
 
         // Mètode amb un cost computacional de O(n^2), calculam el producte vectorial amb el mateix.
-        private int[] producteVectorial(int[] arr) {
+        private int[] producte(int[] arr) {
+
             // Cream el nou array amb el producte i l'inicialitzam a 0s.
-            int[] producte = new int[arr.length];
-            Arrays.fill(producte, 0);
+            int[] prod = new int[arr.length];
+
 
             // Algorisme per aplicar el producte vectorial.
             for (int i = 0; i < arr.length; i++) {
+                int valor = 0;
                 for (int j = 0; j < arr.length; j++) {
                     if(j%1000==0){
                         if(!main.CONTINUAR){
@@ -261,9 +263,10 @@ public class Controlador extends Thread implements InterficieComunicacio {
                     }
                     producte[i] = producte[i] + (producte[i] * producte[j]);
                 }
+                prod[i] = valor;
             }
 
-            return producte;
+            return prod;
         }
     }
 
