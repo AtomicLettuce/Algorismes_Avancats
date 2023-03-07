@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.sql.SQLOutput;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class PanellDibuix extends JPanel {
     private BufferedImage bimg=null;
@@ -45,7 +47,7 @@ public class PanellDibuix extends JPanel {
         Color colors[]={Color.CYAN,Color.GREEN,Color.RED, Color.MAGENTA,Color.YELLOW, Color.BLUE};
         Float [][] matriu =mod.getMatriu_temps();
         // Per poder fer el dibuix a escala
-        int iteracions_max = Arrays.stream(mod.NITERACIONS).max().getAsInt();
+        int iteracions_max = Collections.max(mod.NITS);
         float max=0;
         // Obtenim el màxim temps per poder fer el dibuix a escala
         for (int i = 0; i < matriu.length; ++i) {
@@ -66,7 +68,7 @@ public class PanellDibuix extends JPanel {
             for(int j=0;j<matriu[i].length&&matriu[i][j]!=null;j++){
                 // Pintar la línia que cada algorisme ha anat descrivint
                 gr.setColor(colors[i]);
-                int xdesti=(((100*mod.NITERACIONS[j])/iteracions_max)*getWidth())/100;
+                int xdesti=(((100*mod.NITS.get(j))/iteracions_max)*getWidth())/100;
                 int ydesti=Math.round((((100*matriu[i][j])/max)*getHeight())/100);
                 gr.drawLine(xorigen,yorigen,xdesti,ydesti);
                 xorigen=xdesti;

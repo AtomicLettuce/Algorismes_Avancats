@@ -20,7 +20,7 @@ public class Controlador extends Thread {
         this.main = main;
         this.dades = dades;
         // Inicialitzam la matriu de temps.
-        main.comunicacio("Inicialitzar_Temps " + NALGORITMES+ " " + dades.NITERACIONS.length);
+        main.comunicacio("Inicialitzar_Temps " + NALGORITMES+ " " + dades.NITS.size());
     }
 
     // Métode run que espera la petició de calcular la moda.
@@ -29,13 +29,13 @@ public class Controlador extends Thread {
     public void run() {
         try {
             // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
-            for (int idx = 0; idx < dades.NITERACIONS.length&&main.CONTINUAR; idx++) {
+            for (int idx = 0; idx < dades.NITS.size() && main.CONTINUAR; idx++) {
                 sleep(1000);
                 main.comunicacio("Actualitzar");
                 System.out.println("comenća la ronda "+idx);
-                main.comunicacio("Generar_vectors " + dades.NITERACIONS[idx] + " " + NALGORITMES);
-                int[][] vectors = dades.getVectors();
 
+                main.comunicacio("Generar_vectors " + dades.NITS.get(idx) + " " + NALGORITMES);
+                int[][] vectors = dades.getVectors();
 
                 //O(N)
                 int[] posN = {0, idx};
