@@ -90,6 +90,10 @@ public class PanellDibuix extends JPanel {
 
 
 
+    // 1.- DORMIR FINS QUE REBI UNA NOTIFICACIÓ DE QUE HI HA HAGUT CANVI DE DADES
+    // 2.- DESPERTAR-SE I DIBUIXAR ELS CANVIS
+    // 3.- PUBLICAR-LOS A LA PANTALLA
+    // 4.- TORNAR A PAS 1
     class Dibuxador extends Thread{
         private PanellDibuix pd;
         private Monitor_Vista mv;
@@ -101,8 +105,10 @@ public class PanellDibuix extends JPanel {
 
         public void run(){
             while(true){
+                // Espera a que hi hagi canvis per actualitzar
                 try {
                     mv.actualitzar(pd);
+                    // Ja ha dibuixat els nous canvis
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -112,10 +118,6 @@ public class PanellDibuix extends JPanel {
                     break;
                 }
             }
-            // 1.- DORMIR FINS QUE REBI UNA NOTIFICACIÓ DE QUE HI HA HAGUT CANVI DE DADES
-            // 2.- DESPERTAR-SE I DIBUIXAR ELS CANVIS
-            // 3.- PUBLICAR-LOS A LA PANTALLA
-            // 4.- TORNAR A PAS 1
         }
     }
 
