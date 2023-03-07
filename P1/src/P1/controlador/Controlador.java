@@ -67,6 +67,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
                 oNlogN.join();
 
             }
+            System.out.println("Ja han acabat totes les rondes");
         } catch (Exception e) {
             System.err.println(e.getLocalizedMessage());
         }
@@ -261,7 +262,7 @@ public class Controlador extends Thread implements InterficieComunicacio {
                             return null;
                         }
                     }
-                    producte[i] = producte[i] + (producte[i] * producte[j]);
+                    valor = prod[i] + (prod[i] * prod[j]);
                 }
                 prod[i] = valor;
             }
