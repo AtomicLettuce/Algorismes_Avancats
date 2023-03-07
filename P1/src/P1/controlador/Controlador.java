@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Controlador extends Thread implements InterficieComunicacio {
+public class Controlador extends Thread {
     // Punters necesaris per accedir als altres elements del model.
     private Main main;
     private Model dades;
@@ -24,26 +24,22 @@ public class Controlador extends Thread implements InterficieComunicacio {
     }
 
     // Métode run que espera la petició de calcular la moda.
-    /*@Override
-    public void run() {
-
-        super.run();
-    }*/
-
     // Mètode que posa en marxa el procés de càlcul de tots els algoritmes i les diferents iteracions.
-    private void inici() {
+    @Override
+    public void run() {
         try {
             // Farem els calculs per a totes les iteracions amb els diferents algoritmes.
             for (int idx = 0; idx < dades.NITERACIONS.length&&main.CONTINUAR; idx++) {
+                sleep(1000);
                 main.comunicacio("Actualitzar");
                 System.out.println("comenća la ronda "+idx);
                 main.comunicacio("Generar_vectors " + dades.NITERACIONS[idx] + " " + NALGORITMES);
                 int[][] vectors = dades.getVectors();
 
+
                 //O(N)
                 int[] posN = {0, idx};
                 Thread oN = new Thread(new oN(vectors[0], main, posN));
-
                 oN.start();
 
 
@@ -162,7 +158,8 @@ public class Controlador extends Thread implements InterficieComunicacio {
             mergeSort(arr,0, arr.length - 1);
 
             float tFinal = System.nanoTime();
-            float tTotal = tFinal  -tInicial ;
+            float tTotal = tFinal  - tInicial ;
+
 
             return tTotal;
         }
@@ -271,13 +268,4 @@ public class Controlador extends Thread implements InterficieComunicacio {
         }
     }
 
-    @Override
-    public void comunicacio(String instruccio) {
-        if(instruccio.equals("run")) {
-            this.inici();
-        } else {
-            // Amollar error.
-            System.err.println("Paràmetre incorrecte per al controlador");
-        }
-    }
 }

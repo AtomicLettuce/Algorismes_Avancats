@@ -25,8 +25,7 @@ public class Main implements InterficieComunicacio {
     public void inici() {
         System.out.println("Hola!");
         mv=new Monitor_Vista();
-        vista=new Vista("pinga", this);
-        controlador.comunicacio("run");
+        vista=new Vista("P1: Algorismes Avançats", this);
     }
 
     @Override
@@ -42,6 +41,10 @@ public class Main implements InterficieComunicacio {
             case "Actualitzar":
                 vista.actualitzar();
                 // Tornar a pintar la GUI
+                break;
+            case "Arrancar":
+                // Envia l'ordre de començar
+                controlador.start();
                 break;
         }
 
