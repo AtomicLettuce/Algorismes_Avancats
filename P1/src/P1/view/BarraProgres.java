@@ -25,14 +25,12 @@ public class BarraProgres extends JPanel {
         int width=getWidth();
         Float[] matriu_temps=mod.getMatriu_temps()[0];
         int max=0;
-        for(int i=0;i<matriu_temps.length;i++){
-            if(matriu_temps[i]==null){
-                max=i;
-                break;
-            }
+        for(;max<matriu_temps.length;max++){
+            if(matriu_temps[max]==null) {
+                break;}
         }
 
-        int percentatge= (max*100)/matriu_temps.length;
+        int percentatge= (max*100)/(matriu_temps.length-1);
 
 
 

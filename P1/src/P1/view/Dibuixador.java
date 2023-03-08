@@ -24,7 +24,6 @@ public class Dibuixador extends Thread {
                 // Espera a que hi hagi canvis per actualitzar
                 try {
                     mv.actualitzar(panells);
-                    System.out.println("Actualirzatadlihdfiuogheiulghbsielghuiseger");
                     // Ja ha dibuixat els nous canvis
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
