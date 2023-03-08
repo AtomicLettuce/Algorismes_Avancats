@@ -30,7 +30,7 @@ public class PanellDibuix extends JPanel {
     public void paint(Graphics gr){
         gr.setColor(Color.BLACK);
         gr.fillRect(0,0,this.getWidth(),this.getHeight());
-        dibuixarGraella(gr);
+        //dibuixarGraella(gr);
         dibuixarLinies(gr);
     }
 
@@ -43,8 +43,10 @@ public class PanellDibuix extends JPanel {
         }
     }
 
-    private void dibuixarLinies(Graphics gr){
-        Color colors[]={Color.CYAN,Color.GREEN,Color.RED, Color.MAGENTA,Color.YELLOW, Color.BLUE};
+    private void dibuixarLinies(Graphics g){
+        Graphics2D gr = (Graphics2D) g;
+
+        Color colors[]={Color.GREEN,Color.CYAN,Color.RED, Color.MAGENTA,Color.YELLOW, Color.BLUE};
         Float [][] matriu =mod.getMatriu_temps();
         // Per poder fer el dibuix a escala
         int iteracions_max = Collections.max(mod.NITS);
@@ -60,6 +62,7 @@ public class PanellDibuix extends JPanel {
                 max = Math.max(matriu[i][j], max);
             }
         }
+        gr.setStroke(new BasicStroke(5));
 
         for(int i=0;i< matriu.length;i++){
             // inicialment serà l'origen de coordenades
