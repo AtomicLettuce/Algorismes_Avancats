@@ -18,6 +18,7 @@ public class Vista extends JFrame implements  WindowListener, ActionListener {
     private Container contingut;
     private Monitor_Vista mv;
 
+
     public Vista(String nom, Main main){
         super(nom);
         this.main=main;
@@ -29,6 +30,9 @@ public class Vista extends JFrame implements  WindowListener, ActionListener {
         // Àrea de dibuixat
         PanellDibuix pd = new PanellDibuix(1000,900,main.getModel(),this,mv);
         this.add(BorderLayout.CENTER,pd);
+        BarraProgres bp =new BarraProgres(1100,50,main.getModel(),this,mv);
+
+
 
         // Botó d'inici de programa
         arrancar=new JButton("Arrancar");
@@ -46,10 +50,15 @@ public class Vista extends JFrame implements  WindowListener, ActionListener {
 
 
         this.add(botonera,BorderLayout.NORTH);
-        this.add(new JPanel(),BorderLayout.EAST);
-        this.add(new JPanel(),BorderLayout.WEST);
-        this.add(new JPanel(),BorderLayout.SOUTH);
+        //this.add(new JPanel(),BorderLayout.EAST);
+        //this.add(new JPanel(),BorderLayout.WEST);
+        this.add(bp,BorderLayout.SOUTH);
         addWindowListener(this);
+
+        JPanel panells[] ={pd,bp};
+        Dibuixador dibuxador=new Dibuixador(panells,mv,this);
+        dibuxador.start();
+
         mostrar();
     }
     // Per rebre notificacio de que s'ha de refrescar la pantalla

@@ -15,7 +15,6 @@ public class PanellDibuix extends JPanel {
     private BufferedImage bimg=null;
     private Model mod;
     private Vista vis;
-    private Dibuxador dibuixador;
     private Monitor_Vista mv;
 
     public PanellDibuix(int xdim, int ydim, Model mod, Vista vis, Monitor_Vista mv){
@@ -23,8 +22,6 @@ public class PanellDibuix extends JPanel {
         this.mod=mod;
         this.vis=vis;
         this.mv=mv;
-        dibuixador=new Dibuxador(this, mv);
-        dibuixador.start();
     }
 
     public void paint(Graphics gr){
@@ -84,46 +81,9 @@ public class PanellDibuix extends JPanel {
 
 
     }
-
     public void repaint(){
         if(this.getGraphics()!=null){
             paint(this.getGraphics());
         }
     }
-
-
-
-
-
-    // 1.- DORMIR FINS QUE REBI UNA NOTIFICACIÓ DE QUE HI HA HAGUT CANVI DE DADES
-    // 2.- DESPERTAR-SE I DIBUIXAR ELS CANVIS
-    // 3.- PUBLICAR-LOS A LA PANTALLA
-    // 4.- TORNAR A PAS 1
-    class Dibuxador extends Thread{
-        private PanellDibuix pd;
-        private Monitor_Vista mv;
-        public Dibuxador(PanellDibuix pd, Monitor_Vista mv){
-            this.pd=pd;
-            this.mv=mv;
-        }
-
-
-        public void run(){
-            while(true){
-                // Espera a que hi hagi canvis per actualitzar
-                try {
-                    mv.actualitzar(pd);
-                    // Ja ha dibuixat els nous canvis
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                // Si s'ha rebut la notificació d'aturar el programa, atural el fil de forma segura
-                if(!Main.CONTINUAR){
-                    pd.vis.setVisible(false);
-                    break;
-                }
-            }
-        }
-    }
-
 }

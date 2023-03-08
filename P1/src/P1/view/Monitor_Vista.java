@@ -1,5 +1,7 @@
 package P1.view;
 
+import javax.swing.*;
+
 public class Monitor_Vista {
 
     private boolean actualitzar;
@@ -12,11 +14,13 @@ public class Monitor_Vista {
         notifyAll();
     }
 
-    public synchronized void actualitzar(PanellDibuix pd) throws InterruptedException {
+    public synchronized void actualitzar(JPanel[] panells) throws InterruptedException {
         while (!actualitzar){
             wait();
         }
-        pd.repaint();
+        for(int i=0;i<panells.length;i++){
+            panells[i].repaint();
+        }
         actualitzar=false;
         notifyAll();
     }
