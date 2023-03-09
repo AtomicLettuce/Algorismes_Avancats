@@ -104,9 +104,9 @@ public class Vista extends JFrame implements  WindowListener, ActionListener {
                 main.comunicacio("Arrancar");
                 arrancar.setVisible(false);
                 aturar.setVisible(true);
-                JLabel lbl = new JLabel("<html><font color=green>■</font><font color=black>O(N^2)</font></html>");
-                JLabel lbl2 = new JLabel("<html><font color=blue>■</font><font color=black>O(NlogN)</font></html>");
-                JLabel lbl3 = new JLabel("<html><font color=red>■</font><font color=black>O(N)</font></html>");
+                JLabel lbl = new JLabel("<html><font color=green>■</font><font color=black> O(N^2)</font></html>");
+                JLabel lbl2 = new JLabel("<html><font color=blue>■</font><font color=black> O(NlogN)</font></html>");
+                JLabel lbl3 = new JLabel("<html><font color=red>■</font><font color=black> O(N)</font></html>");
                 botonera.add(lbl);
                 botonera.add(lbl2);
                 botonera.add(lbl3);
