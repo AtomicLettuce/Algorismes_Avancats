@@ -21,7 +21,7 @@ public class Model implements InterficieComunicacio {
     // per a que cada vegada que s'executi posi els mateixos números.
     private final Random rand = new Random(42);
     // Nombre màxim que generà el random.
-    private static final int MAXIM_VALUE = 100000;
+    private static final int MAXIM_VALUE = 100;
 
     // Matriu que guarda les dades. Cada fila de la matriu correspon a un vector
     private int[][] vectors;
