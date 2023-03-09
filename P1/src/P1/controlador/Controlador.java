@@ -252,16 +252,16 @@ public class Controlador extends Thread {
 
             // Algorisme per aplicar el producte vectorial.
             for (int i = 0; i < arr.length; i++) {
-                int valor = 0;
+               
                 for (int j = 0; j < arr.length; j++) {
                     if(j%1000==0){
                         if(!main.CONTINUAR){
                             return null;
                         }
                     }
-                    valor = prod[i] + (prod[i] * prod[j]);
+                    prod[i] = prod[i] + (arr[i] * arr[j]);
                 }
-                prod[i] = valor;
+
             }
 
             return prod;
