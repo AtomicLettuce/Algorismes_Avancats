@@ -4,7 +4,7 @@
 * @ Josep Damià Ruíz Pons
 * @ Xavier Vives Marcus
 *
-* Video explicatiu: 
+* Video explicatiu: https://youtu.be/WHlU6rhXEoI
 * */
 
 package P1;
