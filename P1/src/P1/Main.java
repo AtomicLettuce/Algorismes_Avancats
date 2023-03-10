@@ -1,3 +1,12 @@
+/*
+* @ Martí Paredes Salom
+* @ Lluís Picornell Company
+* @ Josep Damià Ruíz Pons
+* @ Xavier Vives Marcus
+*
+* Video explicatiu: 
+* */
+
 package P1;
 
 import P1.controlador.Controlador;
@@ -5,6 +14,7 @@ import P1.interficies.InterficieComunicacio;
 import P1.model.Model;
 import P1.vista.Monitor_Vista;
 import P1.vista.Vista;
+import mesurament.Mesurament;
 
 public class Main implements InterficieComunicacio {
 
@@ -23,6 +33,7 @@ public class Main implements InterficieComunicacio {
     }
 
     public void inici() {
+        new Mesurament().mesura();
         System.out.println("Hola!");
         mv=new Monitor_Vista();
         vista=new Vista("P1: Algorismes Avançats", this);
