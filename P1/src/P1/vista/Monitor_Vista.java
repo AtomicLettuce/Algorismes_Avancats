@@ -1,4 +1,4 @@
-package P1.view;
+package P1.vista;
 
 import javax.swing.*;
 

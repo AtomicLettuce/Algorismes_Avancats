@@ -1,10 +1,10 @@
 package P1;
 
 import P1.controlador.Controlador;
-import P1.interfaces.InterficieComunicacio;
+import P1.interficies.InterficieComunicacio;
 import P1.model.Model;
-import P1.view.Monitor_Vista;
-import P1.view.Vista;
+import P1.vista.Monitor_Vista;
+import P1.vista.Vista;
 
 public class Main implements InterficieComunicacio {
 

@@ -1,7 +1,6 @@
-package P1.view;
+package P1.vista;
 
 import P1.Main;
-import P1.interfaces.InterficieComunicacio;
 
 import javax.swing.*;
 import java.awt.*;

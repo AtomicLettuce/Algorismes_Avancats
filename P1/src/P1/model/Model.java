@@ -1,7 +1,7 @@
 package P1.model;
 
 import P1.Main;
-import P1.interfaces.InterficieComunicacio;
+import P1.interficies.InterficieComunicacio;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,8 +26,10 @@ public class Model implements InterficieComunicacio {
     // Matriu que guarda les dades. Cada fila de la matriu correspon a un vector
     private int[][] vectors;
 
+
     public Model(Main main) {
         this.main = main;
+        // De 10mil a 500mil
         for(int i = 0; i < 50; i++) {
             NITS.add(10000 + (i * 10000));
         }
