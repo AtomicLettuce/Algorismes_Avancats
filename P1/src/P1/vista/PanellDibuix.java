@@ -1,14 +1,10 @@
-package P1.view;
+package P1.vista;
 
-import P1.Main;
 import P1.model.Model;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.sql.SQLOutput;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 public class PanellDibuix extends JPanel {
