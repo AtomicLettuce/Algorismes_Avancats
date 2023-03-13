@@ -48,7 +48,7 @@ public class Controlador extends Thread {
                 oNlogN.start();
 
                 // Per tal de que no monopolitzi el dibuix
-                if(idx<5){
+                if(idx<4){
                     //O(NN)
                     int[] posNN = {2,idx};
                     Thread oNN = new Thread(new oNN(vectors[2], main, posNN));
