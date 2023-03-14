@@ -1,5 +1,7 @@
 package P2.Vista;
 
+import P2.Model.Cavall;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,6 @@ public class TaulesEscacs extends JPanel {
         super();
         this.setPreferredSize(new Dimension(width,height));
         this.n=n;
-
     }
 
     @Override
@@ -31,6 +32,8 @@ public class TaulesEscacs extends JPanel {
                 }
             }
         }
+
+        // Dibuixar peces
 
 
     }
