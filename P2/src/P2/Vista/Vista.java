@@ -21,6 +21,27 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
         this.getContentPane().setLayout(new BorderLayout());
         this.add(taulesEscacs,BorderLayout.CENTER);
 
+        JButton play = new JButton(new ImageIcon("img/play.png"));
+        JButton stop=new JButton(new ImageIcon("img/stop.png"));
+        JButton dimensio=new JButton(new ImageIcon("img/elegirN.png"));
+        JButton insertpeca=new JButton(new ImageIcon("img/elegirpeca.png"));
+
+        play.setBackground(Color.WHITE);
+        stop.setBackground(Color.WHITE);
+        dimensio.setBackground(Color.WHITE);
+        insertpeca.setBackground(Color.WHITE);
+
+        JPanel botonera=new JPanel();
+        botonera.setBackground(Color.WHITE);
+        botonera.add(play);
+        botonera.add(stop);
+        botonera.add(dimensio);
+        botonera.add(insertpeca);
+
+
+        this.add(botonera, BorderLayout.NORTH);
+
+
 
 
 
