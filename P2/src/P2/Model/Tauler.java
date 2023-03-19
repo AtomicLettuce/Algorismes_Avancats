@@ -1,32 +1,32 @@
 package P2.Model;
 
-public class Tablero {
+public class Tauler {
 
     private int dim;
-    private int tablero[][];
+    private int tauler[][];
 
-    public Tablero(int n){
+    public Tauler(int n){
         dim = n;
-        tablero = new int[n][n];
+        tauler = new int[n][n];
 
-        for (int i = 0; i < tablero.length; i++) {
-            for (int j = 0; j < tablero[0].length; j++) {
-                tablero[i][j] = 0;
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[0].length; j++) {
+                tauler[i][j] = 0;
             }
         }
     }
 
     public void activarCasella(int x, int y, int count){
-        tablero[y][x] = count;
+        tauler[y][x] = count;
     }
 
     public void desactivarCasella(int x, int y){
-        tablero[y][x] = 0;
+        tauler[y][x] = 0;
     }
 
     public boolean estaLliure(int x,int y){
         try {
-            if (tablero[y][x] <= 0){
+            if (tauler[y][x] <= 0){
                 return true;
             }
         }catch (ArrayIndexOutOfBoundsException e){
@@ -38,19 +38,19 @@ public class Tablero {
 
     public int getCasella(int x, int y){
 
-        return tablero[y][x];
+        return tauler[y][x];
     }
 
     @Override
     public String toString(){
         String res = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n";
 
-        for (int i = 0; i < tablero.length; i++) {
-            for (int j = 0; j < tablero[0].length; j++) {
-                if (tablero[j][i] == 0){
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[0].length; j++) {
+                if (tauler[j][i] == 0){
                     res += " 0 ";
-                }else if (tablero[j][i] != 0){
-                    res += " " +tablero[j][i]+" ";
+                }else if (tauler[j][i] != 0){
+                    res += " " + tauler[j][i]+" ";
                 }
             }
             res += "\n";
@@ -60,10 +60,14 @@ public class Tablero {
     }
 
 
-    public int[][] getTablero() {
-        return tablero;
+    public int[][] getTauler() {
+        return tauler;
     }
     public int getDim(){
         return dim;
+    }
+
+    public void setDim(int n){
+        dim=n;
     }
 }
