@@ -1,16 +1,16 @@
 package P2.Controlador;
 
 import P2.Model.Peca;
-import P2.Model.Tablero;
+import P2.Model.Tauler;
 
 import java.util.ArrayList;
 
 public class Controlador extends Thread{
-    Tablero tablero;
+    Tauler tablero;
     static int colocades;
     ArrayList<Peca> peces ;
 
-    public Controlador(Tablero tablero, ArrayList<Peca> peces){
+    public Controlador(Tauler tablero, ArrayList<Peca> peces){
         this.tablero = tablero;
         this.peces = peces;
         colocades = 0;
