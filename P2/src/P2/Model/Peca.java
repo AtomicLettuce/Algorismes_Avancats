@@ -8,7 +8,15 @@ public class Peca {
     protected BufferedImage img;
     protected int movx[];
     protected int movy[];
+
+    protected int X;
+    protected int Y;
     protected boolean afecta_dimensio;
+
+    public Peca(int x , int y){
+        X = x;
+        Y = y;
+    }
 
     public BufferedImage getImg() {
         return img;
@@ -24,5 +32,21 @@ public class Peca {
 
     public int[] getMovx() {
         return movx;
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public int getY() {
+        return Y;
+    }
+
+    public void setX(int x) {
+        X = x;
+    }
+
+    public void setY(int y) {
+        Y = y;
     }
 }
