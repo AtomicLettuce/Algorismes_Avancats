@@ -1,22 +1,25 @@
 package P2.Vista;
 
 import P2.Model.Cavall;
+import P2.Model.Tauler;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class TaulesEscacs extends JPanel {
+    Tauler tauler;
     // Mida del tauler
-    private int n;
-    public TaulesEscacs(int width, int height, int n){
+    public TaulesEscacs(int width, int height, Tauler tauler){
         super();
         this.setPreferredSize(new Dimension(width,height));
-        this.n=n;
+        this.tauler=tauler;
     }
 
     @Override
     public void paintComponent(Graphics g) {
+        int n=tauler.getDim();
         Graphics2D g2 = (Graphics2D) g;
+
 
         int squareXdim=getWidth()/n;
         int squareYdim=getHeight()/n;

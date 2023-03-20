@@ -1,30 +1,34 @@
 package P2.Vista;
 
 import P2.Main;
+import P2.Model.Tauler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Vista extends JFrame implements WindowListener, ActionListener {
+public class Vista extends JFrame implements WindowListener, ActionListener, MouseListener {
 private JButton play;
 private JButton stop;
 private JButton dimensio;
 private JButton insertpeca;
+private String peca="";
+private TaulesEscacs taulesEscacs;
+private Tauler tauler;
+
     private Main main;
 
-    public Vista (String nom, Main main){
+    public Vista (String nom, Main main, Tauler tauler){
         super(nom);
         this.main = main;
+        this.tauler=tauler;
 
-        TaulesEscacs taulesEscacs = new TaulesEscacs(500,500,8);
+        taulesEscacs = new TaulesEscacs(500,500, tauler);
+        taulesEscacs.addMouseListener(this);
         this.getContentPane().setLayout(new BorderLayout());
         this.add(taulesEscacs,BorderLayout.CENTER);
 
@@ -32,6 +36,7 @@ private JButton insertpeca;
         stop=new JButton(new ImageIcon("img/stop.png"));
         dimensio=new JButton(new ImageIcon("img/elegirN.png"));
         insertpeca=new JButton(new ImageIcon("img/elegirpeca.png"));
+
 
         play.setActionCommand("play");
         stop.setActionCommand("stop");
@@ -96,6 +101,12 @@ private JButton insertpeca;
                 opcions[1]);
 
         System.out.println("L'usuari ha agafat la opció " + opcions[n]);
+        if(n==-1){
+            peca="";
+
+        }else{
+            peca=opcions[n];
+        }
     }
 
     @Override
@@ -118,6 +129,20 @@ private JButton insertpeca;
         }
 
     }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(peca.equals("")){
+            return;
+        }
+
+        int x=e.getX()/(taulesEscacs.getWidth()/tauler.getDim());
+        int y=e.getY()/(taulesEscacs.getHeight()/tauler.getDim());
+
+        // Enviar ordre de crear peça
+        peca="";
+
+    }
+
 
     @Override
     public void windowClosing(WindowEvent e) {
@@ -151,6 +176,25 @@ private JButton insertpeca;
 
     @Override
     public void windowDeactivated(WindowEvent e) {
+
+    }
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }
