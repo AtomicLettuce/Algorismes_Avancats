@@ -83,4 +83,6 @@ public class Tauler {
     public ArrayList<Peca> getPeces(){
         return peces;
     }
+
+
 }
