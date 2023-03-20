@@ -1,32 +1,42 @@
 package P2.Model;
 
+import java.util.ArrayList;
+
 public class Tauler {
 
-    private int dim=5;
-    private int tauler[][];
+    private int dim = 6;
+    private Moviment tauler[][];
+    private int intents = 0;
+    ArrayList<Peca> peces = new ArrayList<>();
 
     public Tauler(int n){
         dim = n;
-        tauler = new int[n][n];
-
+        tauler = new Moviment[n][n];
         for (int i = 0; i < tauler.length; i++) {
             for (int j = 0; j < tauler[0].length; j++) {
-                tauler[i][j] = 0;
+                tauler[i][j] = new Moviment(0,-1);
             }
         }
     }
 
-    public void activarCasella(int x, int y, int count){
-        tauler[y][x] = count;
+    public void afegirPeca(Peca peca){
+        peces.add(peca);
+    }
+
+    public void activarCasella(int x, int y, int count, int torn){
+        tauler[y][x].setnMoviment(count);
+        tauler[y][x].setTorn(torn);
+        intents++;
     }
 
     public void desactivarCasella(int x, int y){
-        tauler[y][x] = 0;
+        tauler[y][x].setnMoviment(0);
+        tauler[y][x].setTorn(-1);
     }
 
     public boolean estaLliure(int x,int y){
         try {
-            if (tauler[y][x] <= 0){
+            if (tauler[y][x].getnMoviment() <= 0){
                 return true;
             }
         }catch (ArrayIndexOutOfBoundsException e){
@@ -36,10 +46,7 @@ public class Tauler {
         return false;
     }
 
-    public int getCasella(int x, int y){
 
-        return tauler[y][x];
-    }
 
     @Override
     public String toString(){
@@ -47,10 +54,10 @@ public class Tauler {
 
         for (int i = 0; i < tauler.length; i++) {
             for (int j = 0; j < tauler[0].length; j++) {
-                if (tauler[j][i] == 0){
+                if (tauler[j][i].getnMoviment() == 0){
                     res += " 0 ";
-                }else if (tauler[j][i] != 0){
-                    res += " " + tauler[j][i]+" ";
+                }else if (tauler[j][i].getnMoviment() != 0){
+                    res += " " + tauler[j][i].getnMoviment()+" ";
                 }
             }
             res += "\n";
@@ -60,14 +67,20 @@ public class Tauler {
     }
 
 
-    public int[][] getTauler() {
-        return tauler;
-    }
+
     public int getDim(){
         return dim;
     }
 
     public void setDim(int n){
         dim=n;
+    }
+
+    public int getIntents() {
+        return intents;
+    }
+
+    public ArrayList<Peca> getPeces(){
+        return peces;
     }
 }

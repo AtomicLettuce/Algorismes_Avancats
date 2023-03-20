@@ -28,12 +28,11 @@ public class Main implements InterficieComunicacio {
         tablero = new Tauler(5);
         v =new Vista("pinga",this, tablero);
         ArrayList<Peca> peces = new ArrayList<>();
-
-
-        peces.add(new Torre(5,0,4));
-        controlador = new Controlador(tablero,peces);
+        tablero.afegirPeca(new Cavall(0,0));
+        controlador = new Controlador(this,tablero);
         //controlador.start();
-        System.out.println(tablero.toString());
+        comunicacio("play");
+
     }
 
 
@@ -52,6 +51,7 @@ public class Main implements InterficieComunicacio {
                 // Envia l'ordre de començar
                 controlador.start();
                 break;
+
         }if (instruccio.startsWith("dimensio:")){
             // Format "dimensio:'n'"
             int n = Integer.parseInt(instruccio.split(":")[1]);
