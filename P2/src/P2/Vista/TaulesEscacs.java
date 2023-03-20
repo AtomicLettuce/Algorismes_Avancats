@@ -1,6 +1,7 @@
 package P2.Vista;
 
 import P2.Model.Cavall;
+import P2.Model.Peca;
 import P2.Model.Tauler;
 
 import javax.swing.*;
@@ -37,6 +38,14 @@ public class TaulesEscacs extends JPanel {
         }
 
         // Dibuixar peces
+        Object peces[]=tauler.getPeces().toArray();
+        for (int i = 0; i < peces.length; i++) {
+            Peca p= (Peca) peces[i];
+            g2.drawImage(p.getImg(),p.getX()*squareXdim,p.getY()*squareYdim,squareXdim,squareYdim,null);
+        }
+
+
+
 
 
     }

@@ -28,10 +28,8 @@ public class Main implements InterficieComunicacio {
         tablero = new Tauler(5);
         v =new Vista("pinga",this, tablero);
         ArrayList<Peca> peces = new ArrayList<>();
-        tablero.afegirPeca(new Cavall(0,0));
+        tablero.afegirPeca(new Cavall(1,0));
         controlador = new Controlador(this,tablero);
-        //controlador.start();
-        comunicacio("play");
 
     }
 
