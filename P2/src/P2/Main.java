@@ -25,8 +25,8 @@ public class Main implements InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
-        v =new Vista("pinga",this);
         tablero = new Tauler(5);
+        v =new Vista("pinga",this, tablero);
         ArrayList<Peca> peces = new ArrayList<>();
 
 
@@ -53,10 +53,10 @@ public class Main implements InterficieComunicacio {
                 controlador.start();
                 break;
         }if (instruccio.startsWith("dimensio:")){
+            // Format "dimensio:'n'"
             int n = Integer.parseInt(instruccio.split(":")[1]);
             // Ajustar valor de n perquè se canviï
             // model.setdim(n)
-
         }
 
 

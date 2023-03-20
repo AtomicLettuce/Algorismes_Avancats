@@ -2,7 +2,7 @@ package P2.Model;
 
 public class Tauler {
 
-    private int dim;
+    private int dim=5;
     private int tauler[][];
 
     public Tauler(int n){
