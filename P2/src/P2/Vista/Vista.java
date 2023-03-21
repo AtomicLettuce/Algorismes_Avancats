@@ -85,6 +85,10 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
         mv.notificarActualitzar();
     }
 
+    public void setTauler(Tauler tauler){
+        this.tauler = tauler;
+    }
+
     private void mostrar() {
         this.pack();
         this.setVisible(true);

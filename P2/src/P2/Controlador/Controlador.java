@@ -34,6 +34,10 @@ public class Controlador extends Thread{
 
     private boolean colocarPieza(int torn){
 
+        if (!Main.CONTINUAR){
+            return false;
+        }
+
         Peca aColocar = tablero.getPeces().get(torn);
         if (colocades < (tablero.getDim()*tablero.getDim())){
 
@@ -62,6 +66,7 @@ public class Controlador extends Thread{
                 aColocar.setY(aColocar.getY()-aColocar.getMovy()[i]);
             }
         }else{
+            System.out.println(tablero.toString());
             return true;
         }
         return false;
