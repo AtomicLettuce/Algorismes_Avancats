@@ -49,7 +49,10 @@ public class Main implements InterficieComunicacio {
                 controlador.start();
                 break;
             case "reset":
+                tablero = new Tauler(tablero.getDim());
                 controlador = new Controlador(this,tablero);
+                v.setTauler(tablero);
+                v.actualitzar();
                 break;
 
         }if (instruccio.startsWith("dimensio:")){

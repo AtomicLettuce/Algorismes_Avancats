@@ -33,8 +33,8 @@ public class Tauler {
         tauler[y][x].setnMoviment(0);
         tauler[y][x].setTorn(-1);
     }
-    public Moviment getMoviment(int i, int j){
-        return tauler[i][j];
+    public Moviment getMoviment(int x, int y){
+        return tauler[y][x];
     }
 
     public boolean estaLliure(int x,int y){
