@@ -10,6 +10,7 @@ import java.awt.event.*;
 public class Vista extends JFrame implements WindowListener, ActionListener, MouseListener {
     private JButton play;
     private JButton stop;
+    private JButton reset;
     private JButton dimensio;
     private JButton insertpeca;
     private String pecaEscollida = "";
@@ -17,7 +18,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
     private Tauler tauler;
 
     private Main main;
-
+    private MonitorVista mv;
     public Vista(String nom, Main main, Tauler tauler) {
         super(nom);
         this.main = main;
@@ -32,40 +33,55 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
         // Zona botonera
         play = new JButton(new ImageIcon("img/play.png"));
         stop = new JButton(new ImageIcon("img/stop.png"));
+        reset = new JButton(new ImageIcon("img/reset.png"));
         dimensio = new JButton(new ImageIcon("img/elegirN.png"));
         insertpeca = new JButton(new ImageIcon("img/elegirpeca.png"));
 
         // Zona botonera (identificadors)
         play.setActionCommand("play");
         stop.setActionCommand("stop");
+        reset.setActionCommand("reset");
         dimensio.setActionCommand("dimensio");
         insertpeca.setActionCommand("insertpeca");
 
         // Zona botonera (manejador d'events)
         play.addActionListener(this);
         stop.addActionListener(this);
+        reset.addActionListener(this);
         dimensio.addActionListener(this);
         insertpeca.addActionListener(this);
 
         // Zona botonera (motius estètics)
         play.setBackground(Color.WHITE);
         stop.setBackground(Color.WHITE);
+        reset.setBackground(Color.WHITE);
         dimensio.setBackground(Color.WHITE);
         insertpeca.setBackground(Color.WHITE);
 
         // Zona botonera (afegir-los en pantalla)
         JPanel botonera = new JPanel();
-        botonera.setBackground(Color.YELLOW);
+        botonera.setBackground(Color.DARK_GRAY);
         botonera.add(play);
+        botonera.add(reset);
         botonera.add(stop);
         botonera.add(dimensio);
         botonera.add(insertpeca);
 
+        reset.setVisible(false);
+
+
+        mv=new MonitorVista();
+        Dibuixador dibuxador=new Dibuixador(taulesEscacs,this,mv);
 
         this.add(botonera, BorderLayout.NORTH);
 
         this.setResizable(false);
         mostrar();
+    }
+
+    // Per rebre notificacio de que s'ha de refrescar la pantalla
+    public void actualitzar(){
+        mv.notificarActualitzar();
     }
 
     private void mostrar() {
@@ -114,9 +130,22 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "play":
+                play.setVisible(false);
+                reset.setVisible(true);
+                dimensio.setVisible(false);
+                insertpeca.setVisible(false);
                 main.comunicacio("play");
                 break;
             case "stop":
+                main.comunicacio("stop");
+                dispose();
+                break;
+            case "reset":
+                play.setVisible(true);
+                reset.setVisible(false);
+                dimensio.setVisible(true);
+                insertpeca.setVisible(true);
+                main.comunicacio("reset");
                 break;
             case "dimensio":
                 llegir_dimensio();
@@ -163,6 +192,9 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
                 p =new Torre(tauler.getDim(),x,y);
                 break;
         }
+        System.out.println("L'usuari fica un "+pecaEscollida+" a la posició X= "+x+" Y= "+y);
+
+
         tauler.afegirPeca(p);
         pecaEscollida = "";
     }
@@ -171,7 +203,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
     @Override
     public void windowClosing(WindowEvent e) {
         dispose();
-        //main.comunicacio("Aturar");
+        main.comunicacio("stop");
     }
 
     @Override

@@ -41,13 +41,18 @@ public class Main implements InterficieComunicacio {
                 System.out.println("Aturant...");
                 // Aturar tots els fils i aturar el programa
                 CONTINUAR=false;
+                v.actualitzar();
                 break;
             case "Actualitzar":
-                // Tornar a pintar vista
+                // Tornar a pintar la GUI
+                v.actualitzar();
                 break;
             case "play":
                 // Envia l'ordre de començar
                 controlador.start();
+                break;
+            case "reset":
+                controlador = new Controlador(this,tablero);
                 break;
 
         }if (instruccio.startsWith("dimensio:")){
