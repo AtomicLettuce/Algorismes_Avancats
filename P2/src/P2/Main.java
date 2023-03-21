@@ -25,12 +25,9 @@ public class Main implements InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
-        tablero = new Tauler(5);
+        tablero = new Tauler(6);
         v =new Vista("pinga",this, tablero);
-        ArrayList<Peca> peces = new ArrayList<>();
-        tablero.afegirPeca(new Cavall(1,0));
         controlador = new Controlador(this,tablero);
-
     }
 
 

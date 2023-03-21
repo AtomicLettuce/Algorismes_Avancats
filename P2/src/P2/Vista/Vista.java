@@ -153,9 +153,6 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
                 break;
             case "insertpeca":
                 insertPeca();
-                // Falta fer que l'usuari elegeixi on vol ficar la peça
-                // Falta fer que enviï aquesta informació a alguna part
-
                 break;
         }
 
@@ -197,6 +194,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
 
 
         tauler.afegirPeca(p);
+        mv.notificarActualitzar();
         pecaEscollida = "";
     }
 
