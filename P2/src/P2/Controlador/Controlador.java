@@ -28,6 +28,8 @@ public class Controlador extends Thread{
         colocarPieza(0);
         main.comunicacio("Actualitzar");
         System.out.println("Controlador Stops");
+        System.out.println("X = "+tablero.getPeces().get(0).getX()+" Y= "+tablero.getPeces().get(0).getY());
+        System.out.println(tablero);
     }
 
     private boolean colocarPieza(int torn){
@@ -60,7 +62,6 @@ public class Controlador extends Thread{
                 aColocar.setY(aColocar.getY()-aColocar.getMovy()[i]);
             }
         }else{
-            System.out.println(tablero.toString());
             return true;
         }
         return false;

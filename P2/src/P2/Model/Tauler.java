@@ -33,6 +33,9 @@ public class Tauler {
         tauler[y][x].setnMoviment(0);
         tauler[y][x].setTorn(-1);
     }
+    public Moviment getMoviment(int i, int j){
+        return tauler[i][j];
+    }
 
     public boolean estaLliure(int x,int y){
         try {
@@ -75,7 +78,16 @@ public class Tauler {
     public void setDim(int n){
         dim=n;
         tauler = new Moviment[n][n];
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[0].length; j++) {
+                tauler[i][j] = new Moviment(0,-1);
+            }
+        }
         peces = new ArrayList<>();
+    }
+
+    public Moviment[][] getTauler(){
+        return tauler;
     }
 
     public int getIntents() {
