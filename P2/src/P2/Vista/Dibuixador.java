@@ -19,11 +19,6 @@ public class Dibuixador extends Thread{
 
     public void run(){
         while(true){
-            // Si s'ha rebut la notificació d'aturar el programa, atural el fil de forma segura
-            if(!Main.CONTINUAR){
-                vista.setVisible(false);
-                break;
-            }
             // Espera a que hi hagi canvis per actualitzar
             try {
                 mv.actualitzar(panells);
@@ -31,9 +26,13 @@ public class Dibuixador extends Thread{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
-
+            // Si s'ha rebut la notificació d'aturar el programa, atural el fil de forma segura
+            if(!Main.CONTINUAR){
+                vista.setVisible(false);
+                break;
+            }
         }
+        System.out.println("Dibuixador acaba");
     }
 
 

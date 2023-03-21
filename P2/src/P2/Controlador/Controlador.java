@@ -7,7 +7,7 @@ import P2.Model.Tauler;
 import java.util.ArrayList;
 
 public class Controlador extends Thread{
-    Tauler tablero;
+    private Tauler tablero;
     static int colocades;
     private Main main;
 

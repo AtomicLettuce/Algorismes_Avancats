@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Tauler {
 
-    private int dim = 6;
+    private int dim;
     private Moviment tauler[][];
     private int intents = 0;
     ArrayList<Peca> peces = new ArrayList<>();
@@ -74,6 +74,8 @@ public class Tauler {
 
     public void setDim(int n){
         dim=n;
+        tauler = new Moviment[n][n];
+        peces = new ArrayList<>();
     }
 
     public int getIntents() {

@@ -72,6 +72,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
 
         mv=new MonitorVista();
         Dibuixador dibuxador=new Dibuixador(taulesEscacs,this,mv);
+        dibuxador.start();
 
         this.add(botonera, BorderLayout.NORTH);
 
