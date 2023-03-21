@@ -59,7 +59,8 @@ public class Main implements InterficieComunicacio {
             // Format "dimensio:'n'"
             int n = Integer.parseInt(instruccio.split(":")[1]);
             // Ajustar valor de n perquè se canviï
-            // model.setdim(n)
+            tablero.setDim(n);
+            v.actualitzar();
         }
 
 
