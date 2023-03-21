@@ -19,6 +19,7 @@ public class Controlador extends Thread{
     }
     @Override
     public void run() {
+        System.out.println("Controlador Starts");
         for (int i = 0; i < tablero.getPeces().size(); i++) {
             colocades++;
             tablero.activarCasella(tablero.getPeces().get(i).getX(),tablero.getPeces().get(i).getY(), colocades,i);
@@ -26,10 +27,11 @@ public class Controlador extends Thread{
 
         colocarPieza(0);
         main.comunicacio("Actualitzar");
+        System.out.println("Controlador Stops");
     }
 
     private boolean colocarPieza(int torn){
-        
+
         Peca aColocar = tablero.getPeces().get(torn);
         if (colocades < (tablero.getDim()*tablero.getDim())){
 
