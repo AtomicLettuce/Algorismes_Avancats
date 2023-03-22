@@ -25,7 +25,9 @@ public class Controlador extends Thread{
             tablero.activarCasella(tablero.getPeces().get(i).getX(),tablero.getPeces().get(i).getY(), colocades,i);
         }
 
-        colocarPieza(0);
+        if(!colocarPieza(0)){
+            main.comunicacio("noSolution");
+        }
         main.comunicacio("Actualitzar");
         System.out.println("Controlador Stops");
         System.out.println("X = "+tablero.getPeces().get(0).getX()+" Y= "+tablero.getPeces().get(0).getY());
@@ -50,7 +52,7 @@ public class Controlador extends Thread{
                     colocades++;
 
                     tablero.activarCasella(aColocar.getX(),aColocar.getY(), colocades, torn);
-                    if (tablero.getIntents() % 100 == 0){
+                    if (tablero.getIntents() % 100000 == 0){
                         main.comunicacio("Actualitzar");
                     }
 

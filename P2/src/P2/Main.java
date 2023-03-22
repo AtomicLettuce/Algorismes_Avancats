@@ -55,6 +55,10 @@ public class Main implements InterficieComunicacio {
                 v.actualitzar();
                 break;
 
+            case "noSolution":
+                v.notificarNoSolucio();
+                break;
+
         }if (instruccio.startsWith("dimensio:")){
             // Format "dimensio:'n'"
             int n = Integer.parseInt(instruccio.split(":")[1]);
