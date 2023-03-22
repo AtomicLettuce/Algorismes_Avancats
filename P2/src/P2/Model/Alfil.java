@@ -21,7 +21,7 @@ public class Alfil extends Peca{
             if (i != 0) {
                 movx[pos] = i; // vertical
                 movy[pos++] = i; //vertical
-                movx[pos] = i; // horizontal
+                movx[pos] = -i; // horizontal
                 movy[pos++] = i; //horizontal
             }
         }
