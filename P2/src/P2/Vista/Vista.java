@@ -87,6 +87,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
 
     public void setTauler(Tauler tauler){
         this.tauler = tauler;
+        taulesEscacs.setTauler(tauler);
     }
 
     private void mostrar() {
@@ -94,6 +95,10 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
         this.setVisible(true);
         this.revalidate();
         this.repaint();
+    }
+
+    public void notificarNoSolucio(){
+        JOptionPane.showMessageDialog(this, ":( No s'ha trobat solució");
     }
 
 

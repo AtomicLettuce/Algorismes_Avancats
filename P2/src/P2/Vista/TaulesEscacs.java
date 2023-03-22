@@ -10,12 +10,16 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class TaulesEscacs extends JPanel {
-    Tauler tauler;
+    private Tauler tauler;
 
     // Mida del tauler
     public TaulesEscacs(int width, int height, Tauler tauler) {
         super();
         this.setPreferredSize(new Dimension(width, height));
+        this.tauler = tauler;
+    }
+
+    public void setTauler(Tauler tauler) {
         this.tauler = tauler;
     }
 
@@ -53,14 +57,18 @@ public class TaulesEscacs extends JPanel {
         Color colors[] = {Color.GREEN, Color.BLUE, Color.RED, Color.ORANGE, Color.CYAN, Color.MAGENTA, Color.PINK};
         g2.setFont(new Font("Arial", Font.BOLD, squareXdim / 3));
         //g2.drawString("10",squareXdim/3,squareYdim/2);
-        g2.setStroke(new BasicStroke(7));
+        g2.setStroke(new BasicStroke(8));
 
+        int torn;
+        int moviment;
         for (int i = 0; i < tauler.getDim(); i++) {
             for (int j = 0; j < tauler.getDim(); j++) {
-                if (tauler.getMoviment(i,j).getTorn()!= -1) {
-                    g2.setColor(colors[tauler.getMoviment(i,j).getTorn()]);
-                    g2.drawString(""+tauler.getMoviment(i,j).getnMoviment(),i*squareXdim+squareXdim/3,j*squareYdim+ squareYdim/2);
-                    g2.drawRect(i*squareXdim,j*squareYdim,squareXdim,squareYdim);
+                torn =tauler.getMoviment(i,j).getTorn();
+                moviment =tauler.getMoviment(i,j).getnMoviment();
+                if (torn != -1) {
+                    g2.setColor(colors[torn%colors.length]);
+                    g2.drawString(""+moviment,i*squareXdim+squareXdim/3,j*squareYdim+ squareYdim/2);
+                    g2.drawOval(i*squareXdim,j*squareYdim,squareXdim,squareYdim);
                 }
             }
         }
