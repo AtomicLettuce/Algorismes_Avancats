@@ -5,12 +5,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Peca {
+
+    //Clase pare que permet implementar qualsevol tipus de peća
     protected BufferedImage img;
+
+    //Moviments possible de la peća
     protected int movx[];
     protected int movy[];
 
+    //Posició de la peća
     protected int X;
     protected int Y;
+
     protected boolean afecta_dimensio;
 
     public Peca(int x , int y){

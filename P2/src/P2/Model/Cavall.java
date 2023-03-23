@@ -16,7 +16,7 @@ public class Cavall extends Peca{
         }catch (IOException ioe){
             System.out.println(ioe.toString());
         }
-        // Posar moviments i mandangón
+        //Moviemnts
         movx = new int[8];
         movy = new int[8];
         int pos = 0;

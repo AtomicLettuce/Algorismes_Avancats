@@ -2,7 +2,8 @@ package P2.Model;
 
 public class Cavaller extends Peca{
     public Cavaller(int x, int y) {
-        super(x, y); // Posar moviments i mandangón
+        super(x, y);
+        //Moviemnts
         movx = new int[16];
         movy = new int[16];
         int pos = 0;

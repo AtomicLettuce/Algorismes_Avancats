@@ -16,7 +16,7 @@ public class Alfil extends Peca{
         movx = new int[(d - 1) * 4];
         movy = new int[(d - 1) * 4];
         int pos = 0;
-        // Posar moviments i mandangón
+        //Moviemnts
         for (int i = -(d - 1); i < d; i++) {
             if (i != 0) {
                 movx[pos] = i; // vertical

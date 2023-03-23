@@ -14,7 +14,7 @@ public class Torre extends Peca{
             System.out.println(ioe.toString());
         }
         afecta_dimensio = true;
-        // Posar moviments i mandangón
+        //Moviemnts
         movx = new int[(d - 1) * 4];
         movy = new int[(d - 1) * 4];
         int pos = 0;

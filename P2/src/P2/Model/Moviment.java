@@ -1,6 +1,9 @@
 package P2.Model;
 
 public class Moviment {
+
+    //Objecte usat per guardar la informació del tauler.
+    //Cada moviment enregistra qui el fa i quin nombre de moviement és
     private int nMoviment;
     private  int torn;
 

@@ -5,13 +5,15 @@ import java.util.ArrayList;
 public class Tauler {
 
     private int dim;
-    private Moviment tauler[][];
-    private int intents = 0;
+    private Moviment tauler[][]; //Matriu de moviments
+    private int intents = 0; //Usat per contar cada quant pintar
     ArrayList<Peca> peces = new ArrayList<>();
 
-    public Tauler(int n){
+    public Tauler(int n){//Constructor
         dim = n;
         tauler = new Moviment[n][n];
+
+        //Cream la matriu amb moviments invalids
         for (int i = 0; i < tauler.length; i++) {
             for (int j = 0; j < tauler[0].length; j++) {
                 tauler[i][j] = new Moviment(0,-1);
@@ -19,56 +21,39 @@ public class Tauler {
         }
     }
 
+    //Funció per afegir una peća
     public void afegirPeca(Peca peca){
         peces.add(peca);
     }
 
+    //Marca una casella com a ja trepitjada
     public void activarCasella(int x, int y, int count, int torn){
         tauler[y][x].setnMoviment(count);
         tauler[y][x].setTorn(torn);
         intents++;
     }
 
+    //Desmarca la casella
     public void desactivarCasella(int x, int y){
         tauler[y][x].setnMoviment(0);
         tauler[y][x].setTorn(-1);
     }
+
+    //Per poder consultar la matriu
     public Moviment getMoviment(int x, int y){
         return tauler[y][x];
     }
 
+    //Comprova si un moviment és vàlid
     public boolean estaLliure(int x,int y){
-        try {
-            if (tauler[y][x].getnMoviment() <= 0){
+
+            if ((y >= 0 && y < tauler.length) && (x >= 0 && x < tauler.length) &&(tauler[y][x].getnMoviment() <= 0)){
                 return true;
             }
-        }catch (ArrayIndexOutOfBoundsException e){
-            return false;
-        }
+
 
         return false;
     }
-
-
-
-    @Override
-    public String toString(){
-        String res = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n";
-
-        for (int i = 0; i < tauler.length; i++) {
-            for (int j = 0; j < tauler[0].length; j++) {
-                if (tauler[j][i].getnMoviment() == 0){
-                    res += " 0 ";
-                }else if (tauler[j][i].getnMoviment() != 0){
-                    res += " " + tauler[j][i].getnMoviment()+" ";
-                }
-            }
-            res += "\n";
-        }
-        res += "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-        return res;
-    }
-
 
 
     public int getDim(){
@@ -86,9 +71,6 @@ public class Tauler {
         peces = new ArrayList<>();
     }
 
-    public Moviment[][] getTauler(){
-        return tauler;
-    }
 
     public int getIntents() {
         return intents;
