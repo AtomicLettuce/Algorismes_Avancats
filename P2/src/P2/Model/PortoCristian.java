@@ -4,6 +4,7 @@ public class PortoCristian extends Peca{
 
     public PortoCristian(int x, int y) {
         super(x, y); movx = new int[8];
+        //Moviemnts
         movy = new int[8];
         int pos = 0;
         movx[pos] = -1;
