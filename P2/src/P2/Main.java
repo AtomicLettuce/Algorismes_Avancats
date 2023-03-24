@@ -66,10 +66,5 @@ public class Main implements InterficieComunicacio {
             tablero.setDim(n);
             v.actualitzar();
         }
-
-
-
-
-
     }
 }
