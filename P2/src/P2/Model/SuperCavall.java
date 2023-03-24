@@ -13,5 +13,26 @@ public class SuperCavall extends Peca{
             System.out.println(ioe.toString());
         }
         // Posar moviments i mandangón
+        movx = new int[8];
+        movy = new int[8];
+        int pos = 0;
+        movx[pos] = 2;
+        movy[pos++] = 3;
+        movx[pos] = 3;
+        movy[pos++] = 2;
+        movx[pos] = 2;
+        movy[pos++] = -3;
+        movx[pos] = 3;
+        movy[pos++] = -2;
+        movx[pos] = -2;
+        movy[pos++] = 3;
+        movx[pos] = -3;
+        movy[pos++] = 2;
+        movx[pos] = -2;
+        movy[pos++] = -3;
+        movx[pos] = -3;
+        movy[pos++] = -2;
+
     }
+
 }
