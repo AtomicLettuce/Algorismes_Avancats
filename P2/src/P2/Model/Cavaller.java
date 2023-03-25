@@ -1,8 +1,16 @@
 package P2.Model;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
 
 public class Cavaller extends Peca{
     public Cavaller(int x, int y) {
         super(x, y);
+        try{
+            img= ImageIO.read(new File("img/Cavaller.png"));
+        }catch (IOException ioe){
+            System.out.println(ioe.toString());
+        }
         //Moviemnts
         movx = new int[16];
         movy = new int[16];

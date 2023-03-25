@@ -116,7 +116,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
     }
 
     private void insertPeca() {
-        String[] opcions = {"Alfil", "Cavall", "Rei", "Reina", "Super Cavall", "Torre"};
+        String[] opcions = {"Alfil", "Cavall", "Rei", "Reina", "Torre", "Super Cavall", "Cavaller", "Porto Cristian"};
 
         int n = JOptionPane.showOptionDialog(this,
                 "Quina peça vols introduir",
@@ -192,11 +192,17 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
             case "Reina":
                 p =new Reina(tauler.getDim(),x,y);
                 break;
+            case "Torre":
+                p =new Torre(tauler.getDim(),x,y);
+                break;
             case "Super Cavall":
                 p =new SuperCavall(x,y);
                 break;
-            case "Torre":
-                p =new Torre(tauler.getDim(),x,y);
+            case "Cavaller":
+                p =new Cavaller(x,y);
+                break;
+            case "Porto Cristian":
+                p =new PortoCristian(x,y);
                 break;
         }
         System.out.println("L'usuari fica un "+pecaEscollida+" a la posició X= "+x+" Y= "+y);

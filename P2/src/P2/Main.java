@@ -19,8 +19,6 @@ public class Main implements InterficieComunicacio {
     private Tauler tablero;
 
     public static void main(String[] args) {
-
-
         System.out.println("UEP!!");
         new Main().inici();
     }
