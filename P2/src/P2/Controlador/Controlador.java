@@ -4,7 +4,6 @@ import P2.Main;
 import P2.Model.Peca;
 import P2.Model.Tauler;
 
-import java.util.ArrayList;
 
 public class Controlador extends Thread{
     private Tauler tablero;
@@ -35,7 +34,6 @@ public class Controlador extends Thread{
         //Quan acaba mostra el resultat
         main.comunicacio("Actualitzar");
         System.out.println("Controlador Stops");
-        System.out.println("X = "+tablero.getPeces().get(0).getX()+" Y= "+tablero.getPeces().get(0).getY());
     }
 
     //Funció recursiva per realitzar el backtracking

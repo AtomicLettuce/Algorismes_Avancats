@@ -17,7 +17,6 @@ public class Peca {
     protected int X;
     protected int Y;
 
-    protected boolean afecta_dimensio;
 
     public Peca(int x , int y){
         X = x;
@@ -26,10 +25,6 @@ public class Peca {
 
     public BufferedImage getImg() {
         return img;
-    }
-
-    public boolean isAfecta_dimensio() {
-        return afecta_dimensio;
     }
 
     public int[] getMovy() {

@@ -173,6 +173,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener, Mou
         if (pecaEscollida.equals("")) {
             return;
         }
+
         // Obtenir casella on vol ficar peça
         int x = e.getX() / (taulesEscacs.getWidth() / tauler.getDim());
         int y = e.getY() / (taulesEscacs.getHeight() / tauler.getDim());

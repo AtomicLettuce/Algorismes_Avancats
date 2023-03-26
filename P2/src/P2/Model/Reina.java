@@ -13,7 +13,6 @@ public class Reina extends Peca{
         }catch (IOException ioe){
             System.out.println(ioe.toString());
         }
-        afecta_dimensio =true;
         //Moviemnts
         movx = new int[(d-1)*4*2];
         movy = new int[(d-1)*4*2];
