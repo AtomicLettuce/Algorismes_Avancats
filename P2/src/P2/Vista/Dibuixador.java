@@ -14,6 +14,7 @@ public class Dibuixador extends Thread{
         this.panells=p;
         this.vista=vista;
         this.mv =mv;
+        this.setName("Dibuixador");
 
     }
 

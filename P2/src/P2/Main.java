@@ -4,14 +4,11 @@ import P2.Controlador.Controlador;
 import P2.Model.*;
 import P2.Vista.Vista;
 import P2.Interficies.InterficieComunicacio;
+import mesurament.Mesurament;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class Main implements InterficieComunicacio {
-
-
 
     public static boolean CONTINUAR=true;
     private Vista v;
@@ -23,8 +20,9 @@ public class Main implements InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
+        new Mesurament().mesura();
         tablero = new Tauler(6);
-        v =new Vista("pinga",this, tablero);
+        v =new Vista("P2: Algorismes Avançats",this, tablero);
         controlador = new Controlador(this,tablero);
     }
 
@@ -60,7 +58,7 @@ public class Main implements InterficieComunicacio {
         }if (instruccio.startsWith("dimensio:")){
             // Format "dimensio:'n'"
             int n = Integer.parseInt(instruccio.split(":")[1]);
-            // Ajustar valor de n perquè se canviï
+            // Ajustar valor de n perquè es canviï
             tablero.setDim(n);
             v.actualitzar();
         }

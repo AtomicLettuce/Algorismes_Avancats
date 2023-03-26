@@ -13,7 +13,6 @@ public class Torre extends Peca{
         }catch (IOException ioe){
             System.out.println(ioe.toString());
         }
-        afecta_dimensio = true;
         //Moviemnts
         movx = new int[(d - 1) * 4];
         movy = new int[(d - 1) * 4];

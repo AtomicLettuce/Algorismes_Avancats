@@ -50,8 +50,6 @@ public class Tauler {
             if ((y >= 0 && y < tauler.length) && (x >= 0 && x < tauler.length) &&(tauler[y][x].getnMoviment() <= 0)){
                 return true;
             }
-
-
         return false;
     }
 
