@@ -1,4 +1,4 @@
-package controlador;
+/*package controlador;
 
 import interfaces.InterficieComunicacio;
 import model.Model;
@@ -155,3 +155,4 @@ public class Controlador extends Thread implements InterficieComunicacio {
     }
 
 }
+*/

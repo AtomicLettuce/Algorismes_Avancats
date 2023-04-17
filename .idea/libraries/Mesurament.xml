@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Mesurament">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Mesurament.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
