@@ -25,7 +25,7 @@ public class Dibuixador extends Thread{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            // Si s'ha rebut la notificació d'aturar el programa, atural el fil de forma segura
+            // Si s'ha rebut la notificació d'aturar el programa, atura el fil de forma segura
             if(!Main.CONTINUAR){
                 vista.setVisible(false);
                 break;

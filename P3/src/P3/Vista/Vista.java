@@ -90,7 +90,8 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
                 break;
             case "stop":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                dispose();
+                main.comunicacio("stop");
                 break;
             case "reset":
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
