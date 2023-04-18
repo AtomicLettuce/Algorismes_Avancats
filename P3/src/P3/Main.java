@@ -18,7 +18,7 @@ public class Main implements InterficieComunicacio {
         Nuvol nuvol = new Nuvol(10,10);
         nuvol.generarNuvol();
         double[][] aux = nuvol.getNuvol();
-        Vista vista=new Vista("Mondongo",this,nuvol);
+        vista=new Vista("Mondongo",this,nuvol);
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 2; j++) {
