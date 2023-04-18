@@ -1,12 +1,15 @@
 package P3;
 
 import P3.Controlador.Controlador;
+import P3.Interficies.InterficieComunicacio;
 import P3.Model.Nuvol;
 import P3.Model.Parells;
+import P3.Vista.Vista;
 
-public class Main {
+public class Main implements InterficieComunicacio {
     private Nuvol model;
-
+    private Vista vista;
+    public static boolean CONTINUAR = true;
     public static void main(String[] args) {
         new Main().inici();
     }
@@ -15,6 +18,7 @@ public class Main {
         Nuvol nuvol = new Nuvol(10,10);
         nuvol.generarNuvol();
         double[][] aux = nuvol.getNuvol();
+        Vista vista=new Vista("Mondongo",this,nuvol);
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 2; j++) {
@@ -30,6 +34,37 @@ public class Main {
             System.out.println(parells[i].getPunt1()[0] + " " +parells[i].getPunt1()[1]);
             System.out.println(parells[i].getPunt2()[0] + " " +parells[i].getPunt2()[1]);
             System.out.println(parells[i].getDistancia());
+        }
+    }
+
+    @Override
+    public void comunicacio(String instruccio) {
+        switch (instruccio){
+            case "stop":
+                System.out.println("Aturant...");
+                // Aturar tots els fils i aturar el programa
+                CONTINUAR=false;
+                vista.actualitzar();
+                break;
+            case "Actualitzar":
+                // Tornar a pintar la GUI
+                vista.actualitzar();
+                break;
+            case "play":
+                // Envia l'ordre de començar
+
+                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+
+                break;
+            case "reset":
+                // Envia l'ordre de reinici
+
+                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                break;
+        }
+        // Per canviar quantitat de punts que generam i algorisme que empram per resoldre-ho
+        if (instruccio.startsWith("opcions:")){
+            // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
         }
     }
 }
