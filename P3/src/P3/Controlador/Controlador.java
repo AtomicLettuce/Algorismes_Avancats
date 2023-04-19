@@ -33,12 +33,10 @@ public class Controlador {
                                 parells[y] = new Parells(punts[i],punts[j], distancia);
                             }
                         }else{
-                            if(y == 0){
-                                break;
-                            }else{
-                                parells[y-1] = new Parells(punts[i],punts[j], distancia);
-                                break;
+                            if (y != 0) {
+                                parells[y - 1] = new Parells(punts[i], punts[j], distancia);
                             }
+                            break;
                         }
                     }
                 }

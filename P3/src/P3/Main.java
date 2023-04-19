@@ -23,16 +23,8 @@ public class Main implements InterficieComunicacio {
         nuvol.generarNuvol();
 
         Punt[] aux = nuvol.getNuvol();
-
-        for (int i = 0; i < 100; i++) {
-            System.out.print(aux[i].toString()+" ");
-
-        
         vista=new Vista("Mondongo",this,nuvol);
 
-
-            System.out.println();
-        }
 
         Controlador controlador = new Controlador(this, nuvol);
         Parells parells[] = controlador.n2();
