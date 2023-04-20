@@ -19,27 +19,21 @@ public class Main implements InterficieComunicacio {
     }
 
     public void inici(){
-        Nuvol nuvol = new Nuvol(100,10);
+        Nuvol nuvol = new Nuvol(10000000,10);
         nuvol.generarNuvol();
 
         Punt[] aux = nuvol.getNuvol();
         //vista=new Vista("Mondongo",this,nuvol);
 
 
-      
+        long start1 = System.nanoTime();
 
         Controlador controlador = new Controlador(this, nuvol);
-        Parells parells[] = controlador.n2(nuvol);
-        for (int i = 0; i < 3; i++) {
-            if(parells[i] != null){
-                System.out.println(parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
-                System.out.println(parells[i].getDistancia());
-            }
+        //Parells parells[] = controlador.n2(nuvol);
 
-        }
 
         controlador.n(nuvol);
-        parells = nuvol.getParells();
+        Parells parells[] = nuvol.getParells();
 
         for (int i = 0; i < 3; i++) {
             if(parells[i] != null){
@@ -48,6 +42,8 @@ public class Main implements InterficieComunicacio {
             }
 
         }
+        long end1 = System.nanoTime();
+        System.out.println("Elapsed Time in nano seconds: "+ (end1-start1));
 
 
     }

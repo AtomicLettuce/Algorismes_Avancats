@@ -53,9 +53,13 @@ public class Controlador {
     }
 
     public Parells[] n(Nuvol n){
+        //primer ordenam el nuvol segons la x
         Nuvol nuvol = mergeSort(n);
 
+        //una vegada el tenim ordenat tornam a fer "el mateix algorisme"
+        //pero ara ens fixam en juntar per dimensió
         return mergeSortDistancia(nuvol);
+
     }
 
     public Parells[] mergeSortDistancia(Nuvol nuvol){
@@ -67,14 +71,14 @@ public class Controlador {
             System.arraycopy(punts, 0, auxpunts1, 0, punts.length / 2);
             Nuvol auxnuvol1 = new Nuvol(punts.length/2, nuvol.getMax());
             auxnuvol1.setNuvol(auxpunts1);
-            n(auxnuvol1);
+            mergeSortDistancia(auxnuvol1);
 
             //crear un nou nuvol de punts consistent amb la segona meitat de punts del nuvol original
             Punt[] auxpunts2 = new Punt[punts.length- auxpunts1.length];
             System.arraycopy(punts, punts.length / 2, auxpunts2, 0, auxpunts2.length);
             Nuvol auxnuvol2 = new Nuvol(punts.length- auxpunts1.length, nuvol.getMax());
             auxnuvol2.setNuvol(auxpunts2);
-            n(auxnuvol2);
+            mergeSortDistancia(auxnuvol2);
 
             mergeNuvol(auxnuvol1, auxnuvol2, nuvol);
         }
