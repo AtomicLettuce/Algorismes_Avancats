@@ -22,9 +22,10 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     public Vista(String nom, Main main, Nuvol nuvol) {
         super(nom);
         this.main = main;
+        addWindowListener(this);
 
         // Panell de dibuixat
-        panellNuvol = new PanellNuvol(500,500, nuvol);
+        panellNuvol = new PanellNuvol(500, 500, nuvol);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.add(panellNuvol, BorderLayout.CENTER);
@@ -64,8 +65,8 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         reset.setVisible(false);
 
 
-        mv=new MonitorVista();
-        Dibuixador dibuxador=new Dibuixador(panellNuvol,this,mv);
+        mv = new MonitorVista();
+        Dibuixador dibuxador = new Dibuixador(panellNuvol, this, mv);
         dibuxador.start();
 
         this.add(botonera, BorderLayout.NORTH);
@@ -85,7 +86,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     // Manejador d'events de la zona botonera
     @Override
     public void actionPerformed(ActionEvent ae) {
-        switch (ae.getActionCommand()){
+        switch (ae.getActionCommand()) {
             case "play":
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
                 break;
@@ -97,28 +98,74 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
                 break;
             case "opcions":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
+                demana_opcions();
+
+
                 break;
         }
     }
 
+    private void demana_opcions() {
+        int n;
+        // Demana quantitat de punts
+        try {
+            String str = JOptionPane.showInputDialog(this, "Enter");
+            n = Integer.parseInt(str);
+            System.out.println("Quantitat de punts: " + n);
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(this, ":( Fica un número sencer major que 0");
+            return;
+        }
+
+        // Demana quin algorisme vol emprar
+        String[] algorismes = {"n^2", "nlog n"};
+        int a = JOptionPane.showOptionDialog(this, "Quin algorisme vols emprar", "Elegeix-ne un",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, algorismes, algorismes[1]);
+        System.out.println("L'usuari ha agafat la opció " + algorismes[a]);
+        // Si no n'agafa cap, cancel·la
+        if (a == -1) {
+            return;
+        }
+
+        // Demana quina distribuicó aleatòria vol emprar
+        String[] distribucions = {"Equiprobable", "Gausiana"};
+        int d = JOptionPane.showOptionDialog(this, "Quina distribucio vols emprar?", "Elegeix-ne una",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, distribucions, distribucions[1]);
+        System.out.println("L'usuari ha agafat la opció " + distribucions[a]);
+        // Si no n'agafa cap, cancel·la
+        if (d == -1) {
+            return;
+        }
+        //format: opcions: 'n' 'a' 'd'
+        main.comunicacio("opcions: " + n + " " + a + " " + d);
+
+
+    }
+
     // Per rebre notificacio de que s'ha de refrescar la pantalla
-    public void actualitzar(){
+    public void actualitzar() {
         mv.notificarActualitzar();
+    }
+
+    public void notificarSortida() {
+        mv.notificarSortida();
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-        dispose();
         main.comunicacio("stop");
+        mv.notificarSortida();
+        dispose();
     }
+
     @Override
     public void windowOpened(WindowEvent windowEvent) {
 
     }
+
     @Override
     public void windowClosed(WindowEvent windowEvent) {
-
     }
 
     @Override
