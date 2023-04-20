@@ -19,18 +19,13 @@ public class Main implements InterficieComunicacio {
     }
 
     public void inici(){
-        Nuvol nuvol = new Nuvol(100,10);
+        Nuvol nuvol = new Nuvol(10000,10);
         nuvol.generarNuvol();
 
         Punt[] aux = nuvol.getNuvol();
-
+        vista=new Vista("Mondongo",this,nuvol);
         for (int i = 0; i < 100; i++) {
             System.out.print(aux[i].toString()+" ");
-
-        
-        vista=new Vista("Mondongo",this,nuvol);
-
-
             System.out.println();
         }
 
@@ -68,7 +63,14 @@ public class Main implements InterficieComunicacio {
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
                 break;
         }
+
+
         // Per canviar quantitat de punts que generam i algorisme que empram per resoldre-ho
+        // Fromat:
+        // opcions: 'n' 'a' 'd'
+        // sent n: numero de punts
+        // a: algorisme a emprar (n^2, nlogn...)
+        // d: distrubució aleatòria (gausiana, equiprobable, chi^2, etc.)
         if (instruccio.startsWith("opcions:")){
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
         }

@@ -3,8 +3,9 @@ package P3.Model;
 import java.util.Arrays;
 
 public class Punt {
-    private double [] punt;
-    public Punt(double [] punt){
+    private double[] punt;
+
+    public Punt(double[] punt) {
         this.punt = punt;
     }
 
@@ -18,6 +19,6 @@ public class Punt {
 
     @Override
     public String toString() {
-        return "("+ punt[0] +" " + punt[1]+")";
+        return "(" + punt[0] + " " + punt[1] + ")";
     }
 }
