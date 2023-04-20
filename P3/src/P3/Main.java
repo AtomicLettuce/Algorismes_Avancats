@@ -19,7 +19,7 @@ public class Main implements InterficieComunicacio {
     }
 
     public void inici(){
-        Nuvol nuvol = new Nuvol(16,10);
+        Nuvol nuvol = new Nuvol(100,10);
         nuvol.generarNuvol();
 
         Punt[] aux = nuvol.getNuvol();
@@ -29,15 +29,24 @@ public class Main implements InterficieComunicacio {
       
 
         Controlador controlador = new Controlador(this, nuvol);
-        //Parells parells[] = controlador.n2(nuvol);
+        Parells parells[] = controlador.n2(nuvol);
+        for (int i = 0; i < 3; i++) {
+            if(parells[i] != null){
+                System.out.println(parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
+                System.out.println(parells[i].getDistancia());
+            }
 
+        }
 
-         controlador.n(nuvol);
-        Parells parells[] = nuvol.getParells();
+        controlador.n(nuvol);
+        parells = nuvol.getParells();
 
         for (int i = 0; i < 3; i++) {
-            System.out.println(parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
-            System.out.println(parells[i].getDistancia());
+            if(parells[i] != null){
+                System.out.println(parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
+                System.out.println(parells[i].getDistancia());
+            }
+
         }
 
 
