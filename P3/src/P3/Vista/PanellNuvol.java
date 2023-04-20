@@ -20,11 +20,14 @@ public class PanellNuvol extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
 
-        // Per dibuixar un punt, dibuixam una línia que comença i acaba allà mateix
-        g.drawLine(10, 10, 10, 10);
+        Graphics2D g2= (Graphics2D)g;
+        g2.setStroke(new BasicStroke(2));
+
         Punt[] punts = nuvol.getNuvol();
         int width = getWidth();
         int height = getHeight();
+
+        // Dibuixam el núvol de punts
 
         // Cas per dibuixar una equiprobable
         switch (nuvol.getDistribucio()) {
@@ -38,10 +41,8 @@ public class PanellNuvol extends JPanel {
                     // Coordenada que ocupara a la pantalla
                     int xi = (int) ((x / max) * width);
                     int yi = (int) ((y / max) * height);
-
-
-                    g.drawLine(xi, yi, xi, yi);
-
+                    // Per dibuixar un punt, dibuixam una línia que comença i acaba allà mateix
+                    g2.drawLine(xi, yi, xi, yi);
                 }
                 break;
 
@@ -56,11 +57,23 @@ public class PanellNuvol extends JPanel {
                         int xi = (int) (((x / 5) * (width/2))+width/2);
                         int yi = (int) (((y / 5) * (height/2))+height/2);
 
-
-                        g.drawLine(xi, yi, xi, yi);
+                        // Per dibuixar un punt, dibuixam una línia que comença i acaba allà mateix
+                        g2.drawLine(xi, yi, xi, yi);
                     }
 
                 }
+                break;
+        }
+
+        // Dibuixam punts mes propers
+
+        g2.setColor(Color.RED);
+        switch (nuvol.getDistribucio()){
+            case 0:
+
+                break;
+            case 1:
+
                 break;
         }
     }

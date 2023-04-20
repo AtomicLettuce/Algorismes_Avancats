@@ -7,6 +7,9 @@ public class Nuvol {
     private Punt[] nuvol;
     private final Random rand = new Random();
 
+    private Parells parells;
+
+
     private int distribucio;
     private int max;
     private int dimensio;
