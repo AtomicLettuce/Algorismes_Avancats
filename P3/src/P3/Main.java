@@ -69,7 +69,14 @@ public class Main implements InterficieComunicacio {
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
                 break;
         }
+
+
         // Per canviar quantitat de punts que generam i algorisme que empram per resoldre-ho
+        // Fromat:
+        // opcions: 'n' 'a' 'd'
+        // sent n: numero de punts
+        // a: algorisme a emprar (n^2, nlogn...)
+        // d: distrubució aleatòria (gausiana, equiprobable, chi^2, etc.)
         if (instruccio.startsWith("opcions:")){
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
         }

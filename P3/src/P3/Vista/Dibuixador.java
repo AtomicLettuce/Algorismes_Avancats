@@ -16,6 +16,7 @@ public class Dibuixador extends Thread{
     }
 
     public void run(){
+        System.out.println("dibuixador begins");
         while(true){
             // Espera a que hi hagi canvis per actualitzar
             try {
