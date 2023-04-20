@@ -5,6 +5,7 @@ import java.util.Random;
 public class Nuvol {
 
     private Punt [] nuvol;
+    private Parells[] parells;
     private final Random rand = new Random();
 
     private int max;
@@ -14,6 +15,7 @@ public class Nuvol {
         nuvol = new Punt[n];
         this.max = max;
         this.dimensio = n;
+        this.parells = new Parells[3];
     }
     public void generarNuvol(){
         double[] aux = new double[2];
@@ -24,6 +26,26 @@ public class Nuvol {
             }
             nuvol[i] = new Punt(aux.clone());
         }
+    }
+
+    public void setNuvol(Punt[] nuvol) {
+        this.nuvol = nuvol;
+    }
+
+    public Parells[] getParells() {
+        return parells;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public int getDimensio() {
+        return dimensio;
+    }
+
+    public void setParells(Parells[] parells) {
+        this.parells = parells;
     }
 
     public Punt [] getNuvol(){return nuvol;}

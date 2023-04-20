@@ -10,6 +10,7 @@ public class Parells {
         this.punt1 = punt1;
         this.punt2 = punt2;
         this.distancia = distancia;
+
     }
 
     public Punt getPunt1() {
