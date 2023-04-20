@@ -8,7 +8,7 @@ public class Nuvol {
     private Parells[] parells;
     private final Random rand = new Random();
 
-    private Parells parells;
+    //private Parells parells;
 
 
     private int distribucio;
@@ -55,9 +55,7 @@ public class Nuvol {
     public Parells[] getParells() {
         return parells;
     }
-    public Punt[] getNuvol() {
-        return nuvol;
-    }
+
 
     public int getDistribucio() {
         return distribucio;
