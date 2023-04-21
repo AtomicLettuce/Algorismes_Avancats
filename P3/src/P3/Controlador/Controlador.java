@@ -22,24 +22,46 @@ public class Controlador extends Thread{
         this.algorisme = algorisme;
     }
     public void run(){
+        long t1 = System.nanoTime();
+
+        System.out.println("Controlodor starts");
         switch (algorisme){
             // Cas en el que s'ha sel·leccionat algorisme n^2
             case 0:
                 n2(nuvol);
                 break;
+
             // Cas en el que s'ha sel·leccionat algorisme nlog n
             case 1:
                 n(nuvol);
                 break;
         }
+
+        Parells [] parells = nuvol.getParells();
+        System.out.println(parells[0].getPunt1());
+        for (int i = 0; i < 3; i++) {
+            if(parells[i] != null){
+                System.out.println("Parella "+i+" :" +parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
+                System.out.println("Estan a una distància: "+parells[i].getDistancia());
+            }
+        }
+
+        long t2=System.nanoTime();
+        System.out.println("\u001B[40m"+"\u001B[36m" +"Temps d'execució: "+(t2-t1)+" nanosegons"+ "\u001B[0m");
+
         System.out.println("Controlador acaba");
+        main.comunicacio("controladorAcaba");
     }
 
-    public Parells[] n2(Nuvol nuvol) {
+    public void n2(Nuvol nuvol) {
         Punt[] punts = nuvol.getNuvol();
         Parells[] parells = new Parells[3];
         double distancia;
         for (int i = 0; i < punts.length; i++) {
+            // Controlar aturada del programa
+            if(!Main.CONTINUAR){
+                return;
+            }
             for (int j = 0; j < punts.length; j++) {
                 if(i != j){
                     distancia = sqrt(Math.pow((punts[i].getPunt()[0]- punts[j].getPunt()[0]), 2)+ Math.pow((punts[i].getPunt()[1]- punts[j].getPunt()[1]), 2));
@@ -69,8 +91,9 @@ public class Controlador extends Thread{
 
 
         }
+        nuvol.setParells(parells);
         main.comunicacio("Actualitzar");
-    return parells;
+    //return parells;
     }
 
     public Parells[] n(Nuvol n){
@@ -80,12 +103,16 @@ public class Controlador extends Thread{
         //una vegada el tenim ordenat tornam a fer "el mateix algorisme"
         //pero ara ens fixam en juntar per dimensió
 
-        main.comunicacio("Actualitzar");
         return mergeSortDistancia(nuvol);
 
     }
 
     public Parells[] mergeSortDistancia(Nuvol nuvol){
+        // Controlar aturada del programa
+        if(!Main.CONTINUAR){
+            return null;
+        }
+
         Punt[] punts = nuvol.getNuvol();
         Parells[] parells = new Parells[3];
         if(punts.length > 1){
@@ -105,6 +132,7 @@ public class Controlador extends Thread{
 
             mergeNuvol(auxnuvol1, auxnuvol2, nuvol);
         }
+        main.comunicacio("Actualitzar");
         return parells;
     }
 

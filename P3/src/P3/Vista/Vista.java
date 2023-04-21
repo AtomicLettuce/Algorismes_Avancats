@@ -18,12 +18,14 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     private JButton reset;
     private JButton opcions;
     private MonitorVista mv;
+    private Nuvol nuvol;
 
     public Vista(String nom, Main main, Nuvol nuvol) {
         super(nom);
         this.main = main;
         addWindowListener(this);
 
+        this.nuvol=nuvol;
         // Panell de dibuixat
         panellNuvol = new PanellNuvol(500, 500, nuvol);
 
@@ -62,6 +64,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         botonera.add(stop);
         botonera.add(opcions);
 
+        play.setVisible(false);
         reset.setVisible(false);
 
 
@@ -82,28 +85,38 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         this.repaint();
     }
 
+    public void controladorAcaba(){
+        reset.setVisible(true);
+    }
+
 
     // Manejador d'events de la zona botonera
     @Override
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
             case "play":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                play.setVisible(false);
+                main.comunicacio("play");
                 break;
             case "stop":
                 dispose();
                 main.comunicacio("stop");
                 break;
             case "reset":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                reset.setVisible(false);
+                main.comunicacio("reset");
+                opcions.setVisible(true);
                 break;
             case "opcions":
                 // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
                 demana_opcions();
-
-
                 break;
         }
+    }
+
+    public void setNuvol(Nuvol nuvol) {
+        this.nuvol = nuvol;
+        panellNuvol.setNuvol(nuvol);
     }
 
     private void demana_opcions() {
@@ -139,6 +152,8 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         }
         //format: opcions: 'n' 'a' 'd'
         main.comunicacio("opcions: " + n + " " + a + " " + d);
+        play.setVisible(true);
+        opcions.setVisible(false);
 
 
     }

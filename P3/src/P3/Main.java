@@ -20,8 +20,8 @@ public class Main implements InterficieComunicacio {
     }
 
     public void inici(){
+        nuvol = new Nuvol(1,10);
         vista=new Vista("Mondongo",this,nuvol);
-        nuvol = new Nuvol(10000,10);
         controlador = new Controlador(this, nuvol);
 
         long start1 = System.nanoTime();
@@ -60,14 +60,19 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
-
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
-
+                controlador.start();
                 break;
             case "reset":
                 // Envia l'ordre de reinici
-
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                // Reiniciam model i controlador
+                nuvol=new Nuvol(1,10);
+                controlador=new Controlador(this,nuvol);
+                // Actualitzam canvis a la vista
+                vista.setNuvol(nuvol);
+                vista.actualitzar();
+                break;
+            case "controladorAcaba":
+                vista.controladorAcaba();
                 break;
         }
 
@@ -91,7 +96,7 @@ public class Main implements InterficieComunicacio {
             nuvol.setDistribucio(Integer.parseInt(aux2[3]));
 
             nuvol.generarNuvol();
-            comunicacio("Actualitzar");
+            vista.actualitzar();
         }
     }
 }

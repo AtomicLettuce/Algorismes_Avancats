@@ -16,10 +16,12 @@ public class PanellNuvol extends JPanel {
         this.nuvol = nuvol;
     }
 
+    public void setNuvol(Nuvol nuvol) {
+        this.nuvol = nuvol;
+    }
 
     @Override
     public void paintComponent(Graphics g) {
-
         Graphics2D g2= (Graphics2D)g;
         g2.setStroke(new BasicStroke(2));
 
@@ -80,12 +82,10 @@ public class PanellNuvol extends JPanel {
         switch (nuvol.getDistribucio()){
             case 0:
                 if(nuvol.getParells()==null){
-                    System.out.println("parells null");
                     return;
                 }
                 for (int i = 0; i <nuvol.getParells().length ; i++) {
                     if(nuvol.getParells()[i]==null){
-                        System.out.println("parells[i] null" );
                         return;
                     }
                     // Cordenada del punt
