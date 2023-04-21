@@ -2,6 +2,7 @@ package P3.Vista;
 
 import P3.Main;
 import P3.Model.Nuvol;
+import P3.Model.Parells;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,6 +88,18 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
 
     public void controladorAcaba(){
         reset.setVisible(true);
+
+        String msg="";
+        Parells[] parells = nuvol.getParells();
+        for (int i = 0; i < parells.length; i++) {
+            if(parells[i] != null){
+                msg+="Parella "+(i+1)+": " +parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString()+"\n";
+                msg+="Estan a una distància: "+parells[i].getDistancia()+"\n\n";
+            }
+        }
+
+
+        JOptionPane.showMessageDialog(this,msg,"Resultats Obtinguts",JOptionPane.INFORMATION_MESSAGE);
     }
 
 

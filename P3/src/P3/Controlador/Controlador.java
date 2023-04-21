@@ -38,7 +38,6 @@ public class Controlador extends Thread{
         }
 
         Parells [] parells = nuvol.getParells();
-        System.out.println(parells[0].getPunt1());
         for (int i = 0; i < 3; i++) {
             if(parells[i] != null){
                 System.out.println("Parella "+i+" :" +parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
