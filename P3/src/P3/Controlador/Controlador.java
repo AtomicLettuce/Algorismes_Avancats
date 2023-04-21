@@ -7,12 +7,32 @@ import P3.Model.Punt;
 
 import static java.lang.Math.sqrt;
 
-public class Controlador {
+public class Controlador extends Thread{
     private Main main;
     private Nuvol nuvol;
+    private int algorisme;
+
     public Controlador(Main main, Nuvol nuvol){
         this.main = main;
         this.nuvol = nuvol;
+        algorisme=0;
+    }
+
+    public void setAlgorisme(int algorisme) {
+        this.algorisme = algorisme;
+    }
+    public void run(){
+        switch (algorisme){
+            // Cas en el que s'ha sel·leccionat algorisme n^2
+            case 0:
+                n2(nuvol);
+                break;
+            // Cas en el que s'ha sel·leccionat algorisme nlog n
+            case 1:
+                n(nuvol);
+                break;
+        }
+        System.out.println("Controlador acaba");
     }
 
     public Parells[] n2(Nuvol nuvol) {
@@ -49,6 +69,7 @@ public class Controlador {
 
 
         }
+        main.comunicacio("Actualitzar");
     return parells;
     }
 
@@ -58,6 +79,8 @@ public class Controlador {
 
         //una vegada el tenim ordenat tornam a fer "el mateix algorisme"
         //pero ara ens fixam en juntar per dimensió
+
+        main.comunicacio("Actualitzar");
         return mergeSortDistancia(nuvol);
 
     }

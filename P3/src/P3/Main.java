@@ -11,39 +11,36 @@ import P3.Vista.Vista;
 
 
 public class Main implements InterficieComunicacio {
-    private Nuvol model;
     private Vista vista;
+    private Nuvol nuvol;
+    Controlador controlador;
     public static boolean CONTINUAR = true;
     public static void main(String[] args) {
         new Main().inici();
     }
 
     public void inici(){
-        Nuvol nuvol = new Nuvol(10000000,10);
-        nuvol.generarNuvol();
-
-        Punt[] aux = nuvol.getNuvol();
-        //vista=new Vista("Mondongo",this,nuvol);
-
+        vista=new Vista("Mondongo",this,nuvol);
+        nuvol = new Nuvol(10000,10);
+        controlador = new Controlador(this, nuvol);
 
         long start1 = System.nanoTime();
 
-        Controlador controlador = new Controlador(this, nuvol);
         //Parells parells[] = controlador.n2(nuvol);
 
 
-        controlador.n(nuvol);
+        /*controlador.n(nuvol);
         Parells parells[] = nuvol.getParells();
+
 
         for (int i = 0; i < 3; i++) {
             if(parells[i] != null){
                 System.out.println(parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
                 System.out.println(parells[i].getDistancia());
             }
-
         }
         long end1 = System.nanoTime();
-        System.out.println("Elapsed Time in nano seconds: "+ (end1-start1));
+        System.out.println("Elapsed Time in nano seconds: "+ (end1-start1));*/
 
 
     }
@@ -82,7 +79,19 @@ public class Main implements InterficieComunicacio {
         // a: algorisme a emprar (n^2, nlogn...)
         // d: distrubució aleatòria (gausiana, equiprobable, chi^2, etc.)
         if (instruccio.startsWith("opcions:")){
-            // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+            String aux=instruccio.split(":")[1];
+            String [] aux2=aux.split(" ");
+            System.out.println(aux2.length);
+
+            // Canviam valor de 'n'
+            nuvol.setDimensio(Integer.parseInt(aux2[1]));
+            // Canviam algorisme sel·leccionat
+            controlador.setAlgorisme(Integer.parseInt(aux2[2]));
+            // Canviam distribucio aleatòria
+            nuvol.setDistribucio(Integer.parseInt(aux2[3]));
+
+            nuvol.generarNuvol();
+            comunicacio("Actualitzar");
         }
     }
 }
