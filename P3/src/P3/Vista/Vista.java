@@ -45,7 +45,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         reset.setActionCommand("reset");
         opcions.setActionCommand("opcions");
 
-        // Zona botonera (manejador d'events)
+        // Zona botonera (manejador d'esdeveniments)
         play.addActionListener(this);
         stop.addActionListener(this);
         reset.addActionListener(this);
@@ -155,7 +155,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         }
 
         // Demana quina distribuicó aleatòria vol emprar
-        String[] distribucions = {"Equiprobable", "Gausiana"};
+        String[] distribucions = {"Equiprobable", "Gaussiana"};
         int d = JOptionPane.showOptionDialog(this, "Quina distribucio vols emprar?", "Elegeix-ne una",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, distribucions, distribucions[1]);
         System.out.println("L'usuari ha agafat la opció " + distribucions[a]);
@@ -171,7 +171,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
 
     }
 
-    // Per rebre notificacio de que s'ha de refrescar la pantalla
+    // Per rebre notificació que s'ha de refrescar la pantalla
     public void actualitzar() {
         mv.notificarActualitzar();
     }
