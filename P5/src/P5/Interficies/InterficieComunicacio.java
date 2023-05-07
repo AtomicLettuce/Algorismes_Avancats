@@ -1,4 +1,4 @@
-package Interficies;
+package P5.Interficies;
 
 // Interface per a que tots incorporin el mètode comunicació.
 public interface InterficieComunicacio {
