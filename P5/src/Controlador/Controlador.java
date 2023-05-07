@@ -14,5 +14,9 @@ public class Controlador extends Thread{
 
     }
 
+    private int distanciaEntreDosIdiomes(String[] idiomes){
+        return 0;
+    }
+
 
 }
