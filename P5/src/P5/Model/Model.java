@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Model {
+    int custom = 0;
     HashMap<String, HashSet> diccionarisCarregats = new HashMap<>();
-    final String[] idiomes = {
+     String[] idiomes = {
             "alemany",
             "angles_EEUU",
             "angles_GB",
@@ -21,7 +22,7 @@ public class Model {
             "italia",
             "portugues"
     };
-
+    private int numCPUs = Runtime.getRuntime().availableProcessors();
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo
         if (diccionarisCarregats.containsKey(diccionariName)){
@@ -48,12 +49,29 @@ public class Model {
 
     }
 
+    public String addDiccionari(HashSet<String> diccionari){
+        diccionarisCarregats.put("custom"+custom, diccionari);
+
+        String[] aux = new String[idiomes.length+1];
+        for (int i = 0; i < idiomes.length; i++) {
+            aux[i] = idiomes[i];
+        }
+        aux[idiomes.length] = "custom"+custom;
+        idiomes = aux;
+        custom++;
+        return "cusotm"+(custom-1);
+    }
+
     public HashSet getDiccionari(String diccionariKey) {
         return diccionarisCarregats.get(diccionariKey);
     }
 
     public int getDiccionariSize(String diccionariKey) {
         return diccionarisCarregats.get(diccionariKey).size();
+    }
+
+    public int getNumCPUs() {
+        return numCPUs;
     }
 
     public ArrayList getIdiomesCompare(String principal){

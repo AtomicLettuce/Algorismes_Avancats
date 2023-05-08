@@ -4,16 +4,13 @@ package P5.Controlador;
 import P5.Main;
 import P5.Model.Model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 public class Controlador extends Thread{
 
     Main main;
     Model model;
 
-    HashSet <String> idiomaPrincipal;
-    HashSet <String> idiomaComparar;
 
     public Controlador(Main main, Model model){
         this.main = main;
@@ -25,13 +22,24 @@ public class Controlador extends Thread{
 
     }
 
-    public double[] distanciaTotsIdiomes(String principal){
+    public String reconeixerIdioma(String text){
+
+        HashSet<String> textReconeixer = new HashSet<>();
+        String[] paraules = text.split(" ");
+
+        for (String paraula : paraules) {
+            textReconeixer.add(paraula);
+        }
+
+        return (String) getMinRes(distanciaTotsIdiomes(model.addDiccionari(textReconeixer))).getKey();
+    }
+    public HashMap <String, Double> distanciaTotsIdiomes(String principal){
        ArrayList<String> idiomes = model.getIdiomesCompare(principal);
 
-        double[] distancies = new double[idiomes.size()];
+        HashMap <String, Double> distancies = new HashMap<>();
 
         for (int i = 0; i < idiomes.size(); i++) {
-            distancies[i] = distanciaEntreDosIdiomes(principal, idiomes.get(i));
+            distancies.put(idiomes.get(i),distanciaEntreDosIdiomes(principal, idiomes.get(i)));
         }
 
         return distancies;
@@ -43,13 +51,14 @@ public class Controlador extends Thread{
         model.carregaDiccionari(altre);
 
         //Obtenim els diccionaris
-        idiomaPrincipal = model.getDiccionari(principal);
-        idiomaComparar = model.getDiccionari(altre);
+        HashSet<String>   idiomaPrincipal = model.getDiccionari(principal);
+       HashSet<String> idiomaComparar = model.getDiccionari(altre);
 
         int idiomaPrincipalSize = model.getDiccionariSize(principal);
         int idiomaComapararSize = model.getDiccionariSize(altre);
 
         //Recorrem totes les paraules de l'idioma a comparar per cada paraula de l'idioma principal
+
 
         int [] distancesPerWord = new int[idiomaComapararSize];
         double distanceP_C = 0; //Distancia del principal al comparar
@@ -60,8 +69,7 @@ public class Controlador extends Thread{
                 distancesPerWord[idx]= distanciadeLevenshtein(i,j);
                 idx++;
             }
-            distanceP_C += getMin(distancesPerWord);
-            System.out.println(distanceP_C);
+            distanceP_C += getMinInt(distancesPerWord);
         }
 
         //Recorrem totes les paraules de l'idioma a principal per cada paraula de l'idioma comparar
@@ -74,8 +82,7 @@ public class Controlador extends Thread{
                 distancesPerWord[idx]= distanciadeLevenshtein(i,j);
                 idx++;
             }
-            distanceC_P += getMin(distancesPerWord);
-            System.out.println(distanceC_P);
+            distanceC_P += getMinInt(distancesPerWord);
         }
 
 
@@ -85,7 +92,7 @@ public class Controlador extends Thread{
         return  Math.sqrt((Math.pow(distanceP_C,2) + Math.pow(distanceC_P,2)));
     }
 
-    public int getMin(int[] numeros) {
+    public int getMinInt(int[] numeros) {
         int minim = numeros[0];
         for (int i = 1; i < numeros.length; i++) {
             if (numeros[i] < minim) {
@@ -94,6 +101,25 @@ public class Controlador extends Thread{
         }
         return minim;
     }
+
+    public Map.Entry getMinRes(HashMap<String,Double> numeros) {
+        double minimValue = Double.POSITIVE_INFINITY;
+        String minimKey = "";
+
+        for (HashMap.Entry<String, Double> entry : numeros.entrySet()) {
+            String clave = entry.getKey();
+            Double valor = entry.getValue();
+            if (minimValue > valor) {
+                minimValue = valor;
+                minimKey = clave;
+            }
+        }
+
+
+
+        return new AbstractMap.SimpleEntry<>(minimKey, minimValue);
+    }
+
 
     public int distanciadeLevenshtein(String word1, String word2) {
         int longitudWord1 = word1.length();
@@ -125,6 +151,24 @@ public class Controlador extends Thread{
             }
         }
         return matriuDistancies[longitudWord1][longitudWord2];
+    }
+
+    private class Comparador implements Runnable{
+        String word1;
+        String word2;
+        int res;
+        public Comparador (String w1, String w2){
+            word1 = w1;
+            word2 = w2;
+        }
+        @Override
+        public void run() {
+          res = distanciadeLevenshtein(word1,word2);
+        }
+
+        public int getRes() {
+            return res;
+        }
     }
 
 }
