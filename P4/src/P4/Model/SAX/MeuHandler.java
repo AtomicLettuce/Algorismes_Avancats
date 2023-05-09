@@ -14,12 +14,13 @@ public class MeuHandler extends DefaultHandler {
     private boolean enGrafo;
     private boolean enNodo;
     private boolean enArista;
+    private boolean enMapa;
     private Graf graf;
     public MeuHandler(Main main, Graf graf) {
         super();
         this.main=main;
         this.graf=graf;
-        enTipo = enGrafo = enNodo = enArista = false;
+        enMapa = enTipo = enGrafo = enNodo = enArista = false;
     }
 
 
@@ -32,6 +33,8 @@ public class MeuHandler extends DefaultHandler {
             enArista = true;
         } else if (qName.equalsIgnoreCase("tipus")) {
             enTipo = true;
+        }else if(qName.equalsIgnoreCase("mapa")){
+            enMapa=true;
         }
     }
 
@@ -45,6 +48,9 @@ public class MeuHandler extends DefaultHandler {
             enArista = false;
         } else if (qName.equalsIgnoreCase("tipus")) {
             enTipo = false;
+        }
+        else if(qName.equalsIgnoreCase("mapa")){
+            enMapa=false;
         }
     }
 
@@ -64,6 +70,9 @@ public class MeuHandler extends DefaultHandler {
             } else if (value.equalsIgnoreCase("nodirigido")) {
                 graf.ponTipo("nodirigido");
             }
+        }
+        else if(enMapa){
+            graf.ponMapa(value);
         }
     }
 

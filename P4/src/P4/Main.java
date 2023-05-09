@@ -1,6 +1,8 @@
 package P4;
 
 import P4.Interficies.InterficieComunicacio;
+import P4.Model.Graf;
+import P4.Model.SAX.MeuSax;
 import P4.Vista.Vista;
 
 public class Main implements InterficieComunicacio {
@@ -12,7 +14,12 @@ public class Main implements InterficieComunicacio {
 
     public void inici() {
         //new Mesurament().mesura();
-        vista = new Vista("mondongo", this);
+        Graf g=new Graf();
+        vista = new Vista("mondongo", this,g);
+        MeuSax sax=new MeuSax("mapes/grafobase.ltim",this,g);
+        sax.llegir();
+        vista.repaint();
+        System.out.println(g.getMapa());
     }
 
     @Override

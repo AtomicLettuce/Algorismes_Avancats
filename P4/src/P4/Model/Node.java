@@ -15,27 +15,27 @@ public class Node {
         salientes = new ArrayList <Aresta> ();
     }
 
-    protected void ponArista(Aresta a) {
+    public void ponArista(Aresta a) {
         salientes.add(a);
     }
 
-    protected String getEtiqueta() {
+    public String getEtiqueta() {
         return etiqueta;
     }
 
-    protected int getX() {
+    public int getX() {
         return X;
     }
 
-    protected int getY() {
+    public int getY() {
         return Y;
     }
 
-    protected int getNAristas() {
+    public int getNAristas() {
         return salientes.size();
     }
 
-    protected Aresta getArista(int i) {
+    public Aresta getArista(int i) {
         return salientes.get(i);
     }
 }
