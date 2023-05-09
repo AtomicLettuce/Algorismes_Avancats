@@ -1,28 +1,28 @@
 package P4.Vista;
 
 import P4.Main;
+import P4.Model.Graf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
-public class Vista extends JFrame implements ActionListener, WindowListener {
+public class Vista extends JFrame implements ActionListener, WindowListener, MouseListener {
     private Main main;
     private JButton play;
     private JButton stop;
     private JButton reset;
     private JButton opcions;
     private MonitorVista mv;
+    private Graf graf;
 private PanellMapa panellMapa;
-    public Vista(String nom, Main main) {
+    public Vista(String nom, Main main, Graf graf) {
         super(nom);
         this.main = main;
+        this.graf=graf;
         addWindowListener(this);
 
-        panellMapa=new PanellMapa(500,500);
+        panellMapa=new PanellMapa(800,800,graf);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.add(panellMapa,BorderLayout.CENTER);
@@ -65,7 +65,7 @@ private PanellMapa panellMapa;
         mv = new MonitorVista();
         Dibuixador dibuxador = new Dibuixador(panellMapa, this, mv);
         dibuxador.start();
-
+        panellMapa.addMouseListener(this);
         this.setResizable(false);
         mostrar();
     }
@@ -149,6 +149,31 @@ private PanellMapa panellMapa;
 
     @Override
     public void windowDeactivated(WindowEvent windowEvent) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        System.out.println(" x: "+mouseEvent.getX()+" y: "+mouseEvent.getY());
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
 
     }
 }
