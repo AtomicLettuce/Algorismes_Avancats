@@ -28,7 +28,6 @@ public class MeuSax {
             SAXParser saxParser = factory.newSAXParser();
             MeuHandler handler = new MeuHandler(main, graf);
             saxParser.parse(xmlInput, handler);
-            System.out.println("pinga");
         } catch (Exception e) {
             System.out.println(e.toString());
         }

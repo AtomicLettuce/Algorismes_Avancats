@@ -45,7 +45,6 @@ public class Graf {
 
     public void ponMapa(String str) {
         try {
-            System.out.println("puttingmapa");
             mapa = ImageIO.read(new File(str));
         } catch (IOException ioe) {
             System.out.println(ioe.toString());
