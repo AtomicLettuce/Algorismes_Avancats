@@ -4,7 +4,7 @@ import P4.Controlador.Controlador;
 
 import java.util.ArrayList;
 
-public class Node {
+public class Node implements Comparable<Node>{
     private String etiqueta;
     private ArrayList<Aresta> salientes;
     private int X;
@@ -18,6 +18,11 @@ public class Node {
         X = x;
         Y = y;
         salientes = new ArrayList <Aresta> ();
+    }
+
+    public Node(String et){
+        this.salientes = new ArrayList<Aresta>();
+        etiqueta = et;
     }
     public String toString(){
         return etiqueta+" X: "+X+" Y: "+Y;
@@ -65,5 +70,16 @@ public class Node {
     }
     public void setAnterior(Node anterior) {
         this.anterior = anterior;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        if(this.getDistancia()> o.getDistancia()){
+            return 1;
+        } else if (this.getDistancia()< o.getDistancia()) {
+            return -1;
+        }else{
+            return 0;
+        }
     }
 }

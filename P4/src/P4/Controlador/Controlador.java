@@ -7,8 +7,7 @@ import java.util.*;
 
 public class Controlador {
 
-    public class Dijkstra {
-        public static void calcularCaminoMasCorto(Node origen, Node destino, Graf graf) {
+        public void calcularCaminoMasCorto(Node origen, Node destino, Graf graf) {
             // Inicializar distancias a infinito y el origen a distancia cero
             PriorityQueue<Node> cola = new PriorityQueue<>();
             for (Node v : graf.getNodes()) {
@@ -45,5 +44,16 @@ public class Controlador {
             }
         }
 
+    public Graf getCamino(Node origen, Node destino, Graf graf) {
+        calcularCaminoMasCorto(origen, destino, graf);
+        Graf camino = new Graf();
+        for (Node v = destino; v != null; v = v.getAnterior()) {
+            camino.addNode(v);
+        }
+
+        camino.reverseNodes();
+        return camino;
     }
+
+
 }

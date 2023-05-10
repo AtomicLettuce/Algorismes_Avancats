@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Graf {
     private ArrayList<Node> nodes;
@@ -93,5 +94,12 @@ public class Graf {
 
     public ArrayList<Aresta> getArestes() {
         return arestes;
+    }
+
+    public void addNode(Node node) {
+        nodes.add(node);
+    }
+    public void reverseNodes(){
+        Collections.reverse(this.nodes);
     }
 }
