@@ -1,85 +1,49 @@
 package P4.Controlador;
+import P4.Model.Aresta;
+import P4.Model.Graf;
+import P4.Model.Node;
+
 import java.util.*;
 
 public class Controlador {
 
-
-    public class DijkstraShortestPath {
-        private final int INF = Integer.MAX_VALUE; // infinity distance
-        private int n; // number of vertices
-        private int[] dist; // shortest distance from source to each vertex
-        private int[] prev; // previous vertex on the shortest path
-        private Map<Integer, List<Edge>> graph; // adjacency list representation of graph
-
-        public DijkstraShortestPath(int n) {
-            this.n = n;
-            dist = new int[n];
-            prev = new int[n];
-            Arrays.fill(dist, INF);
-            Arrays.fill(prev, -1);
-            graph = new HashMap<>();
-            for (int i = 0; i < n; i++) {
-                graph.put(i, new ArrayList<>());
+    public class Dijkstra {
+        public static void calcularCaminoMasCorto(Node origen, Node destino, Graf graf) {
+            // Inicializar distancias a infinito y el origen a distancia cero
+            PriorityQueue<Node> cola = new PriorityQueue<>();
+            for (Node v : graf.getNodes()) {
+                v.setDistancia(Integer.MAX_VALUE);
+                v.setVisitat(false);
+                v.setAnterior(null);
             }
-        }
+            origen.setDistancia(0);
+            cola.add(origen);
 
-        public void addEdge(int u, int v, int w) {
-            graph.get(u).add(new Edge(v, w));
-        }
+            while (!cola.isEmpty()) {
+                // Obtener el vértice con la menor distancia en la cola
+                Node u = cola.poll();
+                u.setVisitat(true);
 
-        public int[] shortestPath(int source, int target) {
-            PriorityQueue<Node> queue = new PriorityQueue<>();
-            Node[] nodes = new Node[n];
-            for (int i = 0; i < n; i++) {
-                nodes[i] = new Node(i, INF);
-            }
-            nodes[source].dist = 0;
-            queue.offer(nodes[source]);
-
-            while (!queue.isEmpty()) {
-                Node u = queue.poll();
-                if (u.index == target) {
+                // Si llegamos al destino, podemos salir del bucle
+                if (u == destino) {
                     break;
                 }
-                for (Edge e : graph.get(u.index)) {
-                    Node v = nodes[e.to];
-                    int newDist = u.dist + e.weight;
-                    if (newDist < v.dist) {
-                        queue.remove(v); // remove old copy of v from the queue
-                        v.dist = newDist;
-                        prev[v.index] = u.index;
-                        queue.offer(v); // insert new copy of v with updated distance
+
+                // Actualizar las distancias de los vértices adyacentes
+                for (Aresta a : u.getSalientes()) {
+                    Node v = a.apunta();
+                    if (!v.isVisitat()) {
+                        int distancia = (int) (u.getDistancia() + a.getValor());
+                        if (distancia < v.getDistancia()) {
+                            cola.remove(v);  // Actualizar la cola para reordenar
+                            v.setDistancia(distancia);
+                            v.setAnterior(u);
+                            cola.add(v);
+                        }
                     }
                 }
             }
-
-            return dist;
         }
 
-        private static class Node implements Comparable<Node> {
-            private int index;
-            private int dist;
-
-            public Node(int index, int dist) {
-                this.index = index;
-                this.dist = dist;
-            }
-
-            @Override
-            public int compareTo(Node other) {
-                return Integer.compare(dist, other.dist);
-            }
-        }
-
-        private static class Edge {
-            private int to;
-            private int weight;
-
-            public Edge(int to, int weight) {
-                this.to = to;
-                this.weight = weight;
-            }
-        }
     }
-
 }
