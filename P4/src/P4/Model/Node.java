@@ -14,7 +14,9 @@ public class Node {
         Y = y;
         salientes = new ArrayList <Aresta> ();
     }
-
+    public String toString(){
+        return etiqueta+" X: "+X+" Y: "+Y;
+    }
     public void ponArista(Aresta a) {
         salientes.add(a);
     }
