@@ -2,6 +2,7 @@ package P3.Vista;
 
 import P3.Main;
 import P3.Model.Nuvol;
+import P3.Model.Parells;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,12 +19,14 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     private JButton reset;
     private JButton opcions;
     private MonitorVista mv;
+    private Nuvol nuvol;
 
     public Vista(String nom, Main main, Nuvol nuvol) {
         super(nom);
         this.main = main;
         addWindowListener(this);
 
+        this.nuvol=nuvol;
         // Panell de dibuixat
         panellNuvol = new PanellNuvol(500, 500, nuvol);
 
@@ -42,7 +45,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         reset.setActionCommand("reset");
         opcions.setActionCommand("opcions");
 
-        // Zona botonera (manejador d'events)
+        // Zona botonera (manejador d'esdeveniments)
         play.addActionListener(this);
         stop.addActionListener(this);
         reset.addActionListener(this);
@@ -62,6 +65,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         botonera.add(stop);
         botonera.add(opcions);
 
+        play.setVisible(false);
         reset.setVisible(false);
 
 
@@ -82,28 +86,50 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         this.repaint();
     }
 
+    public void controladorAcaba(){
+        reset.setVisible(true);
+
+        String msg="";
+        Parells[] parells = nuvol.getParells();
+        for (int i = 0; i < parells.length; i++) {
+            if(parells[i] != null){
+                msg+="Parella "+(i+1)+": " +parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString()+"\n";
+                msg+="Estan a una distància: "+parells[i].getDistancia()+"\n\n";
+            }
+        }
+
+
+        JOptionPane.showMessageDialog(this,msg,"Resultats Obtinguts",JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     // Manejador d'events de la zona botonera
     @Override
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
             case "play":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                play.setVisible(false);
+                main.comunicacio("play");
                 break;
             case "stop":
                 dispose();
                 main.comunicacio("stop");
                 break;
             case "reset":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                reset.setVisible(false);
+                main.comunicacio("reset");
+                opcions.setVisible(true);
                 break;
             case "opcions":
                 // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
                 demana_opcions();
-
-
                 break;
         }
+    }
+
+    public void setNuvol(Nuvol nuvol) {
+        this.nuvol = nuvol;
+        panellNuvol.setNuvol(nuvol);
     }
 
     private void demana_opcions() {
@@ -129,7 +155,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         }
 
         // Demana quina distribuicó aleatòria vol emprar
-        String[] distribucions = {"Equiprobable", "Gausiana"};
+        String[] distribucions = {"Equiprobable", "Gaussiana"};
         int d = JOptionPane.showOptionDialog(this, "Quina distribucio vols emprar?", "Elegeix-ne una",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, distribucions, distribucions[1]);
         System.out.println("L'usuari ha agafat la opció " + distribucions[a]);
@@ -139,11 +165,13 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         }
         //format: opcions: 'n' 'a' 'd'
         main.comunicacio("opcions: " + n + " " + a + " " + d);
+        play.setVisible(true);
+        opcions.setVisible(false);
 
 
     }
 
-    // Per rebre notificacio de que s'ha de refrescar la pantalla
+    // Per rebre notificació que s'ha de refrescar la pantalla
     public void actualitzar() {
         mv.notificarActualitzar();
     }

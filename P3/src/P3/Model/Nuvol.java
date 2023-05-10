@@ -7,10 +7,6 @@ public class Nuvol {
     private Punt [] nuvol;
     private Parells[] parells;
     private final Random rand = new Random();
-
-    //private Parells parells;
-
-
     private int distribucio;
     private int max;
     private int dimensio;
@@ -46,6 +42,11 @@ public class Nuvol {
                 }
                 break;
         }
+    }
+
+    public void setDimensio(int dimensio) {
+        this.dimensio = dimensio;
+        nuvol = new Punt[dimensio];
     }
 
     public void setNuvol(Punt[] nuvol) {

@@ -3,58 +3,35 @@ package P3;
 import P3.Controlador.Controlador;
 import P3.Interficies.InterficieComunicacio;
 import P3.Model.Nuvol;
-import P3.Model.Parells;
-
-import P3.Model.Punt;
-
 import P3.Vista.Vista;
+import mesurament.Mesurament;
 
 
 public class Main implements InterficieComunicacio {
-    private Nuvol model;
     private Vista vista;
+    private Nuvol nuvol;
+    private Controlador controlador;
     public static boolean CONTINUAR = true;
+
     public static void main(String[] args) {
         new Main().inici();
     }
 
-    public void inici(){
-        Nuvol nuvol = new Nuvol(10000000,10);
-        nuvol.generarNuvol();
+    public void inici() {
+        new Mesurament().mesura();
 
-        Punt[] aux = nuvol.getNuvol();
-        //vista=new Vista("Mondongo",this,nuvol);
-
-
-        long start1 = System.nanoTime();
-
-        Controlador controlador = new Controlador(this, nuvol);
-        //Parells parells[] = controlador.n2(nuvol);
-
-
-        controlador.n(nuvol);
-        Parells parells[] = nuvol.getParells();
-
-        for (int i = 0; i < 3; i++) {
-            if(parells[i] != null){
-                System.out.println(parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
-                System.out.println(parells[i].getDistancia());
-            }
-
-        }
-        long end1 = System.nanoTime();
-        System.out.println("Elapsed Time in nano seconds: "+ (end1-start1));
-
-
+        nuvol = new Nuvol(1, 10);
+        vista = new Vista("P3: Dividir i vèncer", this, nuvol);
+        controlador = new Controlador(this, nuvol);
     }
 
     @Override
     public void comunicacio(String instruccio) {
-        switch (instruccio){
+        switch (instruccio) {
             case "stop":
                 System.out.println("Aturant...");
                 // Aturar tots els fils i aturar el programa
-                CONTINUAR=false;
+                CONTINUAR = false;
                 vista.actualitzar();
                 break;
             case "Actualitzar":
@@ -63,14 +40,19 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
-
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
-
+                controlador.start();
                 break;
             case "reset":
                 // Envia l'ordre de reinici
-
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                // Reiniciam model i controlador
+                nuvol = new Nuvol(1, 10);
+                controlador = new Controlador(this, nuvol);
+                // Actualitzam canvis a la vista
+                vista.setNuvol(nuvol);
+                vista.actualitzar();
+                break;
+            case "controladorAcaba":
+                vista.controladorAcaba();
                 break;
         }
 
@@ -81,8 +63,20 @@ public class Main implements InterficieComunicacio {
         // sent n: numero de punts
         // a: algorisme a emprar (n^2, nlogn...)
         // d: distrubució aleatòria (gausiana, equiprobable, chi^2, etc.)
-        if (instruccio.startsWith("opcions:")){
-            // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+        if (instruccio.startsWith("opcions:")) {
+            String aux = instruccio.split(":")[1];
+            String[] aux2 = aux.split(" ");
+            System.out.println(aux2.length);
+
+            // Canviam valor de 'n'
+            nuvol.setDimensio(Integer.parseInt(aux2[1]));
+            // Canviam algorisme sel·leccionat
+            controlador.setAlgorisme(Integer.parseInt(aux2[2]));
+            // Canviam distribucio aleatòria
+            nuvol.setDistribucio(Integer.parseInt(aux2[3]));
+
+            nuvol.generarNuvol();
+            vista.actualitzar();
         }
     }
 }

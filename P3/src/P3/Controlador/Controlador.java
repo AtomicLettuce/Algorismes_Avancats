@@ -7,19 +7,60 @@ import P3.Model.Punt;
 
 import static java.lang.Math.sqrt;
 
-public class Controlador {
+public class Controlador extends Thread{
     private Main main;
     private Nuvol nuvol;
+    private int algorisme;
+
     public Controlador(Main main, Nuvol nuvol){
         this.main = main;
         this.nuvol = nuvol;
+        algorisme=0;
     }
 
-    public Parells[] n2(Nuvol nuvol) {
+    public void setAlgorisme(int algorisme) {
+        this.algorisme = algorisme;
+    }
+    public void run(){
+        long t1 = System.nanoTime();
+
+        System.out.println("Controlodor starts");
+        switch (algorisme){
+            // Cas en el que s'ha sel·leccionat algorisme n^2
+            case 0:
+                n2(nuvol);
+                break;
+
+            // Cas en el que s'ha sel·leccionat algorisme nlog n
+            case 1:
+                n(nuvol);
+                break;
+        }
+
+        Parells [] parells = nuvol.getParells();
+        for (int i = 0; i < 3; i++) {
+            if(parells[i] != null){
+                System.out.println("Parella "+i+" :" +parells[i].getPunt1().toString() + " i " +parells[i].getPunt2().toString());
+                System.out.println("Estan a una distància: "+parells[i].getDistancia());
+            }
+        }
+
+        long t2=System.nanoTime();
+        System.out.println("\u001B[40m"+"\u001B[36m" +"Temps d'execució: "+(t2-t1)+" nanosegons"+ "\u001B[0m");
+
+        System.out.println("Controlador acaba");
+        main.comunicacio("controladorAcaba");
+    }
+
+    public void n2(Nuvol nuvol) {
         Punt[] punts = nuvol.getNuvol();
         Parells[] parells = new Parells[3];
         double distancia;
         for (int i = 0; i < punts.length; i++) {
+            // Controlar aturada del programa
+            if(!Main.CONTINUAR){
+                return;
+            }
             for (int j = 0; j < punts.length; j++) {
                 if(i != j){
                     distancia = sqrt(Math.pow((punts[i].getPunt()[0]- punts[j].getPunt()[0]), 2)+ Math.pow((punts[i].getPunt()[1]- punts[j].getPunt()[1]), 2));
@@ -49,7 +90,9 @@ public class Controlador {
 
 
         }
-    return parells;
+        nuvol.setParells(parells);
+        main.comunicacio("Actualitzar");
+    //return parells;
     }
 
     public Parells[] n(Nuvol n){
@@ -58,11 +101,17 @@ public class Controlador {
 
         //una vegada el tenim ordenat tornam a fer "el mateix algorisme"
         //pero ara ens fixam en juntar per dimensió
+
         return mergeSortDistancia(nuvol);
 
     }
 
     public Parells[] mergeSortDistancia(Nuvol nuvol){
+        // Controlar aturada del programa
+        if(!Main.CONTINUAR){
+            return null;
+        }
+
         Punt[] punts = nuvol.getNuvol();
         Parells[] parells = new Parells[3];
         if(punts.length > 1){
@@ -82,6 +131,7 @@ public class Controlador {
 
             mergeNuvol(auxnuvol1, auxnuvol2, nuvol);
         }
+        main.comunicacio("Actualitzar");
         return parells;
     }
 
@@ -175,14 +225,14 @@ public class Controlador {
             System.arraycopy(punts, 0, auxpunts1, 0, punts.length / 2);
             Nuvol auxnuvol1 = new Nuvol(punts.length/2, nuvol.getMax());
             auxnuvol1.setNuvol(auxpunts1);
-            n(auxnuvol1);
+            mergeSort(auxnuvol1);
 
             //crear un nou nuvol de punts consistent amb la segona meitat de punts del nuvol original
             Punt[] auxpunts2 = new Punt[punts.length- auxpunts1.length];
             System.arraycopy(punts, punts.length / 2, auxpunts2, 0, auxpunts2.length);
             Nuvol auxnuvol2 = new Nuvol(punts.length- auxpunts1.length, nuvol.getMax());
             auxnuvol2.setNuvol(auxpunts2);
-            n(auxnuvol2);
+            mergeSort(auxnuvol2);
 
             merge(auxnuvol1, auxnuvol2, nuvol);
         }
