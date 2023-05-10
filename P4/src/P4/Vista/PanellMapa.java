@@ -41,7 +41,6 @@ public class PanellMapa extends JPanel {
             for (int j = 0; j < nodes.get(i).getNAristas(); j++) {
                 Aresta aresta=nodes.get(i).getArista(j);
                 g2.drawLine(nodes.get(i).getX(),nodes.get(i).getY(),aresta.apunta().getX(),aresta.apunta().getY());
-
             }
 
         }
