@@ -11,10 +11,13 @@ import P4.Vista.Vista;
 public class Main implements InterficieComunicacio {
     private Vista vista;
     private Graf g;
+
+    private Controlador controlador;
     public static boolean CONTINUAR=true;
     public static void main(String[] args) {
         new Main().inici();
     }
+
 
     public void inici() {
         //new Mesurament().mesura();
@@ -57,9 +60,11 @@ public class Main implements InterficieComunicacio {
         graph = controlador.getCamino(nodeA, nodeE, graph);
         */
     }
-
+    Node sortida;
+    Node desti;
     @Override
     public void comunicacio(String instruccio) {
+
         switch (instruccio) {
             case "stop":
                 System.out.println("Aturant...");
@@ -73,7 +78,7 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
-                //controlador.start();
+                controlador.getCamino(sortida,desti,g);
                 break;
             case "reset":
                 // Envia l'ordre de reinici
@@ -83,6 +88,7 @@ public class Main implements InterficieComunicacio {
         // on n és índex de node
         if(instruccio.startsWith("Origen:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
+            sortida = g.getNode(n);
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
 
 
@@ -92,7 +98,7 @@ public class Main implements InterficieComunicacio {
         else if(instruccio.startsWith("Desti:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
-
+            desti = g.getNode(n);
         }
 
     }

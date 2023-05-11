@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Controlador {
 
-        public void calcularCaminoMasCorto(Node origen, Node destino, Graf graf) {
+        private void calcularCaminoMasCorto(Node origen, Node destino, Graf graf) {
             // Inicializar distancias a infinito y el origen a distancia cero
             PriorityQueue<Node> cola = new PriorityQueue<>();
             for (Node v : graf.getNodes()) {
