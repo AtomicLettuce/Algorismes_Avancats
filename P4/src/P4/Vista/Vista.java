@@ -165,7 +165,7 @@ private PanellMapa panellMapa;
     }
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-
+        System.out.println(" x: "+mouseEvent.getX()+" y: "+mouseEvent.getY());
         if(seleccionant_node_inici||seleccionant_node_desti){
             System.out.println(" x: "+mouseEvent.getX()+" y: "+mouseEvent.getY());
             int x=mouseEvent.getX();
