@@ -12,7 +12,7 @@ public class Main implements InterficieComunicacio {
     private Vista vista;
     private Graf g;
 
-    private Controlador controlador;
+    private Controlador controlador = new Controlador();
     public static boolean CONTINUAR=true;
     public static void main(String[] args) {
         new Main().inici();
@@ -99,6 +99,10 @@ public class Main implements InterficieComunicacio {
             int n = Integer.parseInt(instruccio.split(":")[1]);
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
             desti = g.getNode(n);
+            Graf graf = controlador.getCamino(sortida,desti,g);
+            for(int i = 0; i<graf.getNodes().size(); i++){
+                System.out.println(graf.getNode(i).toString());
+            }
         }
 
     }

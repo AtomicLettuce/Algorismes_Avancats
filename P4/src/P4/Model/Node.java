@@ -24,9 +24,7 @@ public class Node implements Comparable<Node>{
         this.salientes = new ArrayList<Aresta>();
         etiqueta = et;
     }
-    public String toString(){
-        return etiqueta+" X: "+X+" Y: "+Y;
-    }
+
     public void ponArista(Aresta a) {
         salientes.add(a);
     }
@@ -81,5 +79,12 @@ public class Node implements Comparable<Node>{
         }else{
             return 0;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "etiqueta='" + etiqueta + '\'' +
+                '}';
     }
 }
