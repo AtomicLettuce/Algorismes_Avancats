@@ -73,15 +73,18 @@ public class PanellMapa extends JPanel {
 
 
         // Dibuixa arestes + costs de les arestes
+
         g2.setColor(Color.RED);
         for (int i = 0; i < nodes.size(); i++) {
             for (int j = 0; j < nodes.get(i).getNAristas(); j++) {
+                g2.setStroke(new BasicStroke(4));
                 Aresta aresta = nodes.get(i).getArista(j);
                 int x1 = nodes.get(i).getX();
                 int x2 = aresta.apunta().getX();
                 int y1 = nodes.get(i).getY();
                 int y2 = aresta.apunta().getY();
                 g2.drawLine(x1, y1, x2, y2);
+                g2.setStroke(new BasicStroke(2));
                 int centerX = (x1 + x2) / 2;
                 int centerY = (y1 + y2) / 2;
                 // draw the box with text at the midpoint of the line

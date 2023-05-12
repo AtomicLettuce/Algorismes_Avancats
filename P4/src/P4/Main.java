@@ -23,7 +23,7 @@ public class Main implements InterficieComunicacio {
         //new Mesurament().mesura();
         g=new Graf();
         vista = new Vista("mondongo", this,g);
-        MeuSax sax=new MeuSax("mapes/grafobase.ltim",this,g);
+        MeuSax sax=new MeuSax("mapes/grafMario.ltim",this,g);
         sax.llegir();
         vista.repaint();
 
