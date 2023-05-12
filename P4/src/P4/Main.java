@@ -80,9 +80,10 @@ public class Main implements InterficieComunicacio {
                 // Envia l'ordre de començar
                 controlador.getCamino(g);
                 System.out.println("");
-                for(int i = 0; i<g.getNodesIntermigs().size(); i++){
-                    System.out.println(g.getNodesIntermigs().get(i).toString());
+                for(int i = 0; i<g.getCami().getNodes().size(); i++){
+                    System.out.println(g.getCami().getNodes().get(i).toString());
                 }
+                vista.actualitzar();
                 break;
             case "reset":
                 // Envia l'ordre de reinici

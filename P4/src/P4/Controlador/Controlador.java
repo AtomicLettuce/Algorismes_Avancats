@@ -66,7 +66,7 @@ public class Controlador {
         }
         camino.reverseNodes();
 
-        graf.setNodesIntermigs(camino.getNodes());
+        graf.setCami(camino);
         return camino;
     }
 

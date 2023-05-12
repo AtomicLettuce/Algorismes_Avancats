@@ -18,6 +18,7 @@ public class Graf {
 
     private Node intermig;
     private ArrayList<Node> nodesIntermigs;
+
     private Graf cami;
     private boolean es_dirigit;
 
@@ -164,4 +165,11 @@ public class Graf {
         this.nodesIntermigs = nodesIntermigs;
     }
 
+    public void setCami(Graf cami) {
+        this.cami = cami;
+    }
+
+    public Graf getCami() {
+        return cami;
+    }
 }
