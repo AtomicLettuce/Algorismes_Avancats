@@ -15,6 +15,7 @@ public class Graf {
 
     private Node inici;
     private Node desti;
+    private ArrayList<Node> nodesIntermigs;
     private Graf cami;
     private boolean es_dirigit;
 
@@ -22,7 +23,20 @@ public class Graf {
     public Graf(){
             nodes = new ArrayList<>();
             arestes = new ArrayList<>();
+            nodesIntermigs=new ArrayList<>();
             tipo = "nodirigido";
+    }
+
+    public void addNodeIntermig(Node i){
+        nodesIntermigs.add(i);
+    }
+
+    public int getIntermigsSize(){
+        return nodesIntermigs.size();
+    }
+
+    public Node getIntermig(int i){
+        return nodesIntermigs.get(i);
     }
 
     public void setInici(Node inici) {
