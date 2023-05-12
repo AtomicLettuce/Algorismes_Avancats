@@ -13,11 +13,39 @@ public class Graf {
     private String tipo = "";
     private BufferedImage mapa;
 
+    private Node inici;
+    private Node desti;
+    private Graf cami;
+    private boolean es_dirigit;
+
 
     public Graf(){
             nodes = new ArrayList<>();
             arestes = new ArrayList<>();
             tipo = "nodirigido";
+    }
+
+    public void setInici(Node inici) {
+        this.inici = inici;
+    }
+
+    public void setDesti(Node desti) {
+        this.desti = desti;
+    }
+
+    public Node getInici() {
+        return inici;
+    }
+
+    public Node getDesti() {
+        return desti;
+    }
+
+    public boolean isEs_dirigit() {
+        return es_dirigit;
+    }
+    public void setEs_dirigit(boolean es_dirigit){
+        this.es_dirigit=es_dirigit;
     }
 
     public BufferedImage getMapa() {
