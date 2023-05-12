@@ -48,8 +48,9 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
-                controlador.getCamino(g);
-                for (int i = 0; i < g.getCami().getNodes().size(); i++) {
+
+                controlador.getCami(g);
+                for(int i = 0; i<g.getCami().getNodes().size(); i++){
                     System.out.println(g.getCami().getNodes().get(i).toString());
                 }
                 vista.actualitzar();
