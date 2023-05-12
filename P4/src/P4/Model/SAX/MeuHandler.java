@@ -64,11 +64,15 @@ public class MeuHandler extends DefaultHandler {
         } else if (enArista) {
             s = value.split(":");
             graf.ponArista(s[0], s[1], Double.parseDouble(s[2]));
+            if(!graf.isEs_dirigit()){
+                graf.ponArista(s[1],s[0],Double.parseDouble(s[2]));
+            }
+
         } else if (enTipo) {
             if (value.equalsIgnoreCase("dirigido")) {
-                graf.ponTipo("dirigido");
+                graf.setEs_dirigit(true);
             } else if (value.equalsIgnoreCase("nodirigido")) {
-                graf.ponTipo("nodirigido");
+                graf.setEs_dirigit(false);
             }
         }
         else if(enMapa){

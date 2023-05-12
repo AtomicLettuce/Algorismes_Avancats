@@ -20,6 +20,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     private Graf graf;
     private boolean seleccionant_node_inici;
     private boolean seleccionant_node_desti;
+    private boolean seleccionant_node_intermig;
 private PanellMapa panellMapa;
     public Vista(String nom, Main main, Graf graf) {
         super(nom);
@@ -63,8 +64,8 @@ private PanellMapa panellMapa;
         botonera.add(stop);
         botonera.add(opcions);
 
-        play.setVisible(false);
-        reset.setVisible(false);
+        //play.setVisible(false);
+        //reset.setVisible(false);
 
         this.add(botonera, BorderLayout.NORTH);
         mv = new MonitorVista();
@@ -112,9 +113,10 @@ private PanellMapa panellMapa;
     private void demana_opcions() {
         seleccionant_node_inici =false;
         seleccionant_node_desti =false;
+        seleccionant_node_intermig=false;
 
         // Create the JOptionPane
-        Object[] options = {"Sel·leccionar fitxer", "Sel·leccionar node inici", "Sel·leccionar node final","OK"};
+        Object[] options = {"Sel·leccionar fitxer", "Sel·leccionar node inici", "Sel·leccionar node final", "Sel·leccionar node intermig","OK"};
         JCheckBox checkBox = new JCheckBox("Pintar mapa?",panellMapa.isDibuixa_mapa());
 
         Object[] message = {"Què vols fer?", checkBox};
@@ -122,7 +124,7 @@ private PanellMapa panellMapa;
 
         // Update the boolean variable if the checkbox is checked
         panellMapa.setDibuixa_mapa(checkBox.isSelected());
-        if(option<0||option==3){
+        if(option<0||option==4){
             System.out.println("Dibuixa mapa: " + checkBox.isSelected());
         }else{
             // Print the selected option and the checkbox state
@@ -146,6 +148,9 @@ private PanellMapa panellMapa;
                 case 2:
                     seleccionant_node_desti =true;
                     break;
+                case 3:
+                    seleccionant_node_intermig=true;
+                    break;
 
             }
         }
@@ -166,7 +171,8 @@ private PanellMapa panellMapa;
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         System.out.println(" x: "+mouseEvent.getX()+" y: "+mouseEvent.getY());
-        if(seleccionant_node_inici||seleccionant_node_desti){
+        System.out.println(""+seleccionant_node_inici+seleccionant_node_desti+seleccionant_node_intermig);
+        if(seleccionant_node_inici||seleccionant_node_desti||seleccionant_node_intermig){
             System.out.println(" x: "+mouseEvent.getX()+" y: "+mouseEvent.getY());
             int x=mouseEvent.getX();
             int y=mouseEvent.getY();
@@ -186,12 +192,16 @@ private PanellMapa panellMapa;
             }
             if(seleccionant_node_desti){
                 main.comunicacio("Desti:"+elegit_index);
-            }else{
+            }else if(seleccionant_node_inici){
                 main.comunicacio("Origen:"+elegit_index);
+            }else{
+                main.comunicacio("Intermig:"+elegit_index);
+                System.out.println("pingala");
             }
 
             seleccionant_node_inici=false;
             seleccionant_node_desti=false;
+            seleccionant_node_intermig=false;
             System.out.println(elegit);
         }
     }

@@ -88,21 +88,27 @@ public class Main implements InterficieComunicacio {
         // on n és índex de node
         if(instruccio.startsWith("Origen:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
+            g.setInici(g.getNode(n));
+            vista.actualitzar();
             sortida = g.getNode(n);
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
-
-
         }
         // Format Desti:'n'
         // on n és índex de node
         else if(instruccio.startsWith("Desti:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+            g.setDesti(g.getNode(n));
+            vista.actualitzar();
             desti = g.getNode(n);
             Graf graf = controlador.getCamino(sortida,desti,g);
             for(int i = 0; i<graf.getNodes().size(); i++){
                 System.out.println(graf.getNode(i).toString());
             }
+        }  else if(instruccio.startsWith("Intermig:")){
+            int n = Integer.parseInt(instruccio.split(":")[1]);
+            // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+
         }
 
     }
