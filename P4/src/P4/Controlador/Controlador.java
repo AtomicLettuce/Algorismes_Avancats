@@ -17,9 +17,14 @@ public class Controlador extends Thread {
     }
 
     public void run() {
+        long t1=System.nanoTime();
         getCami(graf);
+        long t2 =System.nanoTime();
+        System.out.println("Temps d'execució: "+ (t2-t1)+" nanosegons.");
+
+
         System.out.println("******************SOLUCIÓ******************");
-        for(int i = 0; i<graf.getCami().getNodes().size(); i++){
+        for (int i = 0; i < graf.getCami().getNodes().size(); i++) {
             System.out.println(graf.getCami().getNodes().get(i).toString());
         }
     }
@@ -99,7 +104,6 @@ public class Controlador extends Thread {
             } else {
                 camino.addNode(v);
             }
-
         }
         //per acabar invertim el cami ja que el tenim en l'ordre invers del que
         //ens interesa
@@ -109,6 +113,4 @@ public class Controlador extends Thread {
         main.comunicacio("controlador_acabat");
         main.comunicacio("Actualitzar");
     }
-
-
 }
