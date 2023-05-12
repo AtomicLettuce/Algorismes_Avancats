@@ -60,14 +60,13 @@ public class MeuHandler extends DefaultHandler {
         String value = new String(ch, start, length).trim();
         if (enNodo) {
             s = value.split(":");
-            graf.ponNodo(s[0], Integer.parseInt(s[1]), Integer.parseInt(s[2]));
+            graf.insertaNode(s[0], Integer.parseInt(s[1]), Integer.parseInt(s[2]));
         } else if (enArista) {
             s = value.split(":");
-            graf.ponArista(s[0], s[1], Double.parseDouble(s[2]));
+            graf.insertaAresta(s[0], s[1], Double.parseDouble(s[2]));
             if(!graf.isEs_dirigit()){
-                graf.ponArista(s[1],s[0],Double.parseDouble(s[2]));
+                graf.insertaAresta(s[1],s[0],Double.parseDouble(s[2]));
             }
-
         } else if (enTipo) {
             if (value.equalsIgnoreCase("dirigido")) {
                 graf.setEs_dirigit(true);
@@ -76,7 +75,7 @@ public class MeuHandler extends DefaultHandler {
             }
         }
         else if(enMapa){
-            graf.ponMapa(value);
+            graf.defineixMapa(value);
         }
     }
 

@@ -49,7 +49,7 @@ public class Controlador extends Thread {
             }
 
             // Actualizar las distancias de los vértices adyacentes
-            for (Aresta a : u.getSalientes()) {
+            for (Aresta a : u.getSortints()) {
                 Node v = a.apunta();
                 if (!v.isVisitat()) {
                     int distancia = (int) (u.getDistancia() + a.getValor());
