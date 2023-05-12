@@ -15,6 +15,8 @@ public class Graf {
 
     private Node inici;
     private Node desti;
+
+    private Node intermig;
     private ArrayList<Node> nodesIntermigs;
     private Graf cami;
     private boolean es_dirigit;
@@ -46,6 +48,8 @@ public class Graf {
     public void setDesti(Node desti) {
         this.desti = desti;
     }
+
+
 
     public Node getInici() {
         return inici;
@@ -144,4 +148,20 @@ public class Graf {
     public void reverseNodes(){
         Collections.reverse(this.nodes);
     }
+
+    public Node getIntermig() {
+        return intermig;
+    }
+    public void setIntermig(Node intermig) {
+        this.intermig = intermig;
+    }
+
+    public ArrayList<Node> getNodesIntermigs() {
+        return nodesIntermigs;
+    }
+
+    public void setNodesIntermigs(ArrayList<Node> nodesIntermigs) {
+        this.nodesIntermigs = nodesIntermigs;
+    }
+
 }

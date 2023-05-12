@@ -44,14 +44,29 @@ public class Controlador {
             }
         }
 
-    public Graf getCamino(Node origen, Node destino, Graf graf) {
-        calcularCaminoMasCorto(origen, destino, graf);
+    public Graf getCamino(Graf graf) {
+        Node inici = graf.getInici();
+        Node intermig = graf.getIntermig();
+        Node desti = graf.getDesti();
+        calcularCaminoMasCorto(intermig, desti, graf);
         Graf camino = new Graf();
-        for (Node v = destino; v != null; v = v.getAnterior()) {
+        for (Node v = desti; v != null; v = v.getAnterior()) {
             camino.addNode(v);
         }
 
+        calcularCaminoMasCorto(inici, intermig, graf);
+        boolean inter = true;
+        for (Node v = intermig; v != null; v = v.getAnterior()) {
+            if(inter){
+                inter = false;
+            }else{
+                camino.addNode(v);
+            }
+
+        }
         camino.reverseNodes();
+
+        graf.setNodesIntermigs(camino.getNodes());
         return camino;
     }
 

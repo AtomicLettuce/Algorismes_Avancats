@@ -78,7 +78,11 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
-                controlador.getCamino(sortida,desti,g);
+                controlador.getCamino(g);
+                System.out.println("");
+                for(int i = 0; i<g.getNodesIntermigs().size(); i++){
+                    System.out.println(g.getNodesIntermigs().get(i).toString());
+                }
                 break;
             case "reset":
                 // Envia l'ordre de reinici
@@ -90,7 +94,7 @@ public class Main implements InterficieComunicacio {
             int n = Integer.parseInt(instruccio.split(":")[1]);
             g.setInici(g.getNode(n));
             vista.actualitzar();
-            sortida = g.getNode(n);
+
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
         }
         // Format Desti:'n'
@@ -100,15 +104,15 @@ public class Main implements InterficieComunicacio {
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
             g.setDesti(g.getNode(n));
             vista.actualitzar();
-            desti = g.getNode(n);
-            Graf graf = controlador.getCamino(sortida,desti,g);
+            /*Graf graf = controlador.getCamino(g);
             for(int i = 0; i<graf.getNodes().size(); i++){
                 System.out.println(graf.getNode(i).toString());
-            }
+            }*/
         }  else if(instruccio.startsWith("Intermig:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
             Node node=g.getNode(n);
             g.addNodeIntermig(node);
+            g.setIntermig(g.getNode(n));
             vista.actualitzar();
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
 
