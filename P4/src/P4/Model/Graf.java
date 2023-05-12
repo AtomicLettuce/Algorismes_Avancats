@@ -15,7 +15,6 @@ public class Graf {
     private Node inici;
     private Node desti;
 
-    private Node intermig;
     private ArrayList<Node> nodesIntermigs;
 
     private Graf cami;
@@ -48,8 +47,6 @@ public class Graf {
         this.desti = desti;
     }
 
-
-
     public Node getInici() {
         return inici;
     }
@@ -69,15 +66,15 @@ public class Graf {
         return mapa;
     }
 
-    public void ponNodo(String e, int x, int y) {
-        if (!existe(e)) {
+    public void insertaNode(String e, int x, int y) {
+        if (!existeixNode(e)) {
             nodes.add(new Node(e, x, y));
         } else {
             System.out.println("Etiqueta ja existent. " + e);
         }
     }
 
-    private boolean existe(String e) {
+    private boolean existeixNode(String e) {
         boolean res = false;
         int i = 0;
         while ((!res) && (i < nodes.size())) {
@@ -89,7 +86,7 @@ public class Graf {
         return res;
     }
 
-    public void ponMapa(String str) {
+    public void defineixMapa(String str) {
         try {
             mapa = ImageIO.read(new File(str));
         } catch (IOException ioe) {
@@ -97,13 +94,10 @@ public class Graf {
         }
     }
 
-    public void ponArista(String eti, String etf, double v) {
-        Aresta ar = new Aresta(getNode(etf), v);
-        getNode(eti).ponArista(ar);
+    public void insertaAresta(String inicial, String seguent, double cost) {
+        Aresta ar = new Aresta(getNode(seguent), cost);
+        getNode(inicial).insertaAresta(ar);
     }
-
-
-
     private Node getNode(String e) {
         boolean res = false;
         Node n = null;
@@ -135,29 +129,19 @@ public class Graf {
         return nodes;
     }
 
-    public ArrayList<Aresta> getArestes() {
-        return arestes;
-    }
-
     public void addNode(Node node) {
         nodes.add(node);
     }
     public void reverseNodes(){
         Collections.reverse(this.nodes);
     }
-
     public ArrayList<Node> getNodesIntermigs() {
         return nodesIntermigs;
-    }
-
-    public void setNodesIntermigs(ArrayList<Node> nodesIntermigs) {
-        this.nodesIntermigs = nodesIntermigs;
     }
 
     public void setCami(Graf cami) {
         this.cami = cami;
     }
-
     public Graf getCami() {
         return cami;
     }

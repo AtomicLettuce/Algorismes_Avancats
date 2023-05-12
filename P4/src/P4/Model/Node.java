@@ -1,12 +1,10 @@
 package P4.Model;
 
-import P4.Controlador.Controlador;
-
 import java.util.ArrayList;
 
 public class Node implements Comparable<Node>{
     private String etiqueta;
-    private ArrayList<Aresta> salientes;
+    private ArrayList<Aresta> sortints;
     private int X;
     private int Y;
     private boolean visitat;
@@ -17,16 +15,16 @@ public class Node implements Comparable<Node>{
         etiqueta = et;
         X = x;
         Y = y;
-        salientes = new ArrayList <Aresta> ();
+        sortints = new ArrayList <Aresta> ();
     }
 
     public Node(String et){
-        this.salientes = new ArrayList<Aresta>();
+        this.sortints = new ArrayList<Aresta>();
         etiqueta = et;
     }
 
-    public void ponArista(Aresta a) {
-        salientes.add(a);
+    public void insertaAresta(Aresta a) {
+        sortints.add(a);
     }
 
     public String getEtiqueta() {
@@ -41,16 +39,16 @@ public class Node implements Comparable<Node>{
         return Y;
     }
 
-    public int getNAristas() {
-        return salientes.size();
+    public int getNArestes() {
+        return sortints.size();
     }
 
-    public ArrayList<Aresta> getSalientes() {
-        return salientes;
+    public ArrayList<Aresta> getSortints() {
+        return sortints;
     }
 
     public Aresta getArista(int i) {
-        return salientes.get(i);
+        return sortints.get(i);
     }
 
     public int getDistancia(){return this.distancia;}

@@ -8,10 +8,7 @@ import P4.Model.Node;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PanellMapa extends JPanel {
@@ -86,7 +83,7 @@ public class PanellMapa extends JPanel {
 
         g2.setColor(Color.RED);
         for (int i = 0; i < nodes.size(); i++) {
-            for (int j = 0; j < nodes.get(i).getNAristas(); j++) {
+            for (int j = 0; j < nodes.get(i).getNArestes(); j++) {
                 g2.setStroke(new BasicStroke(4));
                 Aresta aresta = nodes.get(i).getArista(j);
                 int x1 = nodes.get(i).getX();
