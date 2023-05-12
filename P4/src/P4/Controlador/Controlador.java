@@ -1,53 +1,73 @@
 package P4.Controlador;
+
+import P4.Main;
 import P4.Model.Aresta;
 import P4.Model.Graf;
 import P4.Model.Node;
 
 import java.util.*;
 
-public class Controlador {
+public class Controlador extends Thread {
+    private Main main;
+    private Graf graf;
 
-        private void calcularCamiMesCurt(Node origen, Node destino, Graf graf) {
-            // Inicializar distancias a infinito y el origen a distancia cero
-            PriorityQueue<Node> coa = new PriorityQueue<>();
-            for (Node v : graf.getNodes()) {
-                v.setDistancia(Integer.MAX_VALUE);
-                v.setVisitat(false);
-                v.setAnterior(null);
+    public Controlador(Main main, Graf graf) {
+        this.main = main;
+        this.graf = graf;
+    }
+
+    public void run() {
+        getCami(graf);
+        System.out.println("******************SOLUCIÓ******************");
+        for(int i = 0; i<graf.getCami().getNodes().size(); i++){
+            System.out.println(graf.getCami().getNodes().get(i).toString());
+        }
+    }
+
+    private void calcularCamiMesCurt(Node origen, Node destino, Graf graf) {
+        // Inicializar distancias a infinito y el origen a distancia cero
+        PriorityQueue<Node> coa = new PriorityQueue<>();
+        for (Node v : graf.getNodes()) {
+            v.setDistancia(Integer.MAX_VALUE);
+            v.setVisitat(false);
+            v.setAnterior(null);
+        }
+        origen.setDistancia(0);
+        coa.add(origen);
+
+        while (!coa.isEmpty()) {
+            if (!Main.CONTINUAR) {
+                return;
             }
-            origen.setDistancia(0);
-            coa.add(origen);
+            // Obtener el vértice con la menor distancia en la cola
+            Node u = coa.poll();
+            u.setVisitat(true);
 
-            while (!coa.isEmpty()) {
-                // Obtener el vértice con la menor distancia en la cola
-                Node u = coa.poll();
-                u.setVisitat(true);
+            // Si llegamos al destino, podemos salir del bucle
+            if (u == destino) {
+                break;
+            }
 
-                // Si llegamos al destino, podemos salir del bucle
-                if (u == destino) {
-                    break;
-                }
-
-                // Actualizar las distancias de los vértices adyacentes
-                for (Aresta a : u.getSalientes()) {
-                    Node v = a.apunta();
-                    if (!v.isVisitat()) {
-                        int distancia = (int) (u.getDistancia() + a.getValor());
-                        if (distancia < v.getDistancia()) {
-                            coa.remove(v);  // Actualizar la cola para reordenar
-                            v.setDistancia(distancia);
-                            v.setAnterior(u);
-                            coa.add(v);
-                        }
+            // Actualizar las distancias de los vértices adyacentes
+            for (Aresta a : u.getSalientes()) {
+                Node v = a.apunta();
+                if (!v.isVisitat()) {
+                    int distancia = (int) (u.getDistancia() + a.getValor());
+                    if (distancia < v.getDistancia()) {
+                        coa.remove(v);  // Actualizar la cola para reordenar
+                        v.setDistancia(distancia);
+                        v.setAnterior(u);
+                        coa.add(v);
                     }
                 }
             }
         }
+    }
 
     public void getCami(Graf graf) {
         Node inici = graf.getInici();
         Node desti = graf.getDesti();
-        calcularCamiMesCurt(graf.getIntermig(graf.getIntermigsSize()-1), desti, graf);
+        calcularCamiMesCurt(graf.getIntermig(graf.getIntermigsSize() - 1), desti, graf);
         Graf camino = new Graf();
 
         for (Node v = desti; v != null; v = v.getAnterior()) {
@@ -55,12 +75,12 @@ public class Controlador {
         }
         boolean inter = true;
 
-        for(int i = graf.getIntermigsSize()-1; i>=1; i--){
-            calcularCamiMesCurt(graf.getNodesIntermigs().get(i-1), graf.getNodesIntermigs().get(i), graf);
+        for (int i = graf.getIntermigsSize() - 1; i >= 1; i--) {
+            calcularCamiMesCurt(graf.getNodesIntermigs().get(i - 1), graf.getNodesIntermigs().get(i), graf);
             for (Node v = graf.getNodesIntermigs().get(i); v != null; v = v.getAnterior()) {
-                if(inter){
+                if (inter) {
                     inter = false;
-                }else{
+                } else {
                     camino.addNode(v);
                 }
             }
@@ -69,9 +89,9 @@ public class Controlador {
 
         calcularCamiMesCurt(inici, graf.getNodesIntermigs().get(0), graf);
         for (Node v = graf.getNodesIntermigs().get(0); v != null; v = v.getAnterior()) {
-            if(inter){
+            if (inter) {
                 inter = false;
-            }else{
+            } else {
                 camino.addNode(v);
             }
 
@@ -79,6 +99,8 @@ public class Controlador {
         camino.reverseNodes();
 
         graf.setCami(camino);
+        main.comunicacio("controlador_acabat");
+        main.comunicacio("Actualitzar");
     }
 
 

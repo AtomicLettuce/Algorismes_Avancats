@@ -12,7 +12,7 @@ public class Main implements InterficieComunicacio {
     private Vista vista;
     private Graf g;
     private MeuSax sax;
-    private Controlador controlador = new Controlador();
+    private Controlador controlador;
     public static boolean CONTINUAR = true;
     public static boolean CONTROLADOR_ACABAT = false;
 
@@ -25,10 +25,7 @@ public class Main implements InterficieComunicacio {
         //new Mesurament().mesura();
         g = new Graf();
         vista = new Vista("mondongo", this, g);
-        sax = new MeuSax("C:/Users/Xavier/Desktop/UIBB/AA/Algorismes_Avancats/P4/mapes/grafobase.ltim", this, g);
-
-        //mapes/grafMario.ltim
-        sax.llegir();
+        controlador = new Controlador(this,g);
         vista.repaint();
     }
 
@@ -48,20 +45,18 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
-
-                controlador.getCami(g);
-                for(int i = 0; i<g.getCami().getNodes().size(); i++){
-                    System.out.println(g.getCami().getNodes().get(i).toString());
-                }
+                controlador.start();
                 vista.actualitzar();
                 break;
             // Envia l'ordre de reinici
             case "reset":
                 CONTROLADOR_ACABAT=false;
                 g = null;
+                controlador=null;
                 vista.setGraf(g);
+                vista.actualitzar();
                 break;
-            case "controlador acabat":
+            case "controlador_acabat":
                 CONTROLADOR_ACABAT=true;
                 break;
         }
@@ -99,11 +94,11 @@ public class Main implements InterficieComunicacio {
             String tokens[] = instruccio.split(":");
             String src = tokens[1] + ":" + tokens[2];
             src.replace("\\", "/");
-            System.out.println("SRC:" + src);
             sax = new MeuSax(src, this, g);
             sax.llegir();
             vista.setGraf(g);
             vista.actualitzar();
+            controlador=new Controlador(this,g);
         }
 
     }

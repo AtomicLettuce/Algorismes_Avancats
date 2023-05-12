@@ -90,7 +90,6 @@ private PanellMapa panellMapa;
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
             case "play":
-                play.setVisible(false);
                 main.comunicacio("play");
                 break;
             case "stop":
@@ -98,9 +97,7 @@ private PanellMapa panellMapa;
                 main.comunicacio("stop");
                 break;
             case "reset":
-                reset.setVisible(false);
                 main.comunicacio("reset");
-                opcions.setVisible(true);
                 break;
             case "opcions":
                 // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
@@ -144,17 +141,16 @@ private PanellMapa panellMapa;
                     // If the user selects a file, print its name
                     if (result == JFileChooser.APPROVE_OPTION) {
                         File selectedFile = fileChooser.getSelectedFile();
-                        System.out.println("Selected file: " + selectedFile.getPath());
                         main.comunicacio("Graf:"+selectedFile.getPath());
                     }
                     break;
                 case 1:
                     seleccionant_node_inici =true;
                     break;
-                case 2:
+                case 3:
                     seleccionant_node_desti =true;
                     break;
-                case 3:
+                case 2:
                     seleccionant_node_intermig=true;
                     break;
 

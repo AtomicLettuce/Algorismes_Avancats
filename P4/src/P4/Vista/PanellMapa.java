@@ -46,12 +46,14 @@ public class PanellMapa extends JPanel {
 
         g2.setColor(Color.WHITE);
         g2.fillRect(0, 0, getHeight(), getWidth());
+        if(graf==null){
+            return;
+        }
 
         // Dibuixam mapa
         if (dibuixa_mapa) {
             g2.drawImage(graf.getMapa(), 0, 0, getWidth(), getHeight(), null);
         }
-
         // Dibuixam nodes
         g2.setColor(Color.BLACK);
         ArrayList<Node> nodes = graf.getNodes();
@@ -118,12 +120,26 @@ public class PanellMapa extends JPanel {
         // Dibuixa camí
         if(Main.CONTROLADOR_ACABAT){
             ArrayList<Node> cami= graf.getCami().getNodes();
+            // Dibuixa arestes
+            g2.setStroke(new BasicStroke(4));
+            g2.setColor(Color.PINK);
+            for (int i = 0; i < cami.size()-1; i++) {
+                // Indicam arestes emprades
+                Node node =cami.get(i);
+                int x1 = node.getX();
+                int y1 = node.getY();
+                Node node2 = cami.get(i+1);
+                int x2 = node2.getX();
+                int y2 = node2.getY();
+                g2.drawLine(x1, y1, x2, y2);
+            }
+            g2.setStroke(new BasicStroke(1));
             for (int i = 0; i < cami.size(); i++) {
                 // Indicam ordre de nodes a visitar
                 Node node =cami.get(i);
                 int x1 = node.getX();
                 int y1 = node.getY();
-                g2.setFont(new Font("Arial", Font.BOLD, 9));
+                g2.setFont(new Font("Arial", Font.PLAIN, 12));
                 int textWidth = g2.getFontMetrics().stringWidth(""+i);
                 int textHeight = g2.getFontMetrics().getHeight();
                 int boxWidth = textWidth + 10;
@@ -138,17 +154,6 @@ public class PanellMapa extends JPanel {
                 int textX = x1 - textWidth / 2;
                 int textY = y1 + textHeight / 2;
                 g2.drawString(""+i, textX, textY);
-            }
-            g2.setStroke(new BasicStroke(4));
-            for (int i = 0; i < cami.size()-1; i++) {
-                // Indicam arestes emprades
-                Node node =cami.get(i);
-                int x1 = node.getX();
-                int y1 = node.getY();
-                Node node2 = cami.get(i+1);
-                int x2 = node.getX();
-                int y2 = node.getY();
-                g2.drawLine(x1, y1, x2, y2);
             }
         }
 
