@@ -7,15 +7,13 @@ public class Node implements Comparable<Node>{
     private ArrayList<Aresta> sortints;
     private int X;
     private int Y;
-    private boolean visitat;
-    private int distancia;
-    private Node anterior;
+
 
     public Node(String et, int x, int y) {
         etiqueta = et;
         X = x;
         Y = y;
-        sortints = new ArrayList <Aresta> ();
+        sortints = new ArrayList<>();
     }
 
     public Node(String et){
@@ -61,13 +59,15 @@ public class Node implements Comparable<Node>{
     public void setVisitat(boolean visitat) {
         this.visitat = visitat;
     }
+    private Node anterior;
+    private int distancia;
+    private boolean visitat;
     public Node getAnterior() {
         return anterior;
     }
     public void setAnterior(Node anterior) {
         this.anterior = anterior;
     }
-
     @Override
     public int compareTo(Node o) {
         if(this.getDistancia()> o.getDistancia()){
@@ -78,7 +78,6 @@ public class Node implements Comparable<Node>{
             return 0;
         }
     }
-
     @Override
     public String toString() {
         return "Node{" +

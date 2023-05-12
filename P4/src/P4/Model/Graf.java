@@ -9,21 +9,15 @@ import java.util.Collections;
 
 public class Graf {
     private ArrayList<Node> nodes;
-    private ArrayList<Aresta> arestes;
     private BufferedImage mapa;
-
     private Node inici;
     private Node desti;
-
     private ArrayList<Node> nodesIntermigs;
-
     private Graf cami;
     private boolean es_dirigit;
 
-
     public Graf(){
             nodes = new ArrayList<>();
-            arestes = new ArrayList<>();
             nodesIntermigs=new ArrayList<>();
     }
 

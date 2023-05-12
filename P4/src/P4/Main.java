@@ -7,6 +7,7 @@ import P4.Model.Graf;
 import P4.Model.Node;
 import P4.Model.SAX.MeuSax;
 import P4.Vista.Vista;
+import mesurament.Mesurament;
 
 public class Main implements InterficieComunicacio {
     private Vista vista;
@@ -22,7 +23,7 @@ public class Main implements InterficieComunicacio {
 
 
     public void inici() {
-        //new Mesurament().mesura();
+        new Mesurament().mesura();
         g = new Graf();
         vista = new Vista("P4: Algorismes Àvids", this, g);
         controlador = new Controlador(this,g);
