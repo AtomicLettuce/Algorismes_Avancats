@@ -24,7 +24,7 @@ public class Main implements InterficieComunicacio {
     public void inici() {
         //new Mesurament().mesura();
         g = new Graf();
-        vista = new Vista("mondongo", this, g);
+        vista = new Vista("P4: Algorismes Àvids", this, g);
         controlador = new Controlador(this,g);
         vista.repaint();
     }
