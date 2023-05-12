@@ -196,7 +196,6 @@ private PanellMapa panellMapa;
                 main.comunicacio("Origen:"+elegit_index);
             }else{
                 main.comunicacio("Intermig:"+elegit_index);
-                System.out.println("pingala");
             }
 
             seleccionant_node_inici=false;

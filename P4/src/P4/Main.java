@@ -107,6 +107,9 @@ public class Main implements InterficieComunicacio {
             }
         }  else if(instruccio.startsWith("Intermig:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
+            Node node=g.getNode(n);
+            g.addNodeIntermig(node);
+            vista.actualitzar();
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
 
         }
