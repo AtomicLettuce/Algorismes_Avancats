@@ -25,7 +25,7 @@ public class Controlador extends Thread {
     }
 
     private void calcularCamiMesCurt(Node origen, Node destino, Graf graf) {
-        // Inicializar distancias a infinito y el origen a distancia cero
+        // Inicialitzar distancies a infinit i l'origen a distancia zero
         PriorityQueue<Node> coa = new PriorityQueue<>();
         for (Node v : graf.getNodes()) {
             v.setDistancia(Integer.MAX_VALUE);
@@ -39,22 +39,22 @@ public class Controlador extends Thread {
             if (!Main.CONTINUAR) {
                 return;
             }
-            // Obtener el vértice con la menor distancia en la cola
+            // Obtenir el vertex amb la menor distancia a la coa
             Node u = coa.poll();
             u.setVisitat(true);
 
-            // Si llegamos al destino, podemos salir del bucle
+            // Si arribam al desti podem sortir del bucle
             if (u == destino) {
                 break;
             }
 
-            // Actualizar las distancias de los vértices adyacentes
+            // Actualitzar les distancies entre els vertetsos adjecents
             for (Aresta a : u.getSortints()) {
                 Node v = a.apunta();
                 if (!v.isVisitat()) {
                     int distancia = (int) (u.getDistancia() + a.getValor());
                     if (distancia < v.getDistancia()) {
-                        coa.remove(v);  // Actualizar la cola para reordenar
+                        coa.remove(v);  // Actualizar la coa per reordenar
                         v.setDistancia(distancia);
                         v.setAnterior(u);
                         coa.add(v);
@@ -67,14 +67,18 @@ public class Controlador extends Thread {
     public void getCami(Graf graf) {
         Node inici = graf.getInici();
         Node desti = graf.getDesti();
+
+        //cridam a l'algorisme de dijkstra per el node destí i el darrer intermig que s'ha seleccionat
         calcularCamiMesCurt(graf.getIntermig(graf.getIntermigsSize() - 1), desti, graf);
         Graf camino = new Graf();
-
+        //ficam al cami els nodes que el componen
         for (Node v = desti; v != null; v = v.getAnterior()) {
             camino.addNode(v);
         }
         boolean inter = true;
 
+        //si hi ha mes d'un node intermig aleshores calculem els camins entre
+        //els nodes, seguint l'ordre invers de introduccio
         for (int i = graf.getIntermigsSize() - 1; i >= 1; i--) {
             calcularCamiMesCurt(graf.getNodesIntermigs().get(i - 1), graf.getNodesIntermigs().get(i), graf);
             for (Node v = graf.getNodesIntermigs().get(i); v != null; v = v.getAnterior()) {
@@ -87,6 +91,7 @@ public class Controlador extends Thread {
             inter = true;
         }
 
+        //finalment calculem el cami entre el primer node intermig i el node desti
         calcularCamiMesCurt(inici, graf.getNodesIntermigs().get(0), graf);
         for (Node v = graf.getNodesIntermigs().get(0); v != null; v = v.getAnterior()) {
             if (inter) {
@@ -96,6 +101,8 @@ public class Controlador extends Thread {
             }
 
         }
+        //per acabar invertim el cami ja que el tenim en l'ordre invers del que
+        //ens interesa
         camino.reverseNodes();
 
         graf.setCami(camino);
