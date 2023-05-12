@@ -13,7 +13,9 @@ public class Main implements InterficieComunicacio {
     private Graf g;
     private MeuSax sax;
     private Controlador controlador = new Controlador();
-    public static boolean CONTINUAR=true;
+    public static boolean CONTINUAR = true;
+    public static boolean CONTROLADOR_ACABAT = false;
+
     public static void main(String[] args) {
         new Main().inici();
     }
@@ -21,14 +23,15 @@ public class Main implements InterficieComunicacio {
 
     public void inici() {
         //new Mesurament().mesura();
-        g=new Graf();
-        vista = new Vista("mondongo", this,g);
-        sax=new MeuSax("C:/Users/Xavier/Desktop/UIBB/AA/Algorismes_Avancats/P4/mapes/grafobase.ltim",this,g);
+        g = new Graf();
+        vista = new Vista("mondongo", this, g);
+        sax = new MeuSax("C:/Users/Xavier/Desktop/UIBB/AA/Algorismes_Avancats/P4/mapes/grafobase.ltim", this, g);
 
-            //mapes/grafMario.ltim
+        //mapes/grafMario.ltim
         sax.llegir();
         vista.repaint();
     }
+
     @Override
     public void comunicacio(String instruccio) {
 
@@ -45,6 +48,7 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 // Envia l'ordre de començar
+
                 controlador.getCami(g);
                 for(int i = 0; i<g.getCami().getNodes().size(); i++){
                     System.out.println(g.getCami().getNodes().get(i).toString());
@@ -53,14 +57,17 @@ public class Main implements InterficieComunicacio {
                 break;
             // Envia l'ordre de reinici
             case "reset":
-                g=null;
+                CONTROLADOR_ACABAT=false;
+                g = null;
                 vista.setGraf(g);
-
+                break;
+            case "controlador acabat":
+                CONTROLADOR_ACABAT=true;
                 break;
         }
         // Format Origen:'n'
         // on n és índex de node
-        if(instruccio.startsWith("Origen:")){
+        if (instruccio.startsWith("Origen:")) {
             int n = Integer.parseInt(instruccio.split(":")[1]);
             g.setInici(g.getNode(n));
             vista.actualitzar();
@@ -68,7 +75,7 @@ public class Main implements InterficieComunicacio {
         }
         // Format Desti:'n'
         // on n és índex de node
-        else if(instruccio.startsWith("Desti:")){
+        else if (instruccio.startsWith("Desti:")) {
             int n = Integer.parseInt(instruccio.split(":")[1]);
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
             g.setDesti(g.getNode(n));
@@ -79,22 +86,21 @@ public class Main implements InterficieComunicacio {
             }*/
         }
         // Per indicar nodes intermitjos
-        else if(instruccio.startsWith("Intermig:")){
+        else if (instruccio.startsWith("Intermig:")) {
             int n = Integer.parseInt(instruccio.split(":")[1]);
-            Node node=g.getNode(n);
+            Node node = g.getNode(n);
             g.addNodeIntermig(node);
-            g.setIntermig(g.getNode(n));
             vista.actualitzar();
 
         }
         // Per canviar de fitxer de mapa
         else if (instruccio.startsWith("Graf:")) {
-            g=new Graf();
-            String tokens[]=instruccio.split(":");
-            String src=tokens[1]+":"+tokens[2];
-            src.replace("\\","/");
-            System.out.println("SRC:"+src);
-            sax=new MeuSax(src,this,g);
+            g = new Graf();
+            String tokens[] = instruccio.split(":");
+            String src = tokens[1] + ":" + tokens[2];
+            src.replace("\\", "/");
+            System.out.println("SRC:" + src);
+            sax = new MeuSax(src, this, g);
             sax.llegir();
             vista.setGraf(g);
             vista.actualitzar();

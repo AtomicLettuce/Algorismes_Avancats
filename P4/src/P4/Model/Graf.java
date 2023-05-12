@@ -10,7 +10,6 @@ import java.util.Collections;
 public class Graf {
     private ArrayList<Node> nodes;
     private ArrayList<Aresta> arestes;
-    private String tipo = "";
     private BufferedImage mapa;
 
     private Node inici;
@@ -27,7 +26,6 @@ public class Graf {
             nodes = new ArrayList<>();
             arestes = new ArrayList<>();
             nodesIntermigs=new ArrayList<>();
-            tipo = "nodirigido";
     }
 
     public void addNodeIntermig(Node i){
@@ -104,9 +102,7 @@ public class Graf {
         getNode(eti).ponArista(ar);
     }
 
-    public void ponTipo(String t) {
-        tipo = t;
-    }
+
 
     private Node getNode(String e) {
         boolean res = false;
@@ -148,13 +144,6 @@ public class Graf {
     }
     public void reverseNodes(){
         Collections.reverse(this.nodes);
-    }
-
-    public Node getIntermig() {
-        return intermig;
-    }
-    public void setIntermig(Node intermig) {
-        this.intermig = intermig;
     }
 
     public ArrayList<Node> getNodesIntermigs() {

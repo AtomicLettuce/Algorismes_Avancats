@@ -1,6 +1,7 @@
 package P4.Vista;
 
 
+import P4.Main;
 import P4.Model.Aresta;
 import P4.Model.Graf;
 import P4.Model.Node;
@@ -10,6 +11,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class PanellMapa extends JPanel {
@@ -17,11 +19,13 @@ public class PanellMapa extends JPanel {
     private final int NODE_RADIUS = 7;
     private boolean dibuixa_mapa;
 
+
     public PanellMapa(int width, int height, Graf g) {
         super();
         this.setPreferredSize(new Dimension(width, height));
         this.graf = g;
         this.dibuixa_mapa = true;
+
     }
 
     public void setGraf(Graf graf){
@@ -110,6 +114,47 @@ public class PanellMapa extends JPanel {
                 g2.setColor(Color.BLACK);
             }
         }
+
+        // Dibuixa camí
+        if(Main.CONTROLADOR_ACABAT){
+            ArrayList<Node> cami= graf.getCami().getNodes();
+            for (int i = 0; i < cami.size(); i++) {
+                // Indicam ordre de nodes a visitar
+                Node node =cami.get(i);
+                int x1 = node.getX();
+                int y1 = node.getY();
+                g2.setFont(new Font("Arial", Font.BOLD, 9));
+                int textWidth = g2.getFontMetrics().stringWidth(""+i);
+                int textHeight = g2.getFontMetrics().getHeight();
+                int boxWidth = textWidth + 10;
+                int boxHeight = textHeight + 10;
+                int boxX = x1 - boxWidth / 2;
+                int boxY = y1 - boxHeight / 2;
+                Rectangle2D box = new Rectangle2D.Double(boxX, boxY, boxWidth, boxHeight);
+                g2.setColor(Color.BLACK);
+                g2.fill(box);
+                g2.setColor(Color.WHITE);
+                g2.draw(box);
+                int textX = x1 - textWidth / 2;
+                int textY = y1 + textHeight / 2;
+                g2.drawString(""+i, textX, textY);
+            }
+            g2.setStroke(new BasicStroke(4));
+            for (int i = 0; i < cami.size()-1; i++) {
+                // Indicam arestes emprades
+                Node node =cami.get(i);
+                int x1 = node.getX();
+                int y1 = node.getY();
+                Node node2 = cami.get(i+1);
+                int x2 = node.getX();
+                int y2 = node.getY();
+                g2.drawLine(x1, y1, x2, y2);
+            }
+        }
+
+
+
+
     }
 
 }
