@@ -7,20 +7,20 @@ import java.util.*;
 
 public class Controlador {
 
-        private void calcularCaminoMasCorto(Node origen, Node destino, Graf graf) {
+        private void calcularCamiMesCurt(Node origen, Node destino, Graf graf) {
             // Inicializar distancias a infinito y el origen a distancia cero
-            PriorityQueue<Node> cola = new PriorityQueue<>();
+            PriorityQueue<Node> coa = new PriorityQueue<>();
             for (Node v : graf.getNodes()) {
                 v.setDistancia(Integer.MAX_VALUE);
                 v.setVisitat(false);
                 v.setAnterior(null);
             }
             origen.setDistancia(0);
-            cola.add(origen);
+            coa.add(origen);
 
-            while (!cola.isEmpty()) {
+            while (!coa.isEmpty()) {
                 // Obtener el vértice con la menor distancia en la cola
-                Node u = cola.poll();
+                Node u = coa.poll();
                 u.setVisitat(true);
 
                 // Si llegamos al destino, podemos salir del bucle
@@ -34,20 +34,20 @@ public class Controlador {
                     if (!v.isVisitat()) {
                         int distancia = (int) (u.getDistancia() + a.getValor());
                         if (distancia < v.getDistancia()) {
-                            cola.remove(v);  // Actualizar la cola para reordenar
+                            coa.remove(v);  // Actualizar la cola para reordenar
                             v.setDistancia(distancia);
                             v.setAnterior(u);
-                            cola.add(v);
+                            coa.add(v);
                         }
                     }
                 }
             }
         }
 
-    public Graf getCamino(Graf graf) {
+    public void getCami(Graf graf) {
         Node inici = graf.getInici();
         Node desti = graf.getDesti();
-        calcularCaminoMasCorto(graf.getIntermig(graf.getIntermigsSize()-1), desti, graf);
+        calcularCamiMesCurt(graf.getIntermig(graf.getIntermigsSize()-1), desti, graf);
         Graf camino = new Graf();
 
         for (Node v = desti; v != null; v = v.getAnterior()) {
@@ -56,7 +56,7 @@ public class Controlador {
         boolean inter = true;
 
         for(int i = graf.getIntermigsSize()-1; i>=1; i--){
-            calcularCaminoMasCorto(graf.getNodesIntermigs().get(i-1), graf.getNodesIntermigs().get(i), graf);
+            calcularCamiMesCurt(graf.getNodesIntermigs().get(i-1), graf.getNodesIntermigs().get(i), graf);
             for (Node v = graf.getNodesIntermigs().get(i); v != null; v = v.getAnterior()) {
                 if(inter){
                     inter = false;
@@ -67,7 +67,7 @@ public class Controlador {
             inter = true;
         }
 
-        calcularCaminoMasCorto(inici, graf.getNodesIntermigs().get(0), graf);
+        calcularCamiMesCurt(inici, graf.getNodesIntermigs().get(0), graf);
         for (Node v = graf.getNodesIntermigs().get(0); v != null; v = v.getAnterior()) {
             if(inter){
                 inter = false;
@@ -79,7 +79,6 @@ public class Controlador {
         camino.reverseNodes();
 
         graf.setCami(camino);
-        return camino;
     }
 
 
