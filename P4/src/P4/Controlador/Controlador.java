@@ -15,6 +15,7 @@ public class Controlador extends Thread {
         this.main = main;
         this.graf = graf;
     }
+    
 
     public void run() {
         long t1=System.nanoTime();
