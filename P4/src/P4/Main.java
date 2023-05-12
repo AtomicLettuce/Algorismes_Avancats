@@ -26,39 +26,6 @@ public class Main implements InterficieComunicacio {
         MeuSax sax=new MeuSax("mapes/grafMario.ltim",this,g);
         sax.llegir();
         vista.repaint();
-
-
-        //Exemple de com troba es cami minim
-        /*Node nodeA = new Node("A");
-        Node nodeB = new Node("B");
-        Node nodeC = new Node("C");
-        Node nodeD = new Node("D");
-        Node nodeE = new Node("E");
-        Node nodeF = new Node("F");
-        nodeA.ponArista(new Aresta(nodeB, 10));
-        nodeA.ponArista(new Aresta(nodeC, 15));
-
-        nodeB.ponArista(new Aresta(nodeD, 12));
-        nodeB.ponArista(new Aresta(nodeF, 15));
-
-        nodeC.ponArista(new Aresta(nodeE, 10));
-
-        nodeD.ponArista(new Aresta(nodeE, 2));
-        nodeD.ponArista(new Aresta(nodeF, 1));
-
-        nodeF.ponArista(new Aresta(nodeE, 5));
-
-        Graf graph = new Graf();
-
-        graph.addNode(nodeA);
-        graph.addNode(nodeB);
-        graph.addNode(nodeC);
-        graph.addNode(nodeD);
-        graph.addNode(nodeE);
-        graph.addNode(nodeF);
-        Controlador controlador = new Controlador();
-        graph = controlador.getCamino(nodeA, nodeE, graph);
-        */
     }
     Node sortida;
     Node desti;
