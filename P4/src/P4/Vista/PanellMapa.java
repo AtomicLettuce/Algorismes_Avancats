@@ -24,6 +24,10 @@ public class PanellMapa extends JPanel {
         this.dibuixa_mapa = true;
     }
 
+    public void setGraf(Graf graf){
+        this.graf=graf;
+    }
+
     protected boolean isDibuixa_mapa() {
         return dibuixa_mapa;
     }
