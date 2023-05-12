@@ -5,6 +5,7 @@ import P4.Model.Graf;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -23,13 +24,12 @@ public class MeuSax {
         SAXParserFactory factory = SAXParserFactory.newInstance();
 
         try {
-            InputStream xmlInput
-                    = new FileInputStream(fic);
+            InputStream xmlInput = new FileInputStream(new File(fic));
             SAXParser saxParser = factory.newSAXParser();
             MeuHandler handler = new MeuHandler(main, graf);
             saxParser.parse(xmlInput, handler);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.out.println("MEUSAX"+e.toString());
         }
     }
 }

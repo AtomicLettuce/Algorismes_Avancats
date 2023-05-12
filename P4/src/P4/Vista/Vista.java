@@ -109,6 +109,11 @@ private PanellMapa panellMapa;
         }
     }
 
+    public void setGraf(Graf graf){
+        this.graf=graf;
+        panellMapa.setGraf(graf);
+    }
+
 
     private void demana_opcions() {
         seleccionant_node_inici =false;
@@ -116,7 +121,7 @@ private PanellMapa panellMapa;
         seleccionant_node_intermig=false;
 
         // Create the JOptionPane
-        Object[] options = {"Sel·leccionar fitxer", "Sel·leccionar node inici", "Sel·leccionar node final", "Sel·leccionar node intermig","OK"};
+        Object[] options = {"Sel·leccionar fitxer", "Sel·leccionar node inici","Sel·leccionar node intermig", "Sel·leccionar node final","OK"};
         JCheckBox checkBox = new JCheckBox("Pintar mapa?",panellMapa.isDibuixa_mapa());
 
         Object[] message = {"Què vols fer?", checkBox};
@@ -139,7 +144,8 @@ private PanellMapa panellMapa;
                     // If the user selects a file, print its name
                     if (result == JFileChooser.APPROVE_OPTION) {
                         File selectedFile = fileChooser.getSelectedFile();
-                        System.out.println("Selected file: " + selectedFile.getName());
+                        System.out.println("Selected file: " + selectedFile.getPath());
+                        main.comunicacio("Graf:"+selectedFile.getPath());
                     }
                     break;
                 case 1:

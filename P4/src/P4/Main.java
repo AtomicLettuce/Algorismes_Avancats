@@ -11,7 +11,7 @@ import P4.Vista.Vista;
 public class Main implements InterficieComunicacio {
     private Vista vista;
     private Graf g;
-
+    private MeuSax sax;
     private Controlador controlador = new Controlador();
     public static boolean CONTINUAR=true;
     public static void main(String[] args) {
@@ -23,12 +23,12 @@ public class Main implements InterficieComunicacio {
         //new Mesurament().mesura();
         g=new Graf();
         vista = new Vista("mondongo", this,g);
-        MeuSax sax=new MeuSax("mapes/grafMario.ltim",this,g);
+        sax=new MeuSax("C:/Users/Xavier/Desktop/UIBB/AA/Algorismes_Avancats/P4/mapes/grafobase.ltim",this,g);
+
+            //mapes/grafMario.ltim
         sax.llegir();
         vista.repaint();
     }
-    Node sortida;
-    Node desti;
     @Override
     public void comunicacio(String instruccio) {
 
@@ -46,14 +46,16 @@ public class Main implements InterficieComunicacio {
             case "play":
                 // Envia l'ordre de començar
                 controlador.getCamino(g);
-                System.out.println("");
                 for(int i = 0; i<g.getCami().getNodes().size(); i++){
                     System.out.println(g.getCami().getNodes().get(i).toString());
                 }
                 vista.actualitzar();
                 break;
+            // Envia l'ordre de reinici
             case "reset":
-                // Envia l'ordre de reinici
+                g=null;
+                vista.setGraf(g);
+
                 break;
         }
         // Format Origen:'n'
@@ -63,7 +65,6 @@ public class Main implements InterficieComunicacio {
             g.setInici(g.getNode(n));
             vista.actualitzar();
 
-            // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
         }
         // Format Desti:'n'
         // on n és índex de node
@@ -76,14 +77,27 @@ public class Main implements InterficieComunicacio {
             for(int i = 0; i<graf.getNodes().size(); i++){
                 System.out.println(graf.getNode(i).toString());
             }*/
-        }  else if(instruccio.startsWith("Intermig:")){
+        }
+        // Per indicar nodes intermitjos
+        else if(instruccio.startsWith("Intermig:")){
             int n = Integer.parseInt(instruccio.split(":")[1]);
             Node node=g.getNode(n);
             g.addNodeIntermig(node);
             g.setIntermig(g.getNode(n));
             vista.actualitzar();
-            // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
 
+        }
+        // Per canviar de fitxer de mapa
+        else if (instruccio.startsWith("Graf:")) {
+            g=new Graf();
+            String tokens[]=instruccio.split(":");
+            String src=tokens[1]+":"+tokens[2];
+            src.replace("\\","/");
+            System.out.println("SRC:"+src);
+            sax=new MeuSax(src,this,g);
+            sax.llegir();
+            vista.setGraf(g);
+            vista.actualitzar();
         }
 
     }
