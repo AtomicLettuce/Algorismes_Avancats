@@ -49,32 +49,35 @@ public class Controlador extends Thread{
         String[] idiomaPrincipalAux = model.getDiccionari(principal);
         String[] idiomaCompararAux = model.getDiccionari(altre);
 
-        int idiomaPrincipalSize = model.getDiccionariSize(principal);
-        int idiomaComapararSize = model.getDiccionariSize(altre);
-
         String[] idiomaPrincipal = new String[model.getRANDOM_MAX()];
         String[] idiomaComparar = new String[model.getRANDOM_MAX()];
 
         for (int i = 0; i < model.getRANDOM_MAX(); i++) {
-            idiomaPrincipal[i] = idiomaPrincipalAux[new Random().nextInt(idiomaPrincipalSize)];
-            idiomaComparar[i] = idiomaCompararAux[new Random().nextInt(idiomaComapararSize)];
+            idiomaPrincipal[i] = idiomaPrincipalAux[new Random().nextInt(model.getDiccionariSize(principal))];
+            idiomaComparar[i] = idiomaCompararAux[new Random().nextInt(model.getDiccionariSize(altre))];
         }
+
 
 
 
         //Recorrem totes les paraules de l'idioma a comparar per cada paraula de l'idioma principal
 
 
-        double distanceP_C = 0; //Distancia del principal al comparar
+        double distanceP_C = 0;
+        int a = 0;
+        int b=0;
+        //Distancia del principal al comparar
         for (String i : idiomaPrincipal) {
             int min = Integer.MAX_VALUE;
+            b=0;
             for (String j : idiomaComparar){
-
                 int distanciaActual = distanciadeLevenshtein(i,j);
                 if (min > distanciaActual){
                     min = distanciaActual;
                 }
+                b++;
             }
+            a++;
             distanceP_C += min;
         }
 
@@ -100,15 +103,6 @@ public class Controlador extends Thread{
         return  Math.sqrt((Math.pow(distanceP_C,2) + Math.pow(distanceC_P,2)));
     }
 
-    public int getMinInt(int[] numeros) {
-        int minim = numeros[0];
-        for (int i = 1; i < numeros.length; i++) {
-            if (numeros[i] < minim) {
-                minim = numeros[i];
-            }
-        }
-        return minim;
-    }
 
     public Map.Entry getMinRes(HashMap<String,Double> numeros) {
         double minimValue = Double.POSITIVE_INFINITY;

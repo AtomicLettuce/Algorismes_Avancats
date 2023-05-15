@@ -24,8 +24,8 @@ public class Main implements P5.Interficies.InterficieComunicacio {
 //            System.out.println(elementoActual);
 //        }
         Controlador c =new Controlador(this,m);
-        System.out.println(c.distanciaEntreDosIdiomes("catala", "italia" ));
-      //  System.out.println(c.reconeixerIdioma("coche tenedor sfsfsfsd"));
+    //    System.out.println(c.distanciaEntreDosIdiomes("catala", "alemany" ));
+        System.out.println(c.reconeixerIdioma("i go home"));
 //        double[] res = c.distanciaTotsIdiomes("catala");
 //        for (int i = 0; i < res.length; i++) {
 //            System.out.println(res[0]);

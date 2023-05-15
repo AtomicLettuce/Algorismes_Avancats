@@ -11,18 +11,11 @@ public class Model {
     private int custom = 0;
     private HashMap<String, String[]> diccionarisCarregats = new HashMap<>();
      String[] idiomes = {
-            "alemany",
-            "angles_EEUU",
-            "angles_GB",
-            "catala",
-            "espanyol",
-            "euskera",
-            "frances",
-            "holandes",
-            "italia",
-            "portugues"
+            "cat",
+             "eng",
+             "esp"
     };
-     final int RANDOM_MAX = 10000;
+     final int RANDOM_MAX = 200;
     private int numCPUs = Runtime.getRuntime().availableProcessors();
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo
@@ -63,7 +56,7 @@ public class Model {
         aux[idiomes.length] = "custom"+custom;
         idiomes = aux;
         custom++;
-        return "cusotm"+(custom-1);
+        return "custom"+(custom-1);
     }
 
     public String[] getDiccionari(String diccionariKey) {
