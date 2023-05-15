@@ -24,14 +24,9 @@ public class Controlador extends Thread{
 
     public String reconeixerIdioma(String text){
 
-        HashSet<String> textReconeixer = new HashSet<>();
+
         String[] paraules = text.split(" ");
-
-        for (String paraula : paraules) {
-            textReconeixer.add(paraula);
-        }
-
-        return (String) getMinRes(distanciaTotsIdiomes(model.addDiccionari(textReconeixer))).getKey();
+        return (String) getMinRes(distanciaTotsIdiomes(model.addDiccionari(paraules))).getKey();
     }
     public HashMap <String, Double> distanciaTotsIdiomes(String principal){
        ArrayList<String> idiomes = model.getIdiomesCompare(principal);
@@ -51,43 +46,56 @@ public class Controlador extends Thread{
         model.carregaDiccionari(altre);
 
         //Obtenim els diccionaris
-        HashSet<String>   idiomaPrincipal = model.getDiccionari(principal);
-       HashSet<String> idiomaComparar = model.getDiccionari(altre);
+        String[] idiomaPrincipalAux = model.getDiccionari(principal);
+        String[] idiomaCompararAux = model.getDiccionari(altre);
 
         int idiomaPrincipalSize = model.getDiccionariSize(principal);
         int idiomaComapararSize = model.getDiccionariSize(altre);
 
+        String[] idiomaPrincipal = new String[model.getRANDOM_MAX()];
+        String[] idiomaComparar = new String[model.getRANDOM_MAX()];
+
+        for (int i = 0; i < model.getRANDOM_MAX(); i++) {
+            idiomaPrincipal[i] = idiomaPrincipalAux[new Random().nextInt(idiomaPrincipalSize)];
+            idiomaComparar[i] = idiomaCompararAux[new Random().nextInt(idiomaComapararSize)];
+        }
+
+
+
         //Recorrem totes les paraules de l'idioma a comparar per cada paraula de l'idioma principal
 
 
-        int [] distancesPerWord = new int[idiomaComapararSize];
         double distanceP_C = 0; //Distancia del principal al comparar
         for (String i : idiomaPrincipal) {
-            int idx = 0;
+            int min = Integer.MAX_VALUE;
             for (String j : idiomaComparar){
 
-                distancesPerWord[idx]= distanciadeLevenshtein(i,j);
-                idx++;
+                int distanciaActual = distanciadeLevenshtein(i,j);
+                if (min > distanciaActual){
+                    min = distanciaActual;
+                }
             }
-            distanceP_C += getMinInt(distancesPerWord);
+            distanceP_C += min;
         }
 
         //Recorrem totes les paraules de l'idioma a principal per cada paraula de l'idioma comparar
 
         double distanceC_P = 0; //Distancia del comparar al principal
-        distancesPerWord = new int[idiomaPrincipalSize];
+
         for (String i : idiomaComparar) {
-            int idx = 0;
+            int min = Integer.MAX_VALUE;
             for (String j : idiomaPrincipal){
-                distancesPerWord[idx]= distanciadeLevenshtein(i,j);
-                idx++;
+                int distanciaActual = distanciadeLevenshtein(i,j);
+                if (min > distanciaActual){
+                    min = distanciaActual;
+                }
             }
-            distanceC_P += getMinInt(distancesPerWord);
+            distanceC_P += min;
         }
 
 
-        distanceP_C = distanceP_C/idiomaPrincipalSize;
-        distanceC_P = distanceC_P/idiomaComapararSize;
+        distanceP_C = distanceP_C/model.getRANDOM_MAX();
+        distanceC_P = distanceC_P/model.getRANDOM_MAX();
 
         return  Math.sqrt((Math.pow(distanceP_C,2) + Math.pow(distanceC_P,2)));
     }

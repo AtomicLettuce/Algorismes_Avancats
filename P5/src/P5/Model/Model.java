@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class Model {
-    int custom = 0;
-    HashMap<String, HashSet> diccionarisCarregats = new HashMap<>();
+    private int custom = 0;
+    private HashMap<String, String[]> diccionarisCarregats = new HashMap<>();
      String[] idiomes = {
             "alemany",
             "angles_EEUU",
@@ -22,6 +22,7 @@ public class Model {
             "italia",
             "portugues"
     };
+     final int RANDOM_MAX = 10000;
     private int numCPUs = Runtime.getRuntime().availableProcessors();
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo
@@ -30,16 +31,15 @@ public class Model {
         }
 
         //Si no ha estat carregat es carrega
-        HashSet diccionari = new HashSet();
         try {
-
             BufferedReader bf = new BufferedReader(new FileReader("../P5/src/P5/Model/Diccionaris/" + diccionariName + ".dic"));
 
             String word = bf.readLine();
-            while (word != null) {
-                diccionari.add(word);
-                word = bf.readLine();
+            String[] diccionari = new String[Integer.parseInt(word)];
+            for (int i = 0; i< diccionari.length; i++) {
+                diccionari[i] = bf.readLine();
             }
+
             diccionarisCarregats.put(diccionariName, diccionari);
             bf.close();
 
@@ -49,7 +49,11 @@ public class Model {
 
     }
 
-    public String addDiccionari(HashSet<String> diccionari){
+    public int getRANDOM_MAX() {
+        return RANDOM_MAX;
+    }
+
+    public String addDiccionari(String[] diccionari){
         diccionarisCarregats.put("custom"+custom, diccionari);
 
         String[] aux = new String[idiomes.length+1];
@@ -62,12 +66,12 @@ public class Model {
         return "cusotm"+(custom-1);
     }
 
-    public HashSet getDiccionari(String diccionariKey) {
+    public String[] getDiccionari(String diccionariKey) {
         return diccionarisCarregats.get(diccionariKey);
     }
 
     public int getDiccionariSize(String diccionariKey) {
-        return diccionarisCarregats.get(diccionariKey).size();
+        return diccionarisCarregats.get(diccionariKey).length;
     }
 
     public int getNumCPUs() {
