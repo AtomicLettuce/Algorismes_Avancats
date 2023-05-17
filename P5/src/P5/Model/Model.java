@@ -16,7 +16,7 @@ public class Model {
              "esp"
     };
      final int RANDOM_MAX = 200;
-    private int numCPUs = Runtime.getRuntime().availableProcessors();
+    private int numCPUs = 2;
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo
         if (diccionarisCarregats.containsKey(diccionariName)){
@@ -71,8 +71,8 @@ public class Model {
         return numCPUs;
     }
 
-    public ArrayList getIdiomesCompare(String principal){
-        ArrayList idiomesCopy= new ArrayList<>();
+    public ArrayList<String> getIdiomesCompare(String principal){
+        ArrayList <String> idiomesCopy= new ArrayList<>();
         idiomesCopy.addAll(Arrays.asList(idiomes));
         idiomesCopy.remove(principal);
         return idiomesCopy;
