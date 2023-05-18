@@ -3,10 +3,13 @@ package P5;
 
 import P5.Controlador.Controlador;
 import P5.Model.Model;
+import P5.Vista.Vista;
 
 import java.util.HashSet;
 
 public class Main implements P5.Interficies.InterficieComunicacio {
+    public static boolean CONTINUAR =true;
+    private Vista vista;
 
 
 
@@ -17,6 +20,7 @@ public class Main implements P5.Interficies.InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
+        vista=new Vista("mondongo",this,null);
         Model m = new Model();
 //        m.carregaDiccionari("catala");
 //        HashSet <String> alemany = m.getDiccionari("catala");
@@ -36,8 +40,23 @@ public class Main implements P5.Interficies.InterficieComunicacio {
     @Override
     public void comunicacio(String instruccio) {
         switch (instruccio) {
+            case "play":
+                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                break;
             case "stop":
                 System.out.println("Aturant...");
+                CONTINUAR=false;
+                vista.actualitzar();
+
+                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                break;
+            case "reset":
+                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                break;
+            case "actualitzar":
+                vista.actualitzar();
+                break;
+
         }
     }
 }
