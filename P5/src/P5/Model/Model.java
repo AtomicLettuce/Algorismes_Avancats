@@ -17,8 +17,9 @@ public class Model {
              "eng",
              "esp"
     };
-     final int RANDOM_MAX = 200;
-    private int numCPUs = 2;
+
+final int RANDOM_MAX = 100;
+    private int numCPUs = Runtime.getRuntime().availableProcessors();
 
     public HashMap<String, Double> getResultats() {
         return resultats;
@@ -27,6 +28,7 @@ public class Model {
     public void setResultats(HashMap<String, Double> resultats) {
         this.resultats = resultats;
     }
+
 
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo

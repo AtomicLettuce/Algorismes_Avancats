@@ -1,36 +1,38 @@
 package P5.Controlador;
 
-
 import P5.Main;
 import P5.Model.Model;
 
 import java.util.*;
 
-public class Controlador extends Thread{
+public class Controlador extends Thread {
 
     Main main;
     Model model;
 
-
-    public Controlador(Main main, Model model){
+    public Controlador(Main main, Model model) {
         this.main = main;
         this.model = model;
     }
+
     @Override
     public void run() {
-
-
+        // Método que se ejecuta cuando se inicia el hilo del controlador
+        // Puedes implementar aquí la lógica que se ejecutará en segundo plano
     }
 
-    public String reconeixerIdioma(String text){
-
+    public String reconeixerIdioma(String text) {
+        // Método para reconocer el idioma de un texto
+        // Divide el texto en palabras y devuelve el idioma con la distancia mínima
         String[] paraules = text.split(" ");
         return (String) getMinRes(distanciaTotsIdiomes(model.addDiccionari(paraules))).getKey();
     }
-    public HashMap <String, Double> distanciaTotsIdiomes(String principal){
-       ArrayList<String> idiomes = model.getIdiomesCompare(principal);
 
-        HashMap <String, Double> distancies = new HashMap<>();
+    public HashMap<String, Double> distanciaTotsIdiomes(String principal) {
+        // Método para calcular las distancias entre el idioma principal y otros idiomas
+        // Recibe el idioma principal y devuelve un mapa con las distancias para cada idioma
+        ArrayList<String> idiomes = model.getIdiomesCompare(principal);
+        HashMap<String, Double> distancies = new HashMap<>();
 
         for (String idioma : idiomes) {
             distancies.put(idioma, distanciaEntreDosIdiomes(principal, idioma));
@@ -40,33 +42,36 @@ public class Controlador extends Thread{
 
         return distancies;
     }
-    public double distanciaEntreDosIdiomes(String principal, String altre){
 
-        //Carregam els fitxers on tenim els idiomes
+    public double distanciaEntreDosIdiomes(String principal, String altre) {
+        // Método para calcular la distancia entre dos idiomas
+        // Carga los diccionarios de los idiomas, genera palabras aleatorias y calcula la distancia de Levenshtein
+
+        // Carga los diccionarios de los idiomas
         model.carregaDiccionari(principal);
         model.carregaDiccionari(altre);
 
-        //Obtenim els diccionaris
-        /*
+        // Obtiene los diccionarios
         String[] idiomaPrincipalAux = model.getDiccionari(principal);
         String[] idiomaCompararAux = model.getDiccionari(altre);
 
+        // Genera palabras aleatorias para comparar
+        /* Amb Random */
         String[] idiomaPrincipal = new String[model.getRANDOM_MAX()];
         String[] idiomaComparar = new String[model.getRANDOM_MAX()];
 
         for (int i = 0; i < model.getRANDOM_MAX(); i++) {
             idiomaPrincipal[i] = idiomaPrincipalAux[new Random().nextInt(model.getDiccionariSize(principal))];
             idiomaComparar[i] = idiomaCompararAux[new Random().nextInt(model.getDiccionariSize(altre))];
-        }*/
-        String[] idiomaPrincipal = model.getDiccionari(principal);
-        String[] idiomaComparar = model.getDiccionari(altre);
+        }
 
-        //Recorrem totes les paraules de l'idioma a comparar per cada paraula de l'idioma principal
+        //Sense Random
+       // String[] idiomaPrincipal = model.getDiccionari(principal);
+      //  String[] idiomaComparar = model.getDiccionari(altre);
 
+        double distanceP_C = 0; // Distancia del principal al comparar
 
-        double distanceP_C = 0;
-
-        //Distancia del principal al comparar
+        // Calcula la distancia para cada palabra del idioma principal
         for (String i : idiomaPrincipal) {
             int min = Integer.MAX_VALUE;
             int idxComparar = 0;
@@ -76,6 +81,8 @@ public class Controlador extends Thread{
                 for (int k = 0; k < threads.length; k++) {
                     comparadors[k] = new Comparador(i,idiomaComparar[idxComparar]);
                     threads[k] = new Thread(comparadors[k]);
+                    idxComparar++;
+
                 }
                 for (Thread thread : threads) {
                     thread.start();
@@ -92,19 +99,20 @@ public class Controlador extends Thread{
                     if (comparador.getRes() < min){
                         min = comparador.getRes();
                     }
-                    idxComparar++;
                 }
 
 
             }
             int paraulesRestants = idiomaComparar.length%model.getNumCPUs();
 
-            for (int j = 0; j < paraulesRestants; j++) {
+
                 Comparador[] comparadors = new Comparador[paraulesRestants];
                 Thread[] threads = new Thread[paraulesRestants];
                 for (int k = 0; k < threads.length; k++) {
                     comparadors[k] = new Comparador(i,idiomaComparar[idxComparar]);
                     threads[k] = new Thread(comparadors[k]);
+                    idxComparar++;
+
                 }
                 for (Thread thread : threads) {
                     thread.start();
@@ -121,10 +129,9 @@ public class Controlador extends Thread{
                     if (comparador.getRes() < min){
                         min = comparador.getRes();
                     }
-                    idxComparar++;
                 }
 
-            }
+
             /*for (String j : idiomaComparar){
                 int distanciaActual = distanciadeLevenshtein(i,j);
                 if (min > distanciaActual){
@@ -150,6 +157,8 @@ public class Controlador extends Thread{
                 for (int k = 0; k < threads.length; k++) {
                     comparadors[k] = new Comparador(i,idiomaPrincipal[idxPrincipal]);
                     threads[k] = new Thread(comparadors[k]);
+                    idxPrincipal++;
+
                 }
                 for (Thread thread : threads) {
                     thread.start();
@@ -166,19 +175,19 @@ public class Controlador extends Thread{
                     if (comparador.getRes() < min){
                         min = comparador.getRes();
                     }
-                    idxPrincipal++;
                 }
 
 
             }
             int paraulesRestants = idiomaPrincipal.length%model.getNumCPUs();
 
-            for (int j = 0; j < paraulesRestants; j++) {
                 Comparador[] comparadors = new Comparador[paraulesRestants];
                 Thread[] threads = new Thread[paraulesRestants];
                 for (int k = 0; k < threads.length; k++) {
                     comparadors[k] = new Comparador(i,idiomaPrincipal[idxPrincipal]);
                     threads[k] = new Thread(comparadors[k]);
+                    idxPrincipal++;
+
                 }
                 for (Thread thread : threads) {
                     thread.start();
@@ -195,10 +204,9 @@ public class Controlador extends Thread{
                     if (comparador.getRes() < min){
                         min = comparador.getRes();
                     }
-                    idxPrincipal++;
                 }
 
-            }
+
             /*for (String j : idiomaComparar){
                 int distanciaActual = distanciadeLevenshtein(i,j);
                 if (min > distanciaActual){
@@ -208,9 +216,6 @@ public class Controlador extends Thread{
             */
             distanceC_P += min;
         }
-
-        System.out.println(distanceC_P);
-
 
 
          distanceP_C = distanceP_C/idiomaPrincipal.length;

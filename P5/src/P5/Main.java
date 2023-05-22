@@ -21,6 +21,7 @@ public class Main implements P5.Interficies.InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
+
         Model m = new Model();
 
 //        m.carregaDiccionari("catala");
