@@ -36,6 +36,8 @@ public class Controlador extends Thread{
             distancies.put(idioma, distanciaEntreDosIdiomes(principal, idioma));
         }
 
+        model.setResultats(distancies);
+
         return distancies;
     }
     public double distanciaEntreDosIdiomes(String principal, String altre){
