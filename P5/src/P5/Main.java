@@ -20,7 +20,7 @@ public class Main implements P5.Interficies.InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
-        vista=new Vista("mondongo",this,null);
+        //vista=new Vista("mondongo",this,null);
         Model m = new Model();
 //        m.carregaDiccionari("catala");
 //        HashSet <String> alemany = m.getDiccionari("catala");
