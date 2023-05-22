@@ -38,6 +38,8 @@ public class Controlador extends Thread {
             distancies.put(idioma, distanciaEntreDosIdiomes(principal, idioma));
         }
 
+        model.setResultats(distancies);
+
         return distancies;
     }
 

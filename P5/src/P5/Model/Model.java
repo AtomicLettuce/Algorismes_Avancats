@@ -10,13 +10,26 @@ import java.util.HashSet;
 public class Model {
     private int custom = 0;
     private HashMap<String, String[]> diccionarisCarregats = new HashMap<>();
-     String[] idiomes = {
+    private HashMap<String, Double>resultats=new HashMap<>();
+
+     public String[] idiomes = {
             "cat",
              "eng",
              "esp"
     };
-     final int RANDOM_MAX = 100;
+
+final int RANDOM_MAX = 100;
     private int numCPUs = Runtime.getRuntime().availableProcessors();
+
+    public HashMap<String, Double> getResultats() {
+        return resultats;
+    }
+
+    public void setResultats(HashMap<String, Double> resultats) {
+        this.resultats = resultats;
+    }
+
+
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo
         if (diccionarisCarregats.containsKey(diccionariName)){

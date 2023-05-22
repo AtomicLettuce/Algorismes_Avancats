@@ -5,6 +5,7 @@ import P5.Controlador.Controlador;
 import P5.Model.Model;
 import P5.Vista.Vista;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Main implements P5.Interficies.InterficieComunicacio {
@@ -20,8 +21,9 @@ public class Main implements P5.Interficies.InterficieComunicacio {
         new Main().inici();
     }
     public void inici(){
-        //vista=new Vista("mondongo",this,null);
+
         Model m = new Model();
+
 //        m.carregaDiccionari("catala");
 //        HashSet <String> alemany = m.getDiccionari("catala");
 //        for (String elementoActual : alemany) {
@@ -30,11 +32,15 @@ public class Main implements P5.Interficies.InterficieComunicacio {
         Controlador c =new Controlador(this,m);
         System.out.println(c.distanciaEntreDosIdiomes("prova", "prova2" ));
     //    System.out.println(c.reconeixerIdioma("i go home"));
-//        double[] res = c.distanciaTotsIdiomes("catala");
-//        for (int i = 0; i < res.length; i++) {
-//            System.out.println(res[0]);
-//        }
+         HashMap<String, Double>resultats= c.distanciaTotsIdiomes("prova");
+        for (String i:m.idiomes) {
+            System.out.println("reuyfhbs"+resultats.get(i));
+        }
+        vista=new Vista("mondongo",this,m);
+        vista.actualitzar();
+        System.out.println("pingala");
     }
+
 
 
     @Override
