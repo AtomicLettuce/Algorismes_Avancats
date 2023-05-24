@@ -30,12 +30,12 @@ public class Main implements P5.Interficies.InterficieComunicacio {
 //            System.out.println(elementoActual);
 //        }
         Controlador c =new Controlador(this,m);
-        System.out.println(c.distanciaEntreDosIdiomes("prova", "prova2" ));
+        System.out.println(c.distanciaEntreDosIdiomes("catala", "castella" ));
     //    System.out.println(c.reconeixerIdioma("i go home"));
-         HashMap<String, Double>resultats= c.distanciaTotsIdiomes("prova");
-        for (String i:m.idiomes) {
-            System.out.println("reuyfhbs"+resultats.get(i));
-        }
+      //   HashMap<String, Double>resultats= c.distanciaTotsIdiomes("prova");
+       // for (String i:m.idiomes) {
+       //     System.out.println("reuyfhbs"+resultats.get(i));
+      //  }
         vista=new Vista("mondongo",this,m);
         vista.actualitzar();
         System.out.println("pingala");
