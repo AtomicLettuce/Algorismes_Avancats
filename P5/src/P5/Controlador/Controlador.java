@@ -21,11 +21,22 @@ public class Controlador extends Thread {
         // Puedes implementar aquí la lógica que se ejecutará en segundo plano
     }
 
+    public HashMap totsAmbTots(){
+        HashMap<String, HashMap<String,Double>> resultats= new HashMap();
+
+        for (int i = 0; i < model.idiomes.length; i++) {
+             resultats.put(model.idiomes[i],distanciaTotsIdiomes(model.idiomes[i]));
+        }
+
+        return  resultats;
+    }
+
     public String reconeixerIdioma(String text) {
         // Método para reconocer el idioma de un texto
         // Divide el texto en palabras y devuelve el idioma con la distancia mínima
         String[] paraules = text.split(" ");
-        return (String) getMinRes(distanciaTotsIdiomes(model.addDiccionari(paraules))).getKey();
+        Map.Entry res = getMinRes(distanciaTotsIdiomes(model.addDiccionari(paraules)));
+        return (String) "Idioma: "+res.getKey()+" Distància: "+res.getValue() ;
     }
 
     public HashMap<String, Double> distanciaTotsIdiomes(String principal) {
@@ -56,7 +67,7 @@ public class Controlador extends Thread {
         String[] idiomaCompararAux = model.getDiccionari(altre);
 
         // Genera palabras aleatorias para comparar
-        /* Amb Random */
+        /* Amb Random
         String[] idiomaPrincipal = new String[model.getRANDOM_MAX()];
         String[] idiomaComparar = new String[model.getRANDOM_MAX()];
 
@@ -64,10 +75,12 @@ public class Controlador extends Thread {
             idiomaPrincipal[i] = idiomaPrincipalAux[new Random().nextInt(model.getDiccionariSize(principal))];
             idiomaComparar[i] = idiomaCompararAux[new Random().nextInt(model.getDiccionariSize(altre))];
         }
+        */
+
 
         //Sense Random
-       // String[] idiomaPrincipal = model.getDiccionari(principal);
-      //  String[] idiomaComparar = model.getDiccionari(altre);
+        String[] idiomaPrincipal = model.getDiccionari(principal);
+        String[] idiomaComparar = model.getDiccionari(altre);
 
         double distanceP_C = 0; // Distancia del principal al comparar
 
@@ -131,18 +144,8 @@ public class Controlador extends Thread {
                     }
                 }
 
-
-            /*for (String j : idiomaComparar){
-                int distanciaActual = distanciadeLevenshtein(i,j);
-                if (min > distanciaActual){
-                    min = distanciaActual;
-                }
-            }
-            */
             distanceP_C += min;
         }
-
-        System.out.println(distanceP_C);
 
         //Recorrem totes les paraules de l'idioma a principal per cada paraula de l'idioma comparar
 
@@ -206,14 +209,6 @@ public class Controlador extends Thread {
                     }
                 }
 
-
-            /*for (String j : idiomaComparar){
-                int distanciaActual = distanciadeLevenshtein(i,j);
-                if (min > distanciaActual){
-                    min = distanciaActual;
-                }
-            }
-            */
             distanceC_P += min;
         }
 
