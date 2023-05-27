@@ -23,7 +23,8 @@ public class PanellDibuix extends JPanel {
         g2.setColor(Color.WHITE);
         g2.fillRect(0,0,getWidth(),getHeight());
         g2.setColor(Color.BLACK);
-        Dupla resultats[]=new Dupla[model.idiomes.length];
+
+        /*Dupla resultats[]=new Dupla[model.idiomes.length];
         for (int i = 0; i < model.idiomes.length; i++) {
             resultats[i]=new Dupla(model.idiomes[i],+model.getResultats().get(model.idiomes[i]));
         }
@@ -35,7 +36,7 @@ public class PanellDibuix extends JPanel {
             g2.drawString(resultats[i].nom,20+(separacio*i),getHeight()-60);
         }
 
-        g2.drawLine(20,getHeight()-60,20,200);
+        g2.drawLine(20,getHeight()-60,20,200);*/
 
 
 

@@ -46,14 +46,10 @@ public class Main implements P5.Interficies.InterficieComunicacio {
     @Override
     public void comunicacio(String instruccio) {
         switch (instruccio) {
-            case "play":
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
-                break;
             case "stop":
                 System.out.println("Aturant...");
                 CONTINUAR=false;
                 vista.actualitzar();
-
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
                 break;
             case "reset":
@@ -62,7 +58,14 @@ public class Main implements P5.Interficies.InterficieComunicacio {
             case "actualitzar":
                 vista.actualitzar();
                 break;
-
+        }if (instruccio.startsWith("play:Arbre")||instruccio.startsWith("play:Graf")){
+            System.out.println(instruccio);
+        } else if (instruccio.startsWith("play:Un amb tots")) {
+            System.out.println(instruccio);
+        } else if (instruccio.startsWith("play:Tots amb un")) {
+            System.out.println(instruccio);
+        } else if (instruccio.startsWith("play:Reconeixedor")) {
+            
         }
     }
 }

@@ -65,15 +65,15 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
         botonera.add(play);
         botonera.add(reset);
         botonera.add(stop);
-        botonera.add(opcions);
+        //botonera.add(opcions);
 
         //play.setVisible(false);
         //reset.setVisible(false);
 
         this.add(botonera, BorderLayout.NORTH);
         mv = new MonitorVista();
-        Dibuixador dibuxador = new Dibuixador(panellMapa, this, mv);
-        dibuxador.start();
+        dibuixador = new Dibuixador(panellMapa, this, mv);
+        dibuixador.start();
         this.setResizable(false);
         mostrar();
     }
@@ -93,6 +93,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
             case "play":
+                demana_opcions();
                 main.comunicacio("play");
                 break;
             case "stop":
@@ -102,12 +103,26 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
             case "reset":
                 main.comunicacio("reset");
                 break;
-            case "opcions":
-                // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
-                // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
-                break;
         }
     }
+    public void demana_opcions(){
+
+        String[] options = {"Un amb tots","Tots amb un", "Arbre filolèxic", "Graf de distàncies", "Reconeixedor lingüístic", "OK"};
+
+        int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+        if(option==5){
+            return;
+        }else if(option<2){
+            String[] options2 = {"alemany","angles", "castella", "catala", "checho", "euskera","frances","italia","portugues","rumano"};
+            int option2 = JOptionPane.showOptionDialog(this, "Quin?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
+            main.comunicacio("play:"+options[option]+":"+options2[option2]);
+        }else{
+            main.comunicacio("play:"+options[option]);
+        }
+
+    }
+
+
 
     @Override
     public void windowOpened(WindowEvent windowEvent) {
