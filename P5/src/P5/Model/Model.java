@@ -13,9 +13,16 @@ public class Model {
     private HashMap<String, Double>resultats=new HashMap<>();
 
      public String[] idiomes = {
-            "cat",
-             "eng",
-             "esp"
+            "alemany",
+             "angles",
+             "castella",
+           //  "catala",
+            // "checo",
+           //  "euskera",
+            // "frances",
+            // "italia",
+            // "portugues",
+           //  "rumano"
     };
 
 final int RANDOM_MAX = 100;

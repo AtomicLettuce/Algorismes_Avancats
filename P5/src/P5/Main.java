@@ -30,7 +30,8 @@ public class Main implements P5.Interficies.InterficieComunicacio {
 //            System.out.println(elementoActual);
 //        }
         Controlador c =new Controlador(this,m);
-        System.out.println(c.distanciaEntreDosIdiomes("catala", "castella" ));
+        c.totsAmbTots();
+       // System.out.println(c.distanciaEntreDosIdiomes("catala", "castella" ));
     //    System.out.println(c.reconeixerIdioma("i go home"));
       //   HashMap<String, Double>resultats= c.distanciaTotsIdiomes("prova");
        // for (String i:m.idiomes) {
