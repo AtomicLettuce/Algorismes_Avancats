@@ -10,66 +10,82 @@ import java.util.Collections;
 public class PanellDibuix extends JPanel {
 
     private Model model;
+    private String opcions;
+
     public PanellDibuix(int width, int height, Model model) {
         super();
         this.setPreferredSize(new Dimension(width, height));
         this.model = model;
+        opcions = "";
     }
 
+    public void setOpcions(String s) {
+        opcions = s;
+    }
 
     @Override
-    public void paintComponent(Graphics g){
-        Graphics2D g2 =(Graphics2D)g;
+    public void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
-        g2.fillRect(0,0,getWidth(),getHeight());
+        g2.fillRect(0, 0, getWidth(), getHeight());
         g2.setColor(Color.BLACK);
 
-        /*Dupla resultats[]=new Dupla[model.idiomes.length];
-        for (int i = 0; i < model.idiomes.length; i++) {
-            resultats[i]=new Dupla(model.idiomes[i],+model.getResultats().get(model.idiomes[i]));
+        if (opcions.startsWith("Graf")) {
+            ferGraf(g2);
+        } else if (opcions.startsWith("Arbre")) {
+            //ferArbre();
+        } else if (opcions.startsWith("Un amb un:")) {
+            unAmbUn(g2);
+        } else if (opcions.startsWith("Tots amb un")) {
+            totsAmbUn(g2);
         }
-        Arrays.sort(resultats);
+    }
 
-        g2.setFont(g2.getFont().deriveFont(20f));
-        int separacio=(getWidth()-40)/ resultats.length;
-        for (int i = 0; i < resultats.length; i++) {
-            g2.drawString(resultats[i].nom,20+(separacio*i),getHeight()-60);
+    private void ferGraf(Graphics2D g2){
+        
+
+    }
+
+    private void totsAmbUn(Graphics2D g2){
+        String principal = opcions.split(":")[1];
+
+        g2.setFont((new Font("Arial",Font.BOLD,20)));
+
+        for (int i = 0; i <model.idiomes.length ; i++) {
+            int x1=getWidth()/6;
+            int y1=((i*getHeight())/model.idiomes.length)+20+20;
+            int x2=4*getWidth()/5;
+            int y2=((i*getHeight())/model.idiomes.length)+20+20;
+            g2.drawString(principal,getWidth()/6,((i*getHeight())/model.idiomes.length)+20);
+            g2.drawString(model.idiomes[i],4*getWidth()/5,((i*getHeight())/model.idiomes.length)+20);
+            g2.drawLine(x1,y1,x2,y2);
+            g2.drawString(""+model.getResultats().get(model.idiomes[i]),(x1+x2)/2,20+((y1+y2)/2));
+
+
         }
-
-        g2.drawLine(20,getHeight()-60,20,200);*/
-
 
 
 
 
 
     }
+    private void unAmbUn(Graphics2D g2) {
+        String tokens[] = opcions.split(":");
 
 
+        g2.setFont((new Font("Arial",Font.BOLD,20)));
+        g2.drawString(tokens[1],getWidth()/6,getHeight()/2);
+        g2.drawString(tokens[2],4*getWidth()/5,getHeight()/2);
 
-    private class Dupla implements Comparable<Dupla>{
-        public String nom;
-        public double valor;
+        int x1=getWidth()/6;
+        int y1=20+(getHeight()/2);
+        int x2=4*getWidth()/5;
+        int y2=20+(getHeight()/2);
+        g2.drawLine(x1,y1,x2,y2);
+        g2.drawString(""+model.distancia,(x1+x2)/2,20+((y1+y2)/2));
 
-        public Dupla(String nom,double valor){
-            this.nom=nom;
-            this.valor=valor;
-        }
 
-        @Override
-        public int compareTo(Dupla dupla) {
-            if(this.valor>dupla.valor){
-                return 1;
-            }else if (this.valor< dupla.valor){
-                return -1;
-            }else{
-                return 0;
-            }
-        }
     }
-
-
-
 
 
 }

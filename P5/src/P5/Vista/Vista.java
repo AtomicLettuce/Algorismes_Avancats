@@ -23,18 +23,17 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
     private Dibuixador dibuixador;
 
 
-
     public Vista(String nom, Main main, Model graf) {
         super(nom);
         this.main = main;
-        this.graf=graf;
+        this.graf = graf;
         addWindowListener(this);
 
 
-        panellMapa=new PanellDibuix(800,800,graf);
+        panellMapa = new PanellDibuix(800, 800, graf);
 
         this.getContentPane().setLayout(new BorderLayout());
-        this.add(panellMapa,BorderLayout.CENTER);
+        this.add(panellMapa, BorderLayout.CENTER);
         // Zona botonera
         play = new JButton(new ImageIcon("img/play.png"));
         stop = new JButton(new ImageIcon("img/stop.png"));
@@ -105,23 +104,41 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
                 break;
         }
     }
-    public void demana_opcions(){
 
-        String[] options = {"Un amb tots","Tots amb un", "Arbre filolèxic", "Graf de distàncies", "Reconeixedor lingüístic", "OK"};
+    public void demana_opcions() {
+
+        String[] options = {"Un amb un", "Tots amb un", "Arbre filolèxic", "Graf de distàncies", "Reconeixedor lingüístic", "OK"};
 
         int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
-        if(option==5){
+        if (option == 5||option<0) {
             return;
-        }else if(option<2){
-            String[] options2 = {"alemany","angles", "castella", "catala", "checho", "euskera","frances","italia","portugues","rumano"};
+        } else if (option==0) {
+            String[] options2 = {"alemany", "angles", "castella", "catala", "checho", "euskera", "frances", "italia", "portugues", "rumano"};
             int option2 = JOptionPane.showOptionDialog(this, "Quin?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
-            main.comunicacio("play:"+options[option]+":"+options2[option2]);
-        }else{
-            main.comunicacio("play:"+options[option]);
+            int option3 = JOptionPane.showOptionDialog(this, "Quin altre?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
+            panellMapa.setOpcions("Un amb un:"+options2[option2]+":"+options2[option3]);
+            main.comunicacio("play:Un amb un" + options[option] + ":" + options2[option2]+":"+options2[option3]);
+
+        } else if (option == 1) {
+            String[] options2 = {"alemany", "angles", "castella", "catala", "checho", "euskera", "frances", "italia", "portugues", "rumano"};
+            int option2 = JOptionPane.showOptionDialog(this, "Quin?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
+            panellMapa.setOpcions(options[option] + ":" + options2[option2]);
+            main.comunicacio("play:" + options[option] + ":" + options2[option2]);
+        }else if(option ==4){
+            TextDialog dialog=new TextDialog(this);
+            String enteredText= dialog.enteredText;
+            main.comunicacio("play:Reconeixedor:"+enteredText);
+        }
+        else {
+            panellMapa.setOpcions(options[option]);
+            main.comunicacio("play:" + options[option]);
         }
 
     }
 
+    public void popup(String s){
+        JOptionPane.showMessageDialog(this,s);
+    }
 
 
     @Override
@@ -159,5 +176,48 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
     @Override
     public void windowDeactivated(WindowEvent windowEvent) {
 
+    }
+
+    public class TextDialog extends JDialog {
+
+        private JTextField textField;
+        private JButton okButton;
+        private JButton cancelButton;
+        private String enteredText;
+
+        public TextDialog(JFrame parentFrame) {
+            super(parentFrame, "Enter some text", true);
+
+            // Create text field
+            textField = new JTextField(20);
+
+            // Create OK button
+            okButton = new JButton("OK");
+            okButton.addActionListener(e -> {
+                enteredText = textField.getText();
+                dispose();
+            });
+
+            // Create cancel button
+            cancelButton = new JButton("Cancel");
+            cancelButton.addActionListener(e -> dispose());
+
+            // Add components to dialog
+            JPanel panel = new JPanel();
+            panel.add(textField);
+            panel.add(okButton);
+            panel.add(cancelButton);
+            getContentPane().add(panel);
+
+            // Set dialog properties
+            pack();
+            setLocationRelativeTo(parentFrame);
+            setResizable(false);
+            setVisible(true);
+        }
+
+        public String getEnteredText() {
+            return enteredText;
+        }
     }
 }

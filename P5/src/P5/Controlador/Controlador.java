@@ -21,14 +21,14 @@ public class Controlador extends Thread {
         // Puedes implementar aquí la lógica que se ejecutará en segundo plano
     }
 
-    public HashMap totsAmbTots(){
-        HashMap<String, HashMap<String,Double>> resultats= new HashMap();
+    public HashMap totsAmbTots() {
+        HashMap<String, HashMap<String, Double>> resultats = new HashMap();
 
         for (int i = 0; i < model.idiomes.length; i++) {
-             resultats.put(model.idiomes[i],distanciaTotsIdiomes(model.idiomes[i]));
+            resultats.put(model.idiomes[i], distanciaTotsIdiomes(model.idiomes[i]));
         }
-
-        return  resultats;
+        model.setResultatsTotsAmbTots(resultats);
+        return resultats;
     }
 
     public String reconeixerIdioma(String text) {
@@ -36,7 +36,7 @@ public class Controlador extends Thread {
         // Divide el texto en palabras y devuelve el idioma con la distancia mínima
         String[] paraules = text.split(" ");
         Map.Entry res = getMinRes(distanciaTotsIdiomes(model.addDiccionari(paraules)));
-        return (String) "Idioma: "+res.getKey()+" Distància: "+res.getValue() ;
+        return (String) "Idioma: " + res.getKey() + " Distància: " + res.getValue();
     }
 
     public HashMap<String, Double> distanciaTotsIdiomes(String principal) {
@@ -88,11 +88,11 @@ public class Controlador extends Thread {
         for (String i : idiomaPrincipal) {
             int min = Integer.MAX_VALUE;
             int idxComparar = 0;
-            for (int j = 0; j < idiomaComparar.length/model.getNumCPUs(); j++) {
+            for (int j = 0; j < idiomaComparar.length / model.getNumCPUs(); j++) {
                 Comparador[] comparadors = new Comparador[model.getNumCPUs()];
                 Thread[] threads = new Thread[model.getNumCPUs()];
                 for (int k = 0; k < threads.length; k++) {
-                    comparadors[k] = new Comparador(i,idiomaComparar[idxComparar]);
+                    comparadors[k] = new Comparador(i, idiomaComparar[idxComparar]);
                     threads[k] = new Thread(comparadors[k]);
                     idxComparar++;
 
@@ -108,41 +108,41 @@ public class Controlador extends Thread {
                         throw new RuntimeException(e);
                     }
                 }
-                for(Comparador comparador : comparadors){
-                    if (comparador.getRes() < min){
+                for (Comparador comparador : comparadors) {
+                    if (comparador.getRes() < min) {
                         min = comparador.getRes();
                     }
                 }
 
 
             }
-            int paraulesRestants = idiomaComparar.length%model.getNumCPUs();
+            int paraulesRestants = idiomaComparar.length % model.getNumCPUs();
 
 
-                Comparador[] comparadors = new Comparador[paraulesRestants];
-                Thread[] threads = new Thread[paraulesRestants];
-                for (int k = 0; k < threads.length; k++) {
-                    comparadors[k] = new Comparador(i,idiomaComparar[idxComparar]);
-                    threads[k] = new Thread(comparadors[k]);
-                    idxComparar++;
+            Comparador[] comparadors = new Comparador[paraulesRestants];
+            Thread[] threads = new Thread[paraulesRestants];
+            for (int k = 0; k < threads.length; k++) {
+                comparadors[k] = new Comparador(i, idiomaComparar[idxComparar]);
+                threads[k] = new Thread(comparadors[k]);
+                idxComparar++;
 
-                }
-                for (Thread thread : threads) {
-                    thread.start();
-                }
+            }
+            for (Thread thread : threads) {
+                thread.start();
+            }
 
-                for (Thread thread : threads) {
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+            for (Thread thread : threads) {
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                for(Comparador comparador : comparadors){
-                    if (comparador.getRes() < min){
-                        min = comparador.getRes();
-                    }
+            }
+            for (Comparador comparador : comparadors) {
+                if (comparador.getRes() < min) {
+                    min = comparador.getRes();
                 }
+            }
 
             distanceP_C += min;
         }
@@ -154,11 +154,11 @@ public class Controlador extends Thread {
         for (String i : idiomaComparar) {
             int min = Integer.MAX_VALUE;
             int idxPrincipal = 0;
-            for (int j = 0; j < idiomaPrincipal.length/model.getNumCPUs(); j++) {
+            for (int j = 0; j < idiomaPrincipal.length / model.getNumCPUs(); j++) {
                 Comparador[] comparadors = new Comparador[model.getNumCPUs()];
                 Thread[] threads = new Thread[model.getNumCPUs()];
                 for (int k = 0; k < threads.length; k++) {
-                    comparadors[k] = new Comparador(i,idiomaPrincipal[idxPrincipal]);
+                    comparadors[k] = new Comparador(i, idiomaPrincipal[idxPrincipal]);
                     threads[k] = new Thread(comparadors[k]);
                     idxPrincipal++;
 
@@ -174,53 +174,54 @@ public class Controlador extends Thread {
                         throw new RuntimeException(e);
                     }
                 }
-                for(Comparador comparador : comparadors){
-                    if (comparador.getRes() < min){
+                for (Comparador comparador : comparadors) {
+                    if (comparador.getRes() < min) {
                         min = comparador.getRes();
                     }
                 }
 
 
             }
-            int paraulesRestants = idiomaPrincipal.length%model.getNumCPUs();
+            int paraulesRestants = idiomaPrincipal.length % model.getNumCPUs();
 
-                Comparador[] comparadors = new Comparador[paraulesRestants];
-                Thread[] threads = new Thread[paraulesRestants];
-                for (int k = 0; k < threads.length; k++) {
-                    comparadors[k] = new Comparador(i,idiomaPrincipal[idxPrincipal]);
-                    threads[k] = new Thread(comparadors[k]);
-                    idxPrincipal++;
+            Comparador[] comparadors = new Comparador[paraulesRestants];
+            Thread[] threads = new Thread[paraulesRestants];
+            for (int k = 0; k < threads.length; k++) {
+                comparadors[k] = new Comparador(i, idiomaPrincipal[idxPrincipal]);
+                threads[k] = new Thread(comparadors[k]);
+                idxPrincipal++;
 
-                }
-                for (Thread thread : threads) {
-                    thread.start();
-                }
+            }
+            for (Thread thread : threads) {
+                thread.start();
+            }
 
-                for (Thread thread : threads) {
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+            for (Thread thread : threads) {
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                for(Comparador comparador : comparadors){
-                    if (comparador.getRes() < min){
-                        min = comparador.getRes();
-                    }
+            }
+            for (Comparador comparador : comparadors) {
+                if (comparador.getRes() < min) {
+                    min = comparador.getRes();
                 }
+            }
 
             distanceC_P += min;
         }
 
 
-         distanceP_C = distanceP_C/idiomaPrincipal.length;
-         distanceC_P = distanceC_P/idiomaComparar.length;
-
-        return  Math.sqrt((Math.pow(distanceP_C,2) + Math.pow(distanceC_P,2)));
+        distanceP_C = distanceP_C / idiomaPrincipal.length;
+        distanceC_P = distanceC_P / idiomaComparar.length;
+        double distantcia = Math.sqrt((Math.pow(distanceP_C, 2) + Math.pow(distanceC_P, 2)));
+        model.distancia = distantcia;
+        return distantcia;
     }
 
 
-    public Map.Entry getMinRes(HashMap<String,Double> numeros) {
+    public Map.Entry getMinRes(HashMap<String, Double> numeros) {
         double minimValue = Double.POSITIVE_INFINITY;
         String minimKey = "";
 
@@ -268,17 +269,19 @@ public class Controlador extends Thread {
         return matriuDistancies[longitudWord1][longitudWord2];
     }
 
-    private class Comparador implements Runnable{
+    private class Comparador implements Runnable {
         String word1;
         String word2;
         int res;
-        public Comparador (String w1, String w2){
+
+        public Comparador(String w1, String w2) {
             word1 = w1;
             word2 = w2;
         }
+
         @Override
         public void run() {
-          res = distanciadeLevenshtein(word1,word2);
+            res = distanciadeLevenshtein(word1, word2);
         }
 
         public int getRes() {

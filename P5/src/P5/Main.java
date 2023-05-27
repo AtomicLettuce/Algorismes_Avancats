@@ -11,6 +11,8 @@ import java.util.HashSet;
 public class Main implements P5.Interficies.InterficieComunicacio {
     public static boolean CONTINUAR =true;
     private Vista vista;
+    Model m;
+    Controlador c;
 
 
 
@@ -22,15 +24,15 @@ public class Main implements P5.Interficies.InterficieComunicacio {
     }
     public void inici(){
 
-        Model m = new Model();
+        m = new Model();
 
 //        m.carregaDiccionari("catala");
 //        HashSet <String> alemany = m.getDiccionari("catala");
 //        for (String elementoActual : alemany) {
 //            System.out.println(elementoActual);
 //        }
-        Controlador c =new Controlador(this,m);
-        c.totsAmbTots();
+        c =new Controlador(this,m);
+        //c.totsAmbTots();
        // System.out.println(c.distanciaEntreDosIdiomes("catala", "castella" ));
     //    System.out.println(c.reconeixerIdioma("i go home"));
       //   HashMap<String, Double>resultats= c.distanciaTotsIdiomes("prova");
@@ -61,12 +63,19 @@ public class Main implements P5.Interficies.InterficieComunicacio {
                 break;
         }if (instruccio.startsWith("play:Arbre")||instruccio.startsWith("play:Graf")){
             System.out.println(instruccio);
-        } else if (instruccio.startsWith("play:Un amb tots")) {
-            System.out.println(instruccio);
+            vista.actualitzar();
+        } else if (instruccio.startsWith("play:Un amb un")) {
+            String tokens[] = instruccio.split(":");
+            c.distanciaEntreDosIdiomes(tokens[2],tokens[3]);
+            vista.actualitzar();
         } else if (instruccio.startsWith("play:Tots amb un")) {
-            System.out.println(instruccio);
+            String tokens[] = instruccio.split(":");
+            c.distanciaTotsIdiomes(tokens[2]);
+            vista.actualitzar();
         } else if (instruccio.startsWith("play:Reconeixedor")) {
-            
+            String tokens[] = instruccio.split(":");
+            String res =(c.reconeixerIdioma(tokens[2]));
+            vista.popup(res);
         }
     }
 }

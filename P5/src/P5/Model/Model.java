@@ -11,6 +11,8 @@ public class Model {
     private int custom = 0;
     private HashMap<String, String[]> diccionarisCarregats = new HashMap<>();
     private HashMap<String, Double>resultats=new HashMap<>();
+    private HashMap<String, HashMap<String,Double>> resultatsTotsAmbTots= new HashMap();
+    public double distancia;
 
      public String[] idiomes = {
             "alemany",
@@ -36,6 +38,13 @@ final int RANDOM_MAX = 100;
         this.resultats = resultats;
     }
 
+    public HashMap<String, HashMap<String,Double>> getResultatsTotsAmbTots() {
+        return resultatsTotsAmbTots;
+    }
+
+    public void setResultatsTotsAmbTots(HashMap<String, HashMap<String,Double>> resultatsTotsAmbTots) {
+        this.resultatsTotsAmbTots = resultatsTotsAmbTots;
+    }
 
     public void carregaDiccionari(String diccionariName) {
         //Si ja s'ha carregat el diccionari no fa falta tornar a carregarlo
