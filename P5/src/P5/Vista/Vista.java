@@ -62,7 +62,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
         JPanel botonera = new JPanel();
         botonera.setBackground(Color.DARK_GRAY);
         botonera.add(play);
-        botonera.add(reset);
+        //botonera.add(reset);
         botonera.add(stop);
         //botonera.add(opcions);
 
