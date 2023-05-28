@@ -18,13 +18,13 @@ public class Model {
             "alemany",
              "angles",
              "castella",
-           //  "catala",
-            // "checo",
-           //  "euskera",
-            // "frances",
-            // "italia",
-            // "portugues",
-           //  "rumano"
+             "catala",
+             "checo",
+             "euskera",
+             "frances",
+             "italia",
+             "portugues",
+             "rumano"
     };
 
 final int RANDOM_MAX = 100;

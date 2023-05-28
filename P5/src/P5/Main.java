@@ -63,6 +63,7 @@ public class Main implements P5.Interficies.InterficieComunicacio {
                 break;
         }if (instruccio.startsWith("play:Arbre")||instruccio.startsWith("play:Graf")){
             System.out.println(instruccio);
+            c.totsAmbTots();
             vista.actualitzar();
         } else if (instruccio.startsWith("play:Un amb un")) {
             String tokens[] = instruccio.split(":");

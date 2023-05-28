@@ -67,7 +67,7 @@ public class Controlador extends Thread {
         String[] idiomaCompararAux = model.getDiccionari(altre);
 
         // Genera palabras aleatorias para comparar
-        /* Amb Random
+        /* Amb Random*/
         String[] idiomaPrincipal = new String[model.getRANDOM_MAX()];
         String[] idiomaComparar = new String[model.getRANDOM_MAX()];
 
@@ -75,12 +75,12 @@ public class Controlador extends Thread {
             idiomaPrincipal[i] = idiomaPrincipalAux[new Random().nextInt(model.getDiccionariSize(principal))];
             idiomaComparar[i] = idiomaCompararAux[new Random().nextInt(model.getDiccionariSize(altre))];
         }
-        */
+
 
 
         //Sense Random
-        String[] idiomaPrincipal = model.getDiccionari(principal);
-        String[] idiomaComparar = model.getDiccionari(altre);
+       // String[] idiomaPrincipal = model.getDiccionari(principal);
+        //String[] idiomaComparar = model.getDiccionari(altre);
 
         double distanceP_C = 0; // Distancia del principal al comparar
 
