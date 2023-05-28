@@ -13,13 +13,12 @@ import java.awt.event.WindowListener;
 public class Vista extends JFrame implements WindowListener, ActionListener {
     private Main main;
     private Model graf;
-    private PanellDibuix panellMapa;
+    private PanellDibuix panellDibuix;
     private JButton play;
     private JButton stop;
     private JButton reset;
     private JButton opcions;
     private MonitorVista mv;
-
     private Dibuixador dibuixador;
 
 
@@ -30,10 +29,10 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
         addWindowListener(this);
 
 
-        panellMapa = new PanellDibuix(800, 800, graf);
+        panellDibuix = new PanellDibuix(800, 800, graf);
 
         this.getContentPane().setLayout(new BorderLayout());
-        this.add(panellMapa, BorderLayout.CENTER);
+        this.add(panellDibuix, BorderLayout.CENTER);
         // Zona botonera
         play = new JButton(new ImageIcon("img/play.png"));
         stop = new JButton(new ImageIcon("img/stop.png"));
@@ -71,7 +70,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
 
         this.add(botonera, BorderLayout.NORTH);
         mv = new MonitorVista();
-        dibuixador = new Dibuixador(panellMapa, this, mv);
+        dibuixador = new Dibuixador(panellDibuix, this, mv);
         dibuixador.start();
         this.setResizable(false);
         mostrar();
@@ -116,13 +115,13 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
             String[] options2 = {"alemany", "angles", "castella", "catala", "checho", "euskera", "frances", "italia", "portugues", "rumano"};
             int option2 = JOptionPane.showOptionDialog(this, "Quin?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
             int option3 = JOptionPane.showOptionDialog(this, "Quin altre?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
-            panellMapa.setOpcions("Un amb un:"+options2[option2]+":"+options2[option3]);
+            panellDibuix.setOpcions("Un amb un:"+options2[option2]+":"+options2[option3]);
             main.comunicacio("play:Un amb un" + options[option] + ":" + options2[option2]+":"+options2[option3]);
 
         } else if (option == 1) {
             String[] options2 = {"alemany", "angles", "castella", "catala", "checho", "euskera", "frances", "italia", "portugues", "rumano"};
             int option2 = JOptionPane.showOptionDialog(this, "Quin?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
-            panellMapa.setOpcions(options[option] + ":" + options2[option2]);
+            panellDibuix.setOpcions(options[option] + ":" + options2[option2]);
             main.comunicacio("play:" + options[option] + ":" + options2[option2]);
         }else if(option ==4){
             TextDialog dialog=new TextDialog(this);
@@ -130,7 +129,7 @@ public class Vista extends JFrame implements WindowListener, ActionListener {
             main.comunicacio("play:Reconeixedor:"+enteredText);
         }
         else {
-            panellMapa.setOpcions(options[option]);
+            panellDibuix.setOpcions(options[option]);
             main.comunicacio("play:" + options[option]);
         }
 

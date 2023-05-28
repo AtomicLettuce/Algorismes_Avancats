@@ -7,8 +7,8 @@ import java.util.*;
 
 public class Controlador extends Thread {
 
-    Main main;
-    Model model;
+    private Main main;
+    private Model model;
 
     public Controlador(Main main, Model model) {
         this.main = main;

@@ -40,6 +40,7 @@ public class PanellDibuix extends JPanel {
         } else if (opcions.startsWith("Tots amb un")) {
             totsAmbUn(g2);
         }
+        opcions="";
     }
 
     private void ferArbre(Graphics2D g2) {

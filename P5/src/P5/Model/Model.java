@@ -13,7 +13,6 @@ public class Model {
     private HashMap<String, Double>resultats=new HashMap<>();
     private HashMap<String, HashMap<String,Double>> resultatsTotsAmbTots= new HashMap();
     public double distancia;
-
      public String[] idiomes = {
             "alemany",
              "angles",
