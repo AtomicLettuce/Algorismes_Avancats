@@ -3,9 +3,8 @@ package Model;
 import java.util.HashSet;
 import java.util.Random;
 
-public class Tauler {
+public class Estat {
     private int dimensioPuzzle = 2;
-    // private Peca[][] Puzzle = new Peca[dimensioPuzzle][dimensioPuzzle];
     private int[][] Puzzle;
     public int getDimensioPuzzle() {
         return dimensioPuzzle;
@@ -19,15 +18,11 @@ public class Tauler {
         return this.Puzzle[i][j];
     }
 
-    public void setDimensioPuzzle(int dimensioPuzzle) {
-        this.dimensioPuzzle = dimensioPuzzle;
-    }
-
     public void setPuzzle(int[][] puzzle) {
         Puzzle = puzzle;
     }
 
-    public Tauler(int dim) {
+    public Estat(int dim) {
         dimensioPuzzle = dim;
         Puzzle = generarTaulerRandomResoluble();
     }
@@ -36,7 +31,7 @@ public class Tauler {
         Puzzle = new int[][]{{7,10,3,5},{12,15,0,8},{6,14,2,1},{4,11,9,13}};
     }
 
-    public Tauler(int[][] taul) {
+    public Estat(int[][] taul) {
         Puzzle = taul;
         dimensioPuzzle = taul[0].length;
     }
@@ -60,26 +55,19 @@ public class Tauler {
 
         // Verificar si el tablero generado es resoluble
         if (!esResoluble(puzle)) {
-            // Realizar intercambio de fichas válidas para hacerlo resoluble
-            intercambiarFichasValidas(puzle);
+           puzle = generarTaulerRandomResoluble();
         }
 
         return puzle;
     }
 
-    private boolean esResoluble(int[][] puzle) {
-        int[] arrayLineal = convertirArrayLineal(puzle);
-        int inversiones = contarInversiones(arrayLineal);
-        return inversiones % 2 == 0;
-    }
-
-    private int[] convertirArrayLineal(int[][] puzle) {
-        int n = dimensioPuzzle * dimensioPuzzle;
+    private int[] convertirArrayLineal(int[][] puzzle) {
+        int n = puzzle.length * puzzle[0].length;
         int[] arrayLineal = new int[n];
         int index = 0;
-        for (int i = 0; i < dimensioPuzzle; i++) {
-            for (int j = 0; j < dimensioPuzzle; j++) {
-                arrayLineal[index++] = puzle[i][j];
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle[0].length; j++) {
+                arrayLineal[index++] = puzzle[i][j];
             }
         }
         return arrayLineal;
@@ -97,6 +85,37 @@ public class Tauler {
         }
         return inversiones;
     }
+
+    public boolean esResoluble(int[][] puzzle) {
+        int[] arrayLineal = convertirArrayLineal(puzzle);
+        int inversiones = contarInversiones(arrayLineal);
+        int blankRow = getBlankRow(puzzle);
+
+        if (puzzle.length % 2 != 0) {
+            // For odd-sized puzzles
+            return inversiones % 2 == 0;
+        } else {
+            // For even-sized puzzles
+            if (blankRow % 2 == 0) {
+                return inversiones % 2 != 0;
+            } else {
+                return inversiones % 2 == 0;
+            }
+        }
+    }
+
+    private int getBlankRow(int[][] puzzle) {
+        int lastRow = puzzle.length - 1;
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle.length; j++) {
+                if (puzzle[i][j] == 0) {
+                    return lastRow - i;
+                }
+            }
+        }
+        return -1; // Blank not found
+    }
+
 
     private void intercambiarFichasValidas(int[][] puzle) {
         // Realizar intercambio de fichas válidas, por ejemplo, intercambiar la última ficha con la penúltima
@@ -126,6 +145,8 @@ public class Tauler {
 
         return sol;
     }
+
+
 
 
 }
