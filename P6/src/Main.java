@@ -6,8 +6,6 @@ import Vista.Vista;
 import java.util.List;
 
 public class Main {
-    public static boolean CONTINUAR = true;
-    private Vista v;
     private Controlador controlador;
     private Estat tablero;
 
@@ -17,11 +15,6 @@ public class Main {
 
     public void inici() {
         tablero = new Estat(4);
-        /*tablero = new Estat(new int[][] {
-            {1, 3, 14, 13},
-                {7,11,0,12},
-                {6,10,5,9},{
-                15,4,8,2}});*/
         controlador = new Controlador(tablero);
         Node nodeInici = new Node(null, 0, tablero, 0);
 

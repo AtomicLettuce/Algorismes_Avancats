@@ -1,8 +1,10 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
-public class Node {
+public class Node implements Comparable<Node> {
     private int cost;
     private int nMoviements;
     private Estat disposicio;
@@ -151,7 +153,15 @@ public class Node {
         return sb.toString();
     }
 
-    public boolean isEqual(Node aComparar) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Node aComparar = (Node) o;
         int n = this.disposicio.getDimensioPuzzle();
 
         for (int i = 0; i < n; i++) {
@@ -163,5 +173,16 @@ public class Node {
         }
 
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(disposicio.getPuzzle());
+        return result;
+    }
+
+    @Override
+    public int compareTo(Node other) {
+        return this.getHeuristica() - other.getHeuristica();
     }
 }

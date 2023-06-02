@@ -17,51 +17,44 @@ public class Controlador extends Thread {
     }
 
     public List<String> trobarSolucio(Node nodoInicial) {
-        PriorityQueue<Node> colaPrioridad = new PriorityQueue<>(new nodeWeightComparator());
+        PriorityQueue<Node> colaPrioridad = new PriorityQueue<>();
         colaPrioridad.add(nodoInicial);
-        ArrayList<Node> nodosVisitados = new ArrayList<>();
+        Set<Node> nodosVisitados = new HashSet<>(); // Utilizar un HashSet en lugar de un ArrayList
         long inicio = System.currentTimeMillis();
+        nodosVisitados.add(nodoInicial);
 
+        while (colaPrioridad.size() > 0) {
+            Node nodoActual = colaPrioridad.poll();
 
+            System.out.println(nodoActual);
 
+            if (nodoActual.esSolucio()) {
+                long fin = System.currentTimeMillis();
+                long tiempoTranscurrido = fin - inicio;
+                double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
 
-        while(colaPrioridad.size() > 0) {
-             Node nodoActual = colaPrioridad.poll();
+                System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
+                return construirCamino(nodoActual);
+            }
 
-             System.out.println(nodoActual);
-             System.out.println(nodoActual.getHeuristica());
-
-             if (nodoActual.esSolucio()) {
-                 long fin = System.currentTimeMillis();
-                 long tiempoTranscurrido = fin - inicio;
-                 double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
-
-                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
-                 return construirCamino(nodoActual);
-             }
-
-             nodoActual.generarFills();
+            nodoActual.generarFills();
 
             for (Node hijo : nodoActual.getFills()) {
-                boolean toAdd = true;
-                for (Node node: nodosVisitados) {
-                    if(hijo.isEqual(node)) {
-                        toAdd = false;
-                        break;
-                    }
-                }
-                if(toAdd) {
+                if (!nodosVisitados.contains(hijo)) {
                     nodosVisitados.add(hijo);
                     colaPrioridad.offer(hijo);
                 }
             }
         }
+
+
+
         long fin = System.currentTimeMillis();
         long tiempoTranscurrido = fin - inicio;
         double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
 
         System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
-         return new ArrayList<>();
+        return new ArrayList<>();
     }
 
     private class nodeWeightComparator implements Comparator<Node> {
