@@ -1,15 +1,15 @@
 package Controlador;
 
 import Model.Node;
-import Model.Tauler;
+import Model.Estat;
 
 import java.util.*;
 
 public class Controlador extends Thread {
 
-    private Tauler tauler;
-    public Controlador(Tauler tauler) {
-        this.tauler = tauler;
+    private Estat estat;
+    public Controlador(Estat estat) {
+        this.estat = estat;
     }
 
     @Override
@@ -17,33 +17,50 @@ public class Controlador extends Thread {
     }
 
     public List<String> trobarSolucio(Node nodoInicial) {
-
-        if(this.teSolucio(nodoInicial) == false) {
-            return (new ArrayList<>());
-        }
-
         PriorityQueue<Node> colaPrioridad = new PriorityQueue<>(new nodeWeightComparator());
         colaPrioridad.add(nodoInicial);
-        HashSet<Tauler> nodosVisitados = new HashSet<>();
+        ArrayList<Node> nodosVisitados = new ArrayList<>();
+        long inicio = System.currentTimeMillis();
+
+
+
 
         while(colaPrioridad.size() > 0) {
              Node nodoActual = colaPrioridad.poll();
 
+             System.out.println(nodoActual);
+             System.out.println(nodoActual.getHeuristica());
 
              if (nodoActual.esSolucio()) {
+                 long fin = System.currentTimeMillis();
+                 long tiempoTranscurrido = fin - inicio;
+                 double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
+
+                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
                  return construirCamino(nodoActual);
              }
 
              nodoActual.generarFills();
 
             for (Node hijo : nodoActual.getFills()) {
-                if (!nodosVisitados.contains(hijo.getDisposicio())) {
+                boolean toAdd = true;
+                for (Node node: nodosVisitados) {
+                    if(hijo.isEqual(node)) {
+                        toAdd = false;
+                        break;
+                    }
+                }
+                if(toAdd) {
+                    nodosVisitados.add(hijo);
                     colaPrioridad.offer(hijo);
-                    nodosVisitados.add(hijo.getDisposicio());
                 }
             }
         }
+        long fin = System.currentTimeMillis();
+        long tiempoTranscurrido = fin - inicio;
+        double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
 
+        System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
          return new ArrayList<>();
     }
 
@@ -54,8 +71,10 @@ public class Controlador extends Thread {
         }
     }
 
-    private List<String> construirCamino(Node nodo) {
-        List<String> camino = new ArrayList<>();
+
+
+    private ArrayList<String> construirCamino(Node nodo) {
+        ArrayList<String> camino = new ArrayList<>();
         Node nodoActual = nodo;
 
         while (nodoActual != null) {
@@ -65,29 +84,4 @@ public class Controlador extends Thread {
 
         return camino;
     }
-
-    public boolean teSolucio(Node nodoInicial) {
-        int[] listaNumeros = new int[tauler.getDimensioPuzzle() * tauler.getDimensioPuzzle() - 1];
-        int k = 0;
-        for (int i = 0; i < tauler.getDimensioPuzzle(); i++) {
-            for (int j = 0; j < tauler.getDimensioPuzzle(); j++) {
-                if (tauler.getPosicio(i,j) != 0) {
-                    listaNumeros[k++] = tauler.getPosicio(i,j);
-                }
-            }
-        }
-
-        int numeroInversiones = 0;
-        for (int i = 0; i < listaNumeros.length - 1; i++) {
-            for (int j = i + 1; j < listaNumeros.length; j++) {
-                if (listaNumeros[i] > listaNumeros[j]) {
-                    numeroInversiones++;
-                }
-            }
-        }
-
-        return numeroInversiones % 2 == 0;
-
-    }
-
 }

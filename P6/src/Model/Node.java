@@ -5,22 +5,22 @@ import java.util.ArrayList;
 public class Node {
     private int cost;
     private int nMoviements;
-    private Tauler disposicio;
+    private Estat disposicio;
     private Node nodePare;
     private ArrayList<Node> fills;
 
-    public Node(Node pare, int movimentsAnteriors, Tauler disp, int cost) {
+    public Node(Node pare, int movimentsAnteriors, Estat disp, int cost) {
         this.nodePare = pare;
         this.disposicio = disp;
         this.cost = cost;
         this.nMoviements = movimentsAnteriors;
         this.fills = new ArrayList<>();
-        this.calcularHeuristica();
+        this.calcularHeuristicaV2();
     }
 
     // La nostra heurística es defineix com el nombre de peces mal colocades + els moviments que hem fet
     // per arribar a aquesta distribució.
-    private void calcularHeuristica() {
+    private void calcularHeuristicaV1() {
         int heuristica = 0;
 
         for (int i = 0; i < disposicio.getDimensioPuzzle(); i++) {
@@ -38,6 +38,30 @@ public class Node {
         nMoviements++;
     }
 
+    private void calcularHeuristicaV2() {
+        int heuristica = 0;
+
+        for (int i = 0; i < disposicio.getDimensioPuzzle(); i++) {
+            for (int j = 0; j < disposicio.getDimensioPuzzle(); j++) {
+                int valorActual = disposicio.getPosicio(i, j);
+                if (valorActual != 0) {
+                    int iObjetivo = (valorActual - 1) / disposicio.getDimensioPuzzle();
+                    int jObjetivo = (valorActual - 1) % disposicio.getDimensioPuzzle();
+                    int distancia = Math.abs(i - iObjetivo) + Math.abs(j - jObjetivo);
+                    heuristica += distancia;
+                } else {
+                    int iObjetivo = disposicio.getDimensioPuzzle() - 1;
+                    int jObjetivo = 0;
+                    int distancia = Math.abs(i - iObjetivo) + Math.abs(j - jObjetivo);
+                    heuristica += distancia;
+                }
+            }
+        }
+
+        cost = heuristica + nMoviements * 2;
+        nMoviements++;
+    }
+
     public void generarFills() {
         int[] posicioZero = this.localitzarZero();
         int[][] offsets = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
@@ -50,8 +74,10 @@ public class Node {
 
             if (filaVecina >= 0 && filaVecina < n && columnaVecina >= 0 && columnaVecina < n) {
                 int[][] matrizIntercambiada = intercambiarPosiciones(disposicio.getPuzzle(), posicioZero[0], posicioZero[1], filaVecina, columnaVecina);
-                Tauler nouTauler = new Tauler(matrizIntercambiada);
-                fills.add(new Node(this, this.nMoviements, nouTauler, this.cost));
+                Estat nouEstat = new Estat(matrizIntercambiada);
+                if(nouEstat.esResoluble(nouEstat.getPuzzle())) {
+                    fills.add(new Node(this, this.nMoviements, nouEstat, this.cost));
+                }
             }
         }
     }
@@ -101,7 +127,10 @@ public class Node {
         return this.disposicio.esSolucio();
     }
 
-    public Tauler getDisposicio() {
+    public boolean esResoluble() {
+        return this.disposicio.esResoluble(this.disposicio.getPuzzle());
+    }
+    public Estat getDisposicio() {
         return this.disposicio;
     }
 
@@ -122,4 +151,17 @@ public class Node {
         return sb.toString();
     }
 
+    public boolean isEqual(Node aComparar) {
+        int n = this.disposicio.getDimensioPuzzle();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(this.disposicio.getPosicio(i,j) != aComparar.disposicio.getPosicio(i,j)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
