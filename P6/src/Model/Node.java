@@ -20,63 +20,83 @@ public class Node implements Comparable<Node> {
         this.calcularHeuristicaV2();
     }
 
-    // La nostra heurística es defineix com el nombre de peces mal colocades + els moviments que hem fet
-    // per arribar a aquesta distribució.
+    // Heurística com el nombre de peces mal colocades + els moviments que hem fet per arribar a aquesta distribució.
     private void calcularHeuristicaV1() {
         int heuristica = 0;
+        int dimensioPuzzle = disposicio.getDimensioPuzzle();
 
-        for (int i = 0; i < disposicio.getDimensioPuzzle(); i++) {
-            for (int j = 0; j < disposicio.getDimensioPuzzle(); j++) {
-                if (i == disposicio.getDimensioPuzzle() - 1 && j == disposicio.getDimensioPuzzle() - 1) {
+        // Recorrem la matriu.
+        for (int i = 0; i < dimensioPuzzle; i++) {
+            for (int j = 0; j < dimensioPuzzle; j++) {
+                // Si és el cantó inferior esquerra miram que sigui un 0
+                if (i == dimensioPuzzle - 1 && j == dimensioPuzzle - 1) {
                     if (disposicio.getPosicio(i, j) != 0) {
                         heuristica++;
                     }
-                } else if (disposicio.getPosicio(i, j) != (i * disposicio.getDimensioPuzzle()) + (j + 1)) {
+                // Si no és el 0 calculem el seu nombre.
+                } else if (disposicio.getPosicio(i, j) != (i * dimensioPuzzle) + (j + 1)) {
                     heuristica++;
                 }
             }
         }
+
+        // Calculem el cost final de l'heurística.
         cost = heuristica + nMoviements;
         nMoviements++;
     }
 
+    // Heurística distància manhattan per cada posició + número de moviments.
     private void calcularHeuristicaV2() {
         int heuristica = 0;
+        int dimensioPuzzle = disposicio.getDimensioPuzzle();
 
-        for (int i = 0; i < disposicio.getDimensioPuzzle(); i++) {
-            for (int j = 0; j < disposicio.getDimensioPuzzle(); j++) {
+        // Recorrem la matriu.
+        for (int i = 0; i < dimensioPuzzle; i++) {
+            for (int j = 0; j < dimensioPuzzle; j++) {
+                // Obtenim el numero de la posició actual.
                 int valorActual = disposicio.getPosicio(i, j);
+                // Decalarem les posicions on s'hauria de trobar el numero.
+                int iObjetiu;
+                int jObjetiu;
+                // Si no és el 0 calculem el seu nombre.
                 if (valorActual != 0) {
-                    int iObjetivo = (valorActual - 1) / disposicio.getDimensioPuzzle();
-                    int jObjetivo = (valorActual - 1) % disposicio.getDimensioPuzzle();
-                    int distancia = Math.abs(i - iObjetivo) + Math.abs(j - jObjetivo);
-                    heuristica += distancia;
+                    iObjetiu = (valorActual - 1) / dimensioPuzzle;
+                    jObjetiu = (valorActual - 1) % dimensioPuzzle;
+                // Si és 0 el seu lloc és el cantó inferior esquerra.
                 } else {
-                    int iObjetivo = disposicio.getDimensioPuzzle() - 1;
-                    int jObjetivo = 0;
-                    int distancia = Math.abs(i - iObjetivo) + Math.abs(j - jObjetivo);
-                    heuristica += distancia;
+                    iObjetiu = dimensioPuzzle - 1;
+                    jObjetiu = dimensioPuzzle - 1;
                 }
+                // Calculem la distància de Manhattan com la diferència de longituds.
+                heuristica += Math.abs(i - iObjetiu) + Math.abs(j - jObjetiu);
             }
         }
 
-        cost = heuristica + nMoviements * 2;
+        // Calculem el cost final de l'heurística,
+        this.cost = heuristica + nMoviements;
         nMoviements++;
     }
 
     public void generarFills() {
+        // Localitzem la posició del 0 per intercanviar.
         int[] posicioZero = this.localitzarZero();
+        // Possibles moviments que pot fer el 0.
         int[][] offsets = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+        // Obtenim el puzle i la dimensió.
         int n = disposicio.getDimensioPuzzle();
+        int[][] puzzle = disposicio.getPuzzle();
 
-        // Intercambia con las posiciones adyacentes válidas
+        // Provem les offsets per canviar.
         for (int[] offset : offsets) {
-            int filaVecina = posicioZero[0] + offset[0];
-            int columnaVecina = posicioZero[1] + offset[1];
+            // Obtenim les noves coordenades x i y.
+            int filaVeina = posicioZero[0] + offset[0];
+            int columnaVeina = posicioZero[1] + offset[1];
 
-            if (filaVecina >= 0 && filaVecina < n && columnaVecina >= 0 && columnaVecina < n) {
-                int[][] matrizIntercambiada = intercambiarPosiciones(disposicio.getPuzzle(), posicioZero[0], posicioZero[1], filaVecina, columnaVecina);
-                Estat nouEstat = new Estat(matrizIntercambiada);
+            // Si estan dins el tauler és un moviment vàlid i intercanviar.
+            if ((filaVeina >= 0 && filaVeina < n) && (columnaVeina >= 0 && columnaVeina < n)) {
+                int[][] matriuIntercanviada = intercanviarPosicions(puzzle, posicioZero[0], posicioZero[1], filaVeina, columnaVeina);
+                Estat nouEstat = new Estat(matriuIntercanviada);
+                // PODA. Si el fill resulta en un tauler irresoluble no l'afegim.
                 if(nouEstat.esResoluble(nouEstat.getPuzzle())) {
                     fills.add(new Node(this, this.nMoviements, nouEstat, this.cost));
                 }
@@ -84,35 +104,47 @@ public class Node implements Comparable<Node> {
         }
     }
 
-    private int[][] intercambiarPosiciones(int[][] matriz, int fila1, int columna1, int fila2, int columna2) {
-        int[][] matrizIntercambiada = new int[matriz.length][matriz[0].length];
-        for (int i = 0; i < matriz.length; i++) {
-            for (int j = 0; j < matriz[0].length; j++) {
-                if (i == fila1 && j == columna1) {
-                    matrizIntercambiada[i][j] = matriz[fila2][columna2];
-                } else if (i == fila2 && j == columna2) {
-                    matrizIntercambiada[i][j] = matriz[fila1][columna1];
-                } else {
-                    matrizIntercambiada[i][j] = matriz[i][j];
+    private int[][] intercanviarPosicions(int[][] matriu, int fila1, int columna1, int fila2, int columna2) {
+        // Creem la nova matriu on farem l'intercanvi
+        int[][] novaMatriu = new int[matriu.length][matriu[0].length];
+
+        // Fem l'intercanvi de posicions
+        int temp = matriu[fila1][columna1];
+        novaMatriu[fila1][columna1] = matriu[fila2][columna2];
+        novaMatriu[fila2][columna2] = temp;
+
+        // Copiem la resta de valors de la matriu original a la nova matriu
+        for (int i = 0; i < matriu[0].length; i++) {
+            for (int j = 0; j < matriu[0].length; j++) {
+                // Si no estem a la posició intercanviada, copiem el valor de la matriu original
+                if (i != fila1 || j != columna1) {
+                    if (i != fila2 || j != columna2) {
+                        novaMatriu[i][j] = matriu[i][j];
+                    }
                 }
             }
         }
-        return matrizIntercambiada;
+
+        return novaMatriu;
     }
 
+
     private int[] localitzarZero() {
+        int[] posicioZero = new int[2];
         for(int i = 0; i < disposicio.getDimensioPuzzle(); i++) {
             for(int j = 0; j < disposicio.getDimensioPuzzle(); j++) {
                 if(disposicio.getPosicio(i, j) == 0) {
-                    return new int[] {i,j};
+                    posicioZero[0] = i;
+                    posicioZero[1] = j;
+                    return posicioZero;
                 }
             }
         }
 
-        // Error hem eliminat el 0 de qualque manera.
         return null;
     }
 
+    // Getters
     public Node getPare() {
         return this.nodePare;
     }
@@ -129,13 +161,7 @@ public class Node implements Comparable<Node> {
         return this.disposicio.esSolucio();
     }
 
-    public boolean esResoluble() {
-        return this.disposicio.esResoluble(this.disposicio.getPuzzle());
-    }
-    public Estat getDisposicio() {
-        return this.disposicio;
-    }
-
+    // ToString
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -153,6 +179,7 @@ public class Node implements Comparable<Node> {
         return sb.toString();
     }
 
+    // Overrides necessaris per emprar Nodes amb un hashSet i el priorityQueue.
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -177,8 +204,7 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int hashCode() {
-        int result = Arrays.deepHashCode(disposicio.getPuzzle());
-        return result;
+        return Arrays.deepHashCode(disposicio.getPuzzle());
     }
 
     @Override

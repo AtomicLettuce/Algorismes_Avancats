@@ -14,7 +14,9 @@ public class Main {
     }
 
     public void inici() {
-        tablero = new Estat(4);
+//        tablero = new Estat(4);
+
+        tablero = new Estat(new int[][] {{1,2,3,4},{5,6,7,8},{10,11,9,12},{14,0,13,15}});
         controlador = new Controlador(tablero);
         Node nodeInici = new Node(null, 0, tablero, 0);
 
