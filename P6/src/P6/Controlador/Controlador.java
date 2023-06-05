@@ -1,7 +1,7 @@
-package Controlador;
+package P6.Controlador;
 
-import Model.Node;
-import Model.Estat;
+import P6.Model.Node;
+import P6.Model.Estat;
 
 import java.util.*;
 

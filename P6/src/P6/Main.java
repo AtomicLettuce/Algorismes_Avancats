@@ -1,12 +1,17 @@
-import Controlador.Controlador;
-import Model.Estat;
-import Model.Node;
-import Vista.Vista;
+package P6;
+
+import P6.Controlador.Controlador;
+import P6.Interficies.InterficieComunicacio;
+import P6.Model.Estat;
+import P6.Model.Node;
+import P6.Vista.Vista;
 
 import java.util.List;
 
-public class Main {
+public class Main implements InterficieComunicacio {
     private Controlador controlador;
+    private Vista vista;
+    public static boolean CONTINUAR=true;
     private Estat tablero;
 
     public static void main(String[] args) {
@@ -14,11 +19,16 @@ public class Main {
     }
 
     public void inici() {
+
+
+
         tablero = new Estat(4);
-        //tablero.setDefault();
+        tablero.setDefault();
         System.out.println(tablero.esResoluble(tablero.getPuzzle()));
+        vista=new Vista("mondongo",this, tablero);
+        vista.actualitzar();
         //tablero = new Estat(new int[][] {{1,2,3,4},{5,6,7,8},{10,11,9,12},{14,0,13,15}});
-        controlador = new Controlador(tablero);
+        /*controlador = new Controlador(tablero);
         Node nodeInici = new Node(null, 0, tablero, 0);
 
         System.out.println("----------- TAULER INICIAL -----------");
@@ -30,6 +40,11 @@ public class Main {
             System.out.println(sol);
         } else {
             System.err.println("La configuració inicial no té solució vàlida.");
-        }
+        }*/
+    }
+
+    @Override
+    public void comunicacio(String instruccio) {
+
     }
 }

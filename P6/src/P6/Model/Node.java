@@ -1,8 +1,7 @@
-package Model;
+package P6.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Node implements Comparable<Node> {
     private int cost;

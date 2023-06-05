@@ -1,6 +1,9 @@
-package Model;
+package P6.Model;
 
-import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -9,10 +12,18 @@ public class Estat {
     private int dimensioPuzzle;
     private int[][] Puzzle;
 
+    public BufferedImage imatgepuzzle;
+
+
     // Dos constructors, donats una matriu especificada per paràmetre o donat una dimensió i el cream random.
     public Estat(int dim) {
         dimensioPuzzle = dim;
         Puzzle = generarTaulerRandomResoluble();
+        /*try{
+            //imatgepuzzle= ImageIO.read(new File("img/fotopuzzle.jpeg"));
+        }catch (IOException ioe){
+            System.out.println(ioe.toString());
+        }*/
     }
 
     public Estat(int[][] taul) {
