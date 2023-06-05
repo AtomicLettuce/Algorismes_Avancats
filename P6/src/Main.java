@@ -14,9 +14,10 @@ public class Main {
     }
 
     public void inici() {
-//        tablero = new Estat(4);
-
-        tablero = new Estat(new int[][] {{1,2,3,4},{5,6,7,8},{10,11,9,12},{14,0,13,15}});
+        tablero = new Estat(4);
+        //tablero.setDefault();
+        System.out.println(tablero.esResoluble(tablero.getPuzzle()));
+        //tablero = new Estat(new int[][] {{1,2,3,4},{5,6,7,8},{10,11,9,12},{14,0,13,15}});
         controlador = new Controlador(tablero);
         Node nodeInici = new Node(null, 0, tablero, 0);
 
@@ -25,6 +26,7 @@ public class Main {
         List<String> sol = controlador.trobarSolucio(nodeInici);
         if(sol.size() != 0) {
             System.out.println("----------- SOLUCIÓ -----------");
+            System.out.println("\t   Trobat en "+sol.size()+" pases.");
             System.out.println(sol);
         } else {
             System.err.println("La configuració inicial no té solució vàlida.");

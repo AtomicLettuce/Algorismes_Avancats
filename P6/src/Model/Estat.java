@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -20,7 +21,7 @@ public class Estat {
     }
     // ! DEBUG : BORRAR !
     public void setDefault() {
-        Puzzle = new int[][]{{7,10,3,5},{12,15,0,8},{6,14,2,1},{4,11,9,13}};
+        Puzzle = new int[][]{{1,2,3,4},{5,6,7,8},{0,10,11,12},{9,13,14,15}};
     }
 
     // Generació d'un taulell random que sigui resoluble.
@@ -57,16 +58,36 @@ public class Estat {
         return puzle;
     }
 
+    public boolean esResoluble(int[][] puzzle) {
+        int[] arrayLineal = convertirArrayLineal(puzzle);
+        int inversiones = contarInversions(arrayLineal);
+        int filaVacia = obtenirFilaBuida(puzzle);
+        int n = puzzle.length;
+
+        if (n % 2 == 1) {
+            // Para puzzles de tamaño impar
+            return inversiones % 2 == 0;
+        } else {
+            // Para puzzles de tamaño par
+            if ((n - filaVacia) % 2 == 0) {
+                return inversiones % 2 == 1;
+            } else {
+                return inversiones % 2 == 0;
+            }
+        }
+    }
     private int[] convertirArrayLineal(int[][] puzzle) {
         // Calulam la longitud de l'array.
-        int n = puzzle.length * puzzle[0].length;
+        int n = puzzle.length * puzzle[0].length - 1;
         int[] arrayLineal = new int[n];
 
         // Colocam en ordre d'una matriu nxn a un array n.
         int index = 0;
-        for (int i = 0; i < puzzle.length; i++) {
+        for (int i = 0; i < puzzle[0].length; i++) {
             for (int j = 0; j < puzzle[0].length; j++) {
-                arrayLineal[index++] = puzzle[i][j];
+                if(puzzle[i][j] != 0){
+                    arrayLineal[index++] = puzzle[i][j];
+                }
             }
         }
         return arrayLineal;
@@ -90,33 +111,12 @@ public class Estat {
         return inversions;
     }
 
-    public boolean esResoluble(int[][] puzzle) {
-        int[] arrayLineal = convertirArrayLineal(puzzle);
-        int inversions = contarInversions(arrayLineal);
-        int filaBuida = obtenirFilaBuida(puzzle);
-
-        // Comprobar que un puzzle te solució o no depén de si es par o impar.
-        if (puzzle.length % 2 != 0) {
-            // Per a puzzles de mida imparell
-            return inversions % 2 == 0;
-        } else {
-            // Per a puzzles de mida parell, si la fila buida es par les inversions han de ser imparelles.
-            if (filaBuida % 2 == 0) {
-                return inversions % 2 != 0;
-            // Si la fila buida es imparella les inversions han de ser parelles.
-            } else {
-                return inversions % 2 == 0;
-            }
-        }
-    }
-
     // Retornam la fila en la qual es troba el 0.
     private int obtenirFilaBuida(int[][] puzzle) {
-        int ultimaFila = puzzle.length - 1;
         for (int i = 0; i < puzzle.length; i++) {
             for (int j = 0; j < puzzle.length; j++) {
                 if (puzzle[i][j] == 0) {
-                    return ultimaFila - i;
+                    return i;
                 }
             }
         }
