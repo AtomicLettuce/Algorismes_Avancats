@@ -44,7 +44,7 @@ public class PanellPuzzle extends JPanel {
         for (int i = 0; i < model.getDimensioPuzzle(); i++) {
             for (int j = 0; j < model.getDimensioPuzzle(); j++) {
                 g2.drawString(""+model.getPosicio(i,j),x,y);
-                System.out.print(model.getPosicio(i,j)+" ");
+                // System.out.print(model.getPosicio(i,j)+" ");
                 x=x+incrementX;
             }
             x=incrementX/2;
