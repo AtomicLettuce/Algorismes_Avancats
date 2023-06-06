@@ -47,7 +47,6 @@ public class Controlador extends Thread {
                 double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
 
-                // Retornam el camí que ens ha duit fins aquesta configuració.
                 return reconstruirCami(nodeActual);
             }
 

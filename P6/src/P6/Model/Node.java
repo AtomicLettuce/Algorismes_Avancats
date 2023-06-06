@@ -72,10 +72,39 @@ public class Node implements Comparable<Node> {
         }
 
         // Calculem el cost final de l'heurística,
-        this.cost = heuristica + nMoviements;
+        this.cost = heuristica*this.disposicio.getDimensioPuzzle() + nMoviements;
         nMoviements++;
     }
 
+    private void calcularHeuristicaV3() {
+        int heuristica = 0;
+        int dimensioPuzzle = disposicio.getDimensioPuzzle();
+
+        // Recorrem la matriu.
+        for (int i = 0; i < dimensioPuzzle; i++) {
+            for (int j = 0; j < dimensioPuzzle; j++) {
+                // Obtenim el numero de la posició actual.
+                int valorActual = disposicio.getPosicio(i, j);
+                // Decalarem les posicions on s'hauria de trobar el numero.
+                int iObjetiu;
+                int jObjetiu;
+                // Si no és el 0 calculem el seu nombre.
+                if (valorActual != 0) {
+                    iObjetiu = (valorActual - 1) / dimensioPuzzle;
+                    jObjetiu = (valorActual - 1) % dimensioPuzzle;
+                    // Si és 0 el seu lloc és el cantó inferior esquerra.
+                } else {
+                    iObjetiu = dimensioPuzzle - 1;
+                    jObjetiu = dimensioPuzzle - 1;
+                }
+                // Calculem la distància de Manhattan com la diferència de longituds.
+                heuristica += Math.abs(i - iObjetiu) + Math.abs(j - jObjetiu);
+            }
+        }
+
+        // Calculem el cost final de l'heurística,
+        this.cost = heuristica;
+    }
     public void generarFills() {
         // Localitzem la posició del 0 per intercanviar.
         int[] posicioZero = this.localitzarZero();
@@ -91,14 +120,12 @@ public class Node implements Comparable<Node> {
             int filaVeina = posicioZero[0] + offset[0];
             int columnaVeina = posicioZero[1] + offset[1];
 
-            // Si estan dins el tauler és un moviment vàlid i intercanviar.
+            // Si és un moviment vàlid intercanviar.
             if ((filaVeina >= 0 && filaVeina < n) && (columnaVeina >= 0 && columnaVeina < n)) {
                 int[][] matriuIntercanviada = intercanviarPosicions(puzzle, posicioZero[0], posicioZero[1], filaVeina, columnaVeina);
                 Estat nouEstat = new Estat(matriuIntercanviada);
-                // PODA. Si el fill resulta en un tauler irresoluble no l'afegim.
-                if(nouEstat.esResoluble(nouEstat.getPuzzle())) {
-                    fills.add(new Node(this, this.nMoviements, nouEstat, this.cost));
-                }
+                // Afegim els nous fills.
+                fills.add(new Node(this, this.nMoviements, nouEstat, this.cost));
             }
         }
     }
