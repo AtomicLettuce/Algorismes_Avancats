@@ -19,11 +19,11 @@ public class Estat {
     public Estat(int dim) {
         dimensioPuzzle = dim;
         Puzzle = generarTaulerRandomResoluble();
-        /*try{
-            //imatgepuzzle= ImageIO.read(new File("img/fotopuzzle.jpeg"));
+        try{
+            imatgepuzzle= ImageIO.read(new File("img/fotopuzzle.jpeg"));
         }catch (IOException ioe){
             System.out.println(ioe.toString());
-        }*/
+        }
     }
 
     public Estat(int[][] taul) {

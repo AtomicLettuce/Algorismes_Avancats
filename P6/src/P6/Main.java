@@ -19,8 +19,8 @@ public class Main implements InterficieComunicacio {
     }
 
     public void inici() {
-        tablero = new Estat(5);
-        // tablero.setDefault();
+        tablero = new Estat(4);
+        //tablero.setDefault();
         System.out.println(tablero.esResoluble(tablero.getPuzzle()));
         vista=new Vista("mondongo",this, tablero);
         vista.actualitzar();
