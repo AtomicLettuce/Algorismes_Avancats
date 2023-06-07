@@ -39,10 +39,10 @@ public class PanellPuzzle extends JPanel {
         int imatgeIncrementY = model.imatgepuzzle.getWidth();
         for (int y = 0; y < model.getDimensioPuzzle(); y++) {
             for (int x = 0; x < model.getDimensioPuzzle(); x++) {
-                if (model.getPosicio(x, y) != 0) {
+                if (model.getPosicio(x, y) > 0) {
                     int sx1 = tradueixCoordenadesX(model.getPosicio(x, y)) * incrementX;
                     int sy1 = tradueixCoordenadesY(model.getPosicio(x, y)) * incrementY;
-                    int sx2 = sx1+ incrementX;
+                    int sx2 = sx1 + incrementX;
                     int sy2 = sy1 + incrementY;
                     g2.drawImage(model.imatgepuzzle,
                             y * incrementX,
@@ -60,11 +60,11 @@ public class PanellPuzzle extends JPanel {
     }
 
     public int tradueixCoordenadesX(int num) {
-        return (num-1) % model.getDimensioPuzzle();
+        return (num - 1) % model.getDimensioPuzzle();
     }
 
     public int tradueixCoordenadesY(int num) {
-        return (num-1) / model.getDimensioPuzzle();
+        return (num - 1) / model.getDimensioPuzzle();
     }
 
     public void dibuixa_nums(Graphics2D g2) {

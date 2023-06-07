@@ -16,13 +16,17 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     private MonitorVista mv;
     private PanellPuzzle panellPuzzle;
     private Estat model;
+    private boolean fentPuzzle;
+    private int nouPuzzle[][];
+
     public Vista(String nom, Main main, Estat model) {
         super(nom);
+        fentPuzzle = false;
         this.main = main;
-        this.model=model;
+        this.model = model;
         addWindowListener(this);
 
-        panellPuzzle=new PanellPuzzle(800,800, model);
+        panellPuzzle = new PanellPuzzle(800, 800, model);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.add(panellPuzzle, BorderLayout.CENTER);
@@ -78,7 +82,6 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     }
 
 
-
     // Manejador d'events de la zona botonera
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -101,9 +104,32 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     }
 
 
-
     private void demana_opcions() {
+        String[] options = {"Canviar dimensió (n)", "Crear Puzzle (usuari)", "Generar puzzle (automàtic)", "OK"};
 
+        int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
+        switch (option) {
+            case 0:
+                String str = JOptionPane.showInputDialog(this, "Enter");
+                int n = Integer.parseInt(str);
+                System.out.println("Dimensió (n) escollit: " + n);
+                main.comunicacio("dimensio:" + n);
+                break;
+            case 1:
+                nouPuzzle = new int[model.getDimensioPuzzle()][model.getDimensioPuzzle()];
+                for (int i = 0; i < nouPuzzle.length; i++) {
+                    for (int j = 0; j < nouPuzzle.length; j++) {
+                        nouPuzzle[i][j] = -1;
+                    }
+                }
+                model.setPuzzle(nouPuzzle);
+                actualitzar();
+                fentPuzzle = true;
+                break;
+            case 2:
+                main.comunicacio("generar");
+                break;
+        }
     }
 
     // Per rebre notificació que s'ha de refrescar la pantalla
@@ -114,10 +140,39 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     public void notificarSortida() {
         mv.notificarSortida();
     }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        System.out.println(" x: "+mouseEvent.getX()+" y: "+mouseEvent.getY());
+        if (fentPuzzle) {
+            int x = mouseEvent.getX() / (panellPuzzle.getWidth() / model.getDimensioPuzzle());
+            int y = mouseEvent.getY() / (panellPuzzle.getHeight() / model.getDimensioPuzzle());
+
+            int max = Integer.MIN_VALUE;
+            for (int i = 0; i < nouPuzzle.length; i++) {
+                for (int j = 0; j < nouPuzzle[i].length; j++) {
+                    if (nouPuzzle[i][j] > max) {
+                        max = nouPuzzle[i][j];
+                    }
+                }
+            }
+            if (nouPuzzle[y][x] == -1) {
+                nouPuzzle[y][x] = max + 1;
+                if (max + 1 == ((model.getDimensioPuzzle() * model.getDimensioPuzzle()) - 1)) {
+                    fentPuzzle = false;
+                    if(!model.esResoluble(nouPuzzle)){
+                        JOptionPane.showMessageDialog(this,"ALERTA, AQUEST PUZZLE NO TÉ SOL·LUCIÓ","AVÍS",JOptionPane.WARNING_MESSAGE);
+                    }
+
+                }
+                model.setPuzzle(nouPuzzle);
+                actualitzar();
+            }
+
+        }
+
+
     }
+
     @Override
     public void windowClosing(WindowEvent e) {
         main.comunicacio("stop");
