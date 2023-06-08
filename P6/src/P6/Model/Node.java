@@ -2,6 +2,8 @@ package P6.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
 
 public class Node implements Comparable<Node> {
     private int cost;
@@ -168,6 +170,55 @@ public class Node implements Comparable<Node> {
         }
 
         return null;
+    }
+
+    // Opció per transformar en estat final i desordenar-ho N vegades.
+    public void desordenarEstatFinal(int n) {
+        // Carregam l'estat final
+        this.disposicio = generarSolucio();
+        // No repetim camins.
+        HashSet<Node> nodesVisitats = new HashSet<>();
+        nodesVisitats.add(this);
+        // Necesari per agafar un fill aleatori.
+        Random random = new Random();
+
+        for(int it = 0; it < n; it++) {
+            // Generam els fills i agafam un aleatori.
+            generarFills();
+            Node possibleFill = this.fills.get(random.nextInt(fills.size()));
+            // Agafam un pel qual encara no hem passat.
+            while(!nodesVisitats.add(possibleFill)) {
+                possibleFill = this.fills.get(random.nextInt(fills.size()));
+            }
+            // Esborram els fills creats, sinó queden en memòria i no feim un camí.
+            this.fills.clear();
+            // Asisgnam la nova disposició i repetim.
+            this.disposicio = possibleFill.disposicio;
+        }
+        // Quan hem acabat resetetjam les variables emprades per deixar-ho com un node inici.
+        this.cost = 0;
+        this.nMoviements = 0;
+        this.fills.clear();
+    }
+
+    private Estat generarSolucio() {
+
+        int dimensioPuzzle = disposicio.getDimensioPuzzle();
+        int[][] Puzzle = new int[dimensioPuzzle][dimensioPuzzle];
+
+        for (int i = 0; i < dimensioPuzzle; i++) {
+            for (int j = 0; j < dimensioPuzzle; j++) {
+                if (i == dimensioPuzzle - 1 && j == dimensioPuzzle - 1) {
+                    Puzzle[i][j] = 0;
+                } else {
+                    Puzzle[i][j] = (i * dimensioPuzzle) + (j + 1);
+                }
+            }
+        }
+
+        System.out.println(Puzzle);
+
+        return new Estat(Puzzle);
     }
 
     // Getters
