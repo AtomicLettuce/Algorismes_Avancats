@@ -29,6 +29,8 @@ public class Main implements InterficieComunicacio {
         controlador = new Controlador(tablero);
         Node nodeInici = new Node(null, 0, tablero, 0);
 
+        nodeInici.desordenarEstatFinal(100);
+
         System.out.println("----------- TAULER INICIAL -----------");
         System.out.println(nodeInici);
         List<String> sol = controlador.trobarSolucio(nodeInici);
