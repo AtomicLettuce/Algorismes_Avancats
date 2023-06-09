@@ -17,7 +17,7 @@ public class Controlador extends Thread {
     public void run() {
     }
 
-    public List<String> trobarSolucio(Node nodeInicial) {
+    public List<Estat> trobarSolucio(Node nodeInicial) {
         // Coa de prioritat per nodes ordenat per la seva heurística. (Implementat a node)
         PriorityQueue<Node> coaPrioritat = new PriorityQueue<>();
         // Afegim la configuració actual.
@@ -47,7 +47,9 @@ public class Controlador extends Thread {
                 double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
 
-                return reconstruirCami(nodeActual);
+                List <Estat> sol=reconstruirCami(nodeActual);
+                estat.sol=sol;
+                return sol;
             }
 
             // Si no es solució generam els seus fills.
@@ -71,17 +73,19 @@ public class Controlador extends Thread {
     }
 
 
-    private ArrayList<String> reconstruirCami(Node node) {
+    private ArrayList<Estat> reconstruirCami(Node node) {
         // Cream el camí
-        ArrayList<String> cami = new ArrayList<>();
+        ArrayList<Estat> cami = new ArrayList<>();
         Node nodeActual = node;
         // Mentres tengui pare seguim.
         while (nodeActual != null) {
             // Afegim al principi de la llista, evitam fer un reverse.
-            cami.add(0, nodeActual.toString());
+            cami.add(0,nodeActual.getDisposicio());
             // Agafam el següent element.
             nodeActual = nodeActual.getPare();
         }
+
+
         // Retornam la solució.
         return cami;
     }

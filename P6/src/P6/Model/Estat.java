@@ -5,12 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 public class Estat {
     // Atributs d'un estat, la dimensió i la matriu.
     private int dimensioPuzzle;
     private int[][] Puzzle;
+
+    public List<Estat> sol;
 
     public BufferedImage imatgepuzzle;
 
@@ -19,11 +22,6 @@ public class Estat {
     public Estat(int dim) {
         dimensioPuzzle = dim;
         Puzzle = generarTaulerRandomResoluble();
-        try{
-            imatgepuzzle= ImageIO.read(new File("img/fotopuzzle.jpeg"));
-        }catch (IOException ioe){
-            System.out.println(ioe.toString());
-        }
     }
 
     public Estat(int[][] taul) {

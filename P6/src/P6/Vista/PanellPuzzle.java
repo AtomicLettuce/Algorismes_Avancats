@@ -19,29 +19,46 @@ public class PanellPuzzle extends JPanel {
 
         g2.setColor(Color.WHITE);
         g2.fillRect(0, 0, getHeight(), getWidth());
+        System.out.println("a");
+        dibuixa_graella(g2);
+        if (model.sol != null) {
+            dibuixa_solucio(g2);
 
-        dibuixa_graella(g2);
-        if (model.imatgepuzzle != null) {
-            dibuixa_imatge(g2);
         } else {
-            dibuixa_nums(g2);
+            System.out.println("pingala");
+            if (model.imatgepuzzle != null) {
+                dibuixa_imatge(g2,model);
+            } else {
+                dibuixa_nums(g2,model);
+            }
         }
-        dibuixa_graella(g2);
+    }
+    public void dibuixa_solucio(Graphics2D g2){
+        Estat estat=model.sol.remove(0);
+        if(model.sol.size()==0){
+            model.sol=null;
+            JOptionPane.showMessageDialog(this,"JA HAS TROBAT LA SOLUCIÓ","AVÍS",JOptionPane.WARNING_MESSAGE);
+        }
+        if (model.imatgepuzzle != null) {
+            dibuixa_imatge(g2,estat);
+        } else {
+            dibuixa_nums(g2,estat);
+        }
     }
 
-    public void dibuixa_imatge(Graphics2D g2) {
+    public void dibuixa_imatge(Graphics2D g2, Estat estat) {
 
         //g2.drawImage(model.imatgepuzzle, 0,0,getWidth(),getHeight(),null);
-        int incrementX = getWidth() / model.getDimensioPuzzle();
-        int incrementY = getHeight() / model.getDimensioPuzzle();
+        int incrementX = getWidth() / estat.getDimensioPuzzle();
+        int incrementY = getHeight() / estat.getDimensioPuzzle();
 
         int imatgeIncrementX = model.imatgepuzzle.getHeight();
         int imatgeIncrementY = model.imatgepuzzle.getWidth();
-        for (int y = 0; y < model.getDimensioPuzzle(); y++) {
-            for (int x = 0; x < model.getDimensioPuzzle(); x++) {
-                if (model.getPosicio(x, y) > 0) {
-                    int sx1 = tradueixCoordenadesX(model.getPosicio(x, y)) * incrementX;
-                    int sy1 = tradueixCoordenadesY(model.getPosicio(x, y)) * incrementY;
+        for (int y = 0; y < estat.getDimensioPuzzle(); y++) {
+            for (int x = 0; x < estat.getDimensioPuzzle(); x++) {
+                if (estat.getPosicio(x, y) > 0) {
+                    int sx1 = tradueixCoordenadesX(estat.getPosicio(x, y)) * incrementX;
+                    int sy1 = tradueixCoordenadesY(estat.getPosicio(x, y)) * incrementY;
                     int sx2 = sx1 + incrementX;
                     int sy2 = sy1 + incrementY;
                     g2.drawImage(model.imatgepuzzle,
@@ -67,14 +84,14 @@ public class PanellPuzzle extends JPanel {
         return (num - 1) / model.getDimensioPuzzle();
     }
 
-    public void dibuixa_nums(Graphics2D g2) {
-        int incrementX = getWidth() / model.getDimensioPuzzle();
-        int incrementY = getHeight() / model.getDimensioPuzzle();
+    public void dibuixa_nums(Graphics2D g2, Estat estat) {
+        int incrementX = getWidth() / estat.getDimensioPuzzle();
+        int incrementY = getHeight() / estat.getDimensioPuzzle();
         int x = incrementX / 2;
         int y = incrementY / 2;
-        for (int i = 0; i < model.getDimensioPuzzle(); i++) {
-            for (int j = 0; j < model.getDimensioPuzzle(); j++) {
-                g2.drawString("" + model.getPosicio(i, j), x, y);
+        for (int i = 0; i < estat.getDimensioPuzzle(); i++) {
+            for (int j = 0; j < estat.getDimensioPuzzle(); j++) {
+                g2.drawString("" + estat.getPosicio(i, j), x, y);
                 // System.out.print(model.getPosicio(i,j)+" ");
                 x = x + incrementX;
             }

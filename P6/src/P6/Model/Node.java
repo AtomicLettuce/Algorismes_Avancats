@@ -18,6 +18,9 @@ public class Node implements Comparable<Node> {
         this.fills = new ArrayList<>();
         this.calcularHeuristicaV2();
     }
+    public Estat getDisposicio(){
+        return disposicio;
+    }
 
     // Heurística com el nombre de peces mal colocades + els moviments que hem fet per arribar a aquesta distribució.
     private void calcularHeuristicaV1() {
