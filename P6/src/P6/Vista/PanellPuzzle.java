@@ -7,11 +7,17 @@ import java.awt.*;
 
 public class PanellPuzzle extends JPanel {
     private Estat model;
+    private Vista vista;
 
-    public PanellPuzzle(int width, int height, Estat model) {
+    public PanellPuzzle(int width, int height, Estat model, Vista vista) {
         super();
         this.model = model;
         this.setPreferredSize(new Dimension(width, height));
+        this.vista =vista;
+    }
+
+    public void setModel(Estat model) {
+        this.model = model;
     }
 
     public void paintComponent(Graphics g) {
@@ -19,13 +25,10 @@ public class PanellPuzzle extends JPanel {
 
         g2.setColor(Color.WHITE);
         g2.fillRect(0, 0, getHeight(), getWidth());
-        System.out.println("a");
         dibuixa_graella(g2);
         if (model.sol != null) {
             dibuixa_solucio(g2);
-
         } else {
-            System.out.println("pingala");
             if (model.imatgepuzzle != null) {
                 dibuixa_imatge(g2,model);
             } else {
@@ -35,9 +38,12 @@ public class PanellPuzzle extends JPanel {
     }
     public void dibuixa_solucio(Graphics2D g2){
         Estat estat=model.sol.remove(0);
+        if(model.sol.size()==1){
+            vista.desactivaBlitz();
+        }
         if(model.sol.size()==0){
             model.sol=null;
-            JOptionPane.showMessageDialog(this,"JA HAS TROBAT LA SOLUCIÓ","AVÍS",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(vista,"JA HAS TROBAT LA SOLUCIÓ","AVÍS",JOptionPane.WARNING_MESSAGE);
         }
         if (model.imatgepuzzle != null) {
             dibuixa_imatge(g2,estat);
@@ -71,6 +77,9 @@ public class PanellPuzzle extends JPanel {
                             sx2,
                             sy2,
                             null);
+                }else{
+                    g2.setColor(Color.CYAN);
+                    g2.fillRect(y*incrementX,x*incrementY,(y+1)*incrementX,(x+1)*incrementY);
                 }
             }
         }
@@ -91,13 +100,16 @@ public class PanellPuzzle extends JPanel {
         int y = incrementY / 2;
         for (int i = 0; i < estat.getDimensioPuzzle(); i++) {
             for (int j = 0; j < estat.getDimensioPuzzle(); j++) {
+                if(estat.getPosicio(i,j)==0){
+                    g2.setColor(Color.CYAN);
+                    g2.fillOval(x - (incrementX/2), y - (incrementY/2), incrementX, incrementY);
+                    g2.setColor(Color.BLACK);
+                }
                 g2.drawString("" + estat.getPosicio(i, j), x, y);
-                // System.out.print(model.getPosicio(i,j)+" ");
                 x = x + incrementX;
             }
             x = incrementX / 2;
             y = y + incrementY;
-            System.out.println();
         }
     }
 
