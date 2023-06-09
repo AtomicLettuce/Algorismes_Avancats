@@ -16,6 +16,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     private JButton play;
     private JButton stop;
     private JButton next;
+    private JButton blitz;
     private JButton opcions;
     private MonitorVista mv;
     private PanellPuzzle panellPuzzle;
@@ -30,7 +31,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
         this.model = model;
         addWindowListener(this);
 
-        panellPuzzle = new PanellPuzzle(800, 800, model);
+        panellPuzzle = new PanellPuzzle(800, 800, model,this);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.add(panellPuzzle, BorderLayout.CENTER);
@@ -38,24 +39,28 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
         play = new JButton(new ImageIcon("img/play.png"));
         stop = new JButton(new ImageIcon("img/stop.png"));
         next = new JButton(new ImageIcon("img/next.png"));
+        blitz = new JButton(new ImageIcon("img/blitz.jpg"));
         opcions = new JButton(new ImageIcon("img/elegirN.png"));
 
         // Zona botonera (identificadors)
         play.setActionCommand("play");
         stop.setActionCommand("stop");
         next.setActionCommand("next");
+        blitz.setActionCommand("blitz");
         opcions.setActionCommand("opcions");
 
         // Zona botonera (manejador d'esdeveniments)
         play.addActionListener(this);
         stop.addActionListener(this);
         next.addActionListener(this);
+        blitz.addActionListener(this);
         opcions.addActionListener(this);
 
         // Zona botonera (motius estètics)
         play.setBackground(Color.WHITE);
         stop.setBackground(Color.WHITE);
         next.setBackground(Color.WHITE);
+        blitz.setBackground(Color.WHITE);
         opcions.setBackground(Color.WHITE);
 
         // Zona botonera (afegir-los en pantalla)
@@ -63,6 +68,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
         botonera.setBackground(Color.DARK_GRAY);
         botonera.add(play);
         botonera.add(next);
+        botonera.add(blitz);
         botonera.add(stop);
         botonera.add(opcions);
 
@@ -85,6 +91,11 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
         this.repaint();
     }
 
+    public void setModel(Estat model){
+        this.model=model;
+        panellPuzzle.setModel(model);
+    }
+
 
     // Manejador d'events de la zona botonera
     @Override
@@ -104,9 +115,17 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
                 // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
                 demana_opcions();
                 break;
+            case "blitz":
+                activaBlitz();
+                break;
         }
     }
-
+public void desactivaBlitz(){
+        mv.desactivaBlitz();
+}
+    public void activaBlitz(){
+        mv.activaBlitz();
+    }
 
     private void demana_opcions() {
         String[] options = {"Canviar dimensió (n)", "Crear Puzzle (usuari)", "Generar puzzle (automàtic)","Set Foto","Esborra Foto", "OK"};

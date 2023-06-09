@@ -1,5 +1,6 @@
 package P6.Controlador;
 
+import P6.Main;
 import P6.Model.Node;
 import P6.Model.Estat;
 
@@ -33,6 +34,9 @@ public class Controlador extends Thread {
 
         // Mentres la coa tengui elements segueix.
         while (coaPrioritat.size() > 0) {
+            if(!Main.CONTINUAR){
+                return null;
+            }
             // Agafam el node amb millor heurística.
             Node nodeActual = coaPrioritat.poll();
 

@@ -23,22 +23,6 @@ public class Main implements InterficieComunicacio {
         System.out.println(tablero.esResoluble(tablero.getPuzzle()));
         vista = new Vista("mondongo", this, tablero);
         vista.actualitzar();
-
-        /*controlador = new Controlador(tablero);
-        Node nodeInici = new Node(null, 0, tablero, 0);
-
-        nodeInici.desordenarEstatFinal(100);
-
-        System.out.println("----------- TAULER INICIAL -----------");
-        System.out.println(nodeInici);
-        List<Estat> sol = controlador.trobarSolucio(nodeInici);
-        if (sol.size() != 0) {
-            System.out.println("----------- SOLUCIÓ -----------");
-            System.out.println("\t   Trobat en " + sol.size() + " pases.");
-            System.out.println(sol);
-        } else {
-            System.err.println("La configuració inicial no té solució vàlida.");
-        }*/
     }
 
     @Override
@@ -55,9 +39,17 @@ public class Main implements InterficieComunicacio {
             case "actualitzar":
                 vista.actualitzar();
                 break;
+            case "stop":
+                CONTINUAR=false;
+                vista.actualitzar();
+
+                break;
         }
         if (instruccio.startsWith("dimensio")) {
             int n = Integer.parseInt(instruccio.split(":")[1]);
+            tablero=new Estat(n);
+            vista.setModel(tablero);
+            vista.actualitzar();
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
         }
     }
