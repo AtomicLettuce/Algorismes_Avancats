@@ -33,8 +33,9 @@ public class Main implements InterficieComunicacio {
                 break;
             case "play":
                 Node nodeInici = new Node(null, 0, tablero, 0);
-                controlador = new Controlador(tablero);
-                controlador.trobarSolucio(nodeInici);
+                controlador = new Controlador(tablero,nodeInici);
+                controlador.run();
+                //controlador.trobarSolucio(nodeInici);
                 break;
             case "actualitzar":
                 vista.actualitzar();
