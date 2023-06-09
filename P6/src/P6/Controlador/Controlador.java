@@ -9,13 +9,20 @@ import java.util.*;
 public class Controlador extends Thread {
 
     private final Estat estat;
-    public Controlador(Estat estat) {
+    private Node nInicial;
+
+    public Controlador(Estat estat,Node nInicial) {
         this.estat = estat;
+        this.nInicial=nInicial;
     }
 
     // Cream el thread.
     @Override
     public void run() {
+        System.out.println("Controlador begins");
+        long t1 = System.nanoTime();
+        trobarSolucio(nInicial);
+        System.out.println("Controlador acaba");
     }
 
     public List<Estat> trobarSolucio(Node nodeInicial) {
@@ -34,7 +41,7 @@ public class Controlador extends Thread {
 
         // Mentres la coa tengui elements segueix.
         while (coaPrioritat.size() > 0) {
-            if(!Main.CONTINUAR){
+            if (!Main.CONTINUAR) {
                 return null;
             }
             // Agafam el node amb millor heurística.
@@ -51,8 +58,8 @@ public class Controlador extends Thread {
                 double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
 
-                List <Estat> sol=reconstruirCami(nodeActual);
-                estat.sol=sol;
+                List<Estat> sol = reconstruirCami(nodeActual);
+                estat.sol = sol;
                 return sol;
             }
 
@@ -84,7 +91,7 @@ public class Controlador extends Thread {
         // Mentres tengui pare seguim.
         while (nodeActual != null) {
             // Afegim al principi de la llista, evitam fer un reverse.
-            cami.add(0,nodeActual.getDisposicio());
+            cami.add(0, nodeActual.getDisposicio());
             // Agafam el següent element.
             nodeActual = nodeActual.getPare();
         }
