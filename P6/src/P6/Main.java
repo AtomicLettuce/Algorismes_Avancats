@@ -30,6 +30,13 @@ public class Main implements InterficieComunicacio {
         switch (instruccio){
             case "generar":
                 // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                tablero.generaFullRandom();
+                vista.actualitzar();
+                break;
+            case "generarFacil":
+                //[DESORDENARFACIL][DESORDENARFACIL][DESORDENARFACIL]
+
+                vista.actualitzar();
                 break;
             case "play":
                 Node nodeInici = new Node(null, 0, tablero, 0);

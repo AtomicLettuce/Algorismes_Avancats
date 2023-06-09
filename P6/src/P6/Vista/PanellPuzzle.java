@@ -38,12 +38,11 @@ public class PanellPuzzle extends JPanel {
     }
     public void dibuixa_solucio(Graphics2D g2){
         Estat estat=model.sol.remove(0);
-        if(model.sol.size()==1){
-            vista.desactivaBlitz();
-        }
         if(model.sol.size()==0){
             model.sol=null;
+            model.setPuzzle(estat.getPuzzle());
             JOptionPane.showMessageDialog(vista,"JA HAS TROBAT LA SOLUCIÓ","AVÍS",JOptionPane.WARNING_MESSAGE);
+            vista.desactivaBlitz();
         }
         if (model.imatgepuzzle != null) {
             dibuixa_imatge(g2,estat);

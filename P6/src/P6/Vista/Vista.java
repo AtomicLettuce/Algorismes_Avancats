@@ -31,7 +31,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
         this.model = model;
         addWindowListener(this);
 
-        panellPuzzle = new PanellPuzzle(800, 800, model,this);
+        panellPuzzle = new PanellPuzzle(800, 800, model, this);
 
         this.getContentPane().setLayout(new BorderLayout());
         this.add(panellPuzzle, BorderLayout.CENTER);
@@ -91,8 +91,8 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
         this.repaint();
     }
 
-    public void setModel(Estat model){
-        this.model=model;
+    public void setModel(Estat model) {
+        this.model = model;
         panellPuzzle.setModel(model);
     }
 
@@ -120,15 +120,18 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
                 break;
         }
     }
-public void desactivaBlitz(){
+
+    public void desactivaBlitz() {
         mv.desactivaBlitz();
-}
-    public void activaBlitz(){
+    }
+
+    public void activaBlitz() {
         mv.activaBlitz();
     }
 
     private void demana_opcions() {
-        String[] options = {"Canviar dimensió (n)", "Crear Puzzle (usuari)", "Generar puzzle (automàtic)","Set Foto","Esborra Foto", "OK"};
+        String[] options = {"Canviar dimensió (n)", "Crear Puzzle (usuari)", "Generar puzzle (automàtic full random)",
+                "Generar puzzle (automàtic fàcil)", "Set Foto", "Esborra Foto", "OK"};
 
         int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
         switch (option) {
@@ -152,11 +155,10 @@ public void desactivaBlitz(){
             case 2:
                 main.comunicacio("generar");
                 break;
-            case 4:
-                model.imatgepuzzle=null;
-                actualitzar();
-                break;
             case 3:
+                main.comunicacio("generarFacil");
+                break;
+            case 4:
                 JFileChooser fileChooser = new JFileChooser();
                 int result = fileChooser.showOpenDialog(null);
 
@@ -164,18 +166,22 @@ public void desactivaBlitz(){
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File selectedFile = fileChooser.getSelectedFile();
                     try {
-                        Image imatge=ImageIO.read(selectedFile);
-                        imatge=imatge.getScaledInstance(800,800,Image.SCALE_SMOOTH);
-                        model.imatgepuzzle = new BufferedImage(imatge.getWidth(null),imatge.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-                        Graphics g=model.imatgepuzzle.getGraphics();
-                        g.drawImage(imatge,0,0,null);
-                    }catch(IOException ioe){
+                        Image imatge = ImageIO.read(selectedFile);
+                        imatge = imatge.getScaledInstance(800, 800, Image.SCALE_SMOOTH);
+                        model.imatgepuzzle = new BufferedImage(imatge.getWidth(null), imatge.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+                        Graphics g = model.imatgepuzzle.getGraphics();
+                        g.drawImage(imatge, 0, 0, null);
+                    } catch (IOException ioe) {
                         System.out.println(ioe.toString());
                     }
                     actualitzar();
                 }
-
                 break;
+            case 5:
+                model.imatgepuzzle = null;
+                actualitzar();
+                break;
+
         }
     }
 
@@ -206,8 +212,8 @@ public void desactivaBlitz(){
                 nouPuzzle[y][x] = max + 1;
                 if (max + 1 == ((model.getDimensioPuzzle() * model.getDimensioPuzzle()) - 1)) {
                     fentPuzzle = false;
-                    if(!model.esResoluble(nouPuzzle)){
-                        JOptionPane.showMessageDialog(this,"ALERTA, AQUEST PUZZLE NO TÉ SOL·LUCIÓ","AVÍS",JOptionPane.WARNING_MESSAGE);
+                    if (!model.esResoluble(nouPuzzle)) {
+                        JOptionPane.showMessageDialog(this, "ALERTA, AQUEST PUZZLE NO TÉ SOL·LUCIÓ", "AVÍS", JOptionPane.WARNING_MESSAGE);
                     }
 
                 }

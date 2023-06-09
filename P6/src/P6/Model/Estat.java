@@ -33,6 +33,10 @@ public class Estat {
         Puzzle = new int[][]{{1,2,3,4},{5,6,7,8},{0,10,11,12},{9,13,14,15}};
     }
 
+    public void generaFullRandom(){
+        Puzzle=generarTaulerRandomResoluble();
+    }
+
     // Generació d'un taulell random que sigui resoluble.
     private int[][] generarTaulerRandomResoluble() {
         // Número màxim a generar.
