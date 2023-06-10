@@ -35,11 +35,13 @@ public class Main implements InterficieComunicacio {
                 break;
             case "generarFacil":
                 //[DESORDENARFACIL][DESORDENARFACIL][DESORDENARFACIL]
-
+                Node nodeIniciGuiat = new Node(null, 0, tablero, 0, Node.tipusHeuristica.MANHATTAN);
+                nodeIniciGuiat.desordenarEstatFinal(100);
+                controlador = new Controlador(tablero, nodeIniciGuiat);
                 vista.actualitzar();
                 break;
             case "play":
-                Node nodeInici = new Node(null, 0, tablero, 0);
+                Node nodeInici = new Node(null, 0, tablero, 0, Node.tipusHeuristica.MANHATTAN);
                 controlador = new Controlador(tablero,nodeInici);
                 controlador.run();
                 //controlador.trobarSolucio(nodeInici);

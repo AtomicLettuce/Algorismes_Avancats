@@ -11,14 +11,21 @@ public class Node implements Comparable<Node> {
     private Estat disposicio;
     private Node nodePare;
     private ArrayList<Node> fills;
+    public enum tipusHeuristica  {TRIVIAL, MANHATTAN}
+    private tipusHeuristica heuristicaSeleccionada;
 
-    public Node(Node pare, int movimentsAnteriors, Estat disp, int cost) {
+    public Node(Node pare, int movimentsAnteriors, Estat disp, int cost, tipusHeuristica tipus) {
         this.nodePare = pare;
         this.disposicio = disp;
         this.cost = cost;
         this.nMoviements = movimentsAnteriors;
         this.fills = new ArrayList<>();
-        this.calcularHeuristicaV2();
+        this.heuristicaSeleccionada = tipus;
+        if(tipus == tipusHeuristica.TRIVIAL) {
+            this.calcularHeuristicaV1();
+        } else{
+            this.calcularHeuristicaV2();
+        }
     }
     public Estat getDisposicio(){
         return disposicio;
@@ -80,36 +87,7 @@ public class Node implements Comparable<Node> {
         this.cost = heuristica*this.disposicio.getDimensioPuzzle() + nMoviements;
         nMoviements++;
     }
-
-    private void calcularHeuristicaV3() {
-        int heuristica = 0;
-        int dimensioPuzzle = disposicio.getDimensioPuzzle();
-
-        // Recorrem la matriu.
-        for (int i = 0; i < dimensioPuzzle; i++) {
-            for (int j = 0; j < dimensioPuzzle; j++) {
-                // Obtenim el numero de la posició actual.
-                int valorActual = disposicio.getPosicio(i, j);
-                // Decalarem les posicions on s'hauria de trobar el numero.
-                int iObjetiu;
-                int jObjetiu;
-                // Si no és el 0 calculem el seu nombre.
-                if (valorActual != 0) {
-                    iObjetiu = (valorActual - 1) / dimensioPuzzle;
-                    jObjetiu = (valorActual - 1) % dimensioPuzzle;
-                    // Si és 0 el seu lloc és el cantó inferior esquerra.
-                } else {
-                    iObjetiu = dimensioPuzzle - 1;
-                    jObjetiu = dimensioPuzzle - 1;
-                }
-                // Calculem la distància de Manhattan com la diferència de longituds.
-                heuristica += Math.abs(i - iObjetiu) + Math.abs(j - jObjetiu);
-            }
-        }
-
-        // Calculem el cost final de l'heurística,
-        this.cost = heuristica;
-    }
+    
     public void generarFills() {
         // Localitzem la posició del 0 per intercanviar.
         int[] posicioZero = this.localitzarZero();
@@ -130,7 +108,7 @@ public class Node implements Comparable<Node> {
                 int[][] matriuIntercanviada = intercanviarPosicions(puzzle, posicioZero[0], posicioZero[1], filaVeina, columnaVeina);
                 Estat nouEstat = new Estat(matriuIntercanviada);
                 // Afegim els nous fills.
-                fills.add(new Node(this, this.nMoviements, nouEstat, this.cost));
+                fills.add(new Node(this, this.nMoviements, nouEstat, this.cost, this.heuristicaSeleccionada));
             }
         }
     }
