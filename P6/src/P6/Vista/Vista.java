@@ -128,10 +128,13 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
     public void activaBlitz() {
         mv.activaBlitz();
     }
+    public void popup(String s){
+        JOptionPane.showMessageDialog(this,s);
+    }
 
     private void demana_opcions() {
         String[] options = {"Canviar dimensió (n)", "Crear Puzzle (usuari)", "Generar puzzle (automàtic full random)",
-                "Generar puzzle (automàtic fàcil)", "Set Foto", "Esborra Foto", "OK"};
+                "Generar puzzle (automàtic fàcil)", "Set Foto", "Esborra Foto","Set Heurística"};
 
         int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
         switch (option) {
@@ -156,7 +159,10 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
                 main.comunicacio("generar");
                 break;
             case 3:
-                main.comunicacio("generarFacil");
+                String str2 = JOptionPane.showInputDialog(this, "Quantitat de passes màxim");
+                int n2 = Integer.parseInt(str2);
+                System.out.println("Dimensió (n) escollit: " + n2);
+                main.comunicacio("generarFacil:" + n2);
                 break;
             case 4:
                 JFileChooser fileChooser = new JFileChooser();
@@ -180,6 +186,13 @@ public class Vista extends JFrame implements ActionListener, WindowListener, Mou
             case 5:
                 model.imatgepuzzle = null;
                 actualitzar();
+                break;
+            case 6:
+                String[] options2 = {"Manhattan","Trivial"};
+                int option2 = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options2, null);
+                if(option2>=0){
+                    main.comunicacio(options2[option2]);
+                }
                 break;
 
         }

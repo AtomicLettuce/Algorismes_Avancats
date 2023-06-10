@@ -10,10 +10,12 @@ public class Controlador extends Thread {
 
     private final Estat estat;
     private Node nInicial;
+    private Main main;
 
-    public Controlador(Estat estat,Node nInicial) {
+    public Controlador(Estat estat,Node nInicial,Main main) {
         this.estat = estat;
         this.nInicial=nInicial;
+        this.main=main;
     }
 
     // Cream el thread.
@@ -60,6 +62,8 @@ public class Controlador extends Thread {
                 List<Estat> sol = reconstruirCami(nodeActual);
                 estat.sol = sol;
                 System.out.println("Trobat en "+sol.size()+" pases.");
+                main.comunicacio("Trobat en "+sol.size()+" passes\nTemps: "+tiempoSegundos+" segons");
+
                 return sol;
             }
 

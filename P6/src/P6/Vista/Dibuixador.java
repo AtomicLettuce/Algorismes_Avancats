@@ -10,6 +10,7 @@ public class Dibuixador extends Thread{
     private Vista vista;
     private MonitorVista mv;
 
+
     public Dibuixador(JPanel p, Vista vista, MonitorVista mv){
         this.panells=p;
         this.vista=vista;

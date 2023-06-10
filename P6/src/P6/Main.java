@@ -13,7 +13,7 @@ public class Main implements InterficieComunicacio {
     private Vista vista;
     public static boolean CONTINUAR = true;
     private Estat tablero;
-
+    private Node.tipusHeuristica heuristicaSeleccionada;
     public static void main(String[] args) {
         new Main().inici();
     }
@@ -23,6 +23,7 @@ public class Main implements InterficieComunicacio {
         System.out.println(tablero.esResoluble(tablero.getPuzzle()));
         vista = new Vista("mondongo", this, tablero);
         vista.actualitzar();
+        heuristicaSeleccionada=Node.tipusHeuristica.MANHATTAN;
     }
 
     @Override
@@ -33,16 +34,9 @@ public class Main implements InterficieComunicacio {
                 tablero.generaFullRandom();
                 vista.actualitzar();
                 break;
-            case "generarFacil":
-                //[DESORDENARFACIL][DESORDENARFACIL][DESORDENARFACIL]
-                Node nodeIniciGuiat = new Node(null, 0, tablero, 0, Node.tipusHeuristica.MANHATTAN);
-                nodeIniciGuiat.desordenarEstatFinal(100);
-                controlador = new Controlador(tablero, nodeIniciGuiat);
-                vista.actualitzar();
-                break;
             case "play":
-                Node nodeInici = new Node(null, 0, tablero, 0, Node.tipusHeuristica.MANHATTAN);
-                controlador = new Controlador(tablero,nodeInici);
+                Node nodeInici = new Node(null, 0, tablero, 0, heuristicaSeleccionada);
+                controlador = new Controlador(tablero,nodeInici,this);
                 controlador.run();
                 //controlador.trobarSolucio(nodeInici);
                 break;
@@ -52,7 +46,12 @@ public class Main implements InterficieComunicacio {
             case "stop":
                 CONTINUAR=false;
                 vista.actualitzar();
-
+                break;
+            case "Manhattan":
+                heuristicaSeleccionada= Node.tipusHeuristica.MANHATTAN;
+                break;
+            case "Trivial":
+                heuristicaSeleccionada= Node.tipusHeuristica.TRIVIAL;
                 break;
         }
         if (instruccio.startsWith("dimensio")) {
@@ -61,6 +60,15 @@ public class Main implements InterficieComunicacio {
             vista.setModel(tablero);
             vista.actualitzar();
             // [IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+        }
+        if(instruccio.startsWith("generarFacil")){
+            int n = Integer.parseInt(instruccio.split(":")[1]);
+            Node nodeIniciGuiat = new Node(null, 0, tablero, 0, heuristicaSeleccionada);
+            nodeIniciGuiat.desordenarEstatFinal(n);
+            tablero.setPuzzle(nodeIniciGuiat.getDisposicio().getPuzzle());
+            vista.actualitzar();
+        }if(instruccio.startsWith("Trobat")){
+            vista.popup(instruccio);
         }
     }
 }
