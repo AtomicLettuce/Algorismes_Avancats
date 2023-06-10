@@ -57,9 +57,9 @@ public class Controlador extends Thread {
                 long tiempoTranscurrido = fin - inicio;
                 double tiempoSegundos = tiempoTranscurrido / 1000.0; // Convertir a segundos
                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
-
                 List<Estat> sol = reconstruirCami(nodeActual);
                 estat.sol = sol;
+                System.out.println("Trobat en "+sol.size()+" pases.");
                 return sol;
             }
 
