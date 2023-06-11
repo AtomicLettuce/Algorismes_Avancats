@@ -61,6 +61,7 @@ public class Controlador extends Thread {
                 System.out.println("Tiempo transcurrido: " + tiempoSegundos + " segundos");
                 List<Estat> sol = reconstruirCami(nodeActual);
                 estat.sol = sol;
+
                 System.out.println("Trobat en "+sol.size()+" pases.");
                 main.comunicacio("Trobat en "+sol.size()+" passes\nTemps: "+tiempoSegundos+" segons");
 

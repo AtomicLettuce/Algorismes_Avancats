@@ -76,7 +76,7 @@ public class PanellPuzzle extends JPanel {
                             sx2,
                             sy2,
                             null);
-                }else{
+                }else if (estat.getPosicio(x,y)==0){
                     g2.setColor(Color.CYAN);
                     g2.fillRect(y*incrementX,x*incrementY,(y+1)*incrementX,(x+1)*incrementY);
                 }
