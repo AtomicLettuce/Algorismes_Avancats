@@ -1,10 +1,19 @@
 package P7.Controllador;
 
+import P7.Model.Model;
+import P7.Vista.Vista;
+
 import java.math.BigInteger;
 import java.util.Random;
 
 public class controllador {
     Primalidad p;
+    Model model;
+    Vista vista;
+    public controllador(Vista vista, Model model){
+        this.vista = vista;
+        this.model = model;
+    }
     public void inici(BigInteger number){
         p = new Primalidad();
         factor(number);
@@ -15,11 +24,11 @@ public class controllador {
         BigInteger factor;
         while(!p.esPrimer(numero)){
             factor = factoritzar(numero);
-            System.out.println("Factor encontrado: " + factor);
+            model.addNumero(factor);
             numero = numero.divide(factor);
 
         }
-        System.out.println("Factor encontrado: " + numero);
+        model.addNumero(numero);
     }
 
     private BigInteger factoritzar(BigInteger n) {
