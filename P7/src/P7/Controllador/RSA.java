@@ -41,7 +41,7 @@ public class RSA {
         privadE = publicaE.modInverse(phiN);
     }
 
-    private static BigInteger generarPrimers(int bitLength) {
+    private BigInteger generarPrimers(int bitLength) {
         SecureRandom random = new SecureRandom();
         return BigInteger.probablePrime(bitLength, random);
     }
