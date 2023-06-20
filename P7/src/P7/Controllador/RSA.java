@@ -11,7 +11,7 @@ public class RSA {
     private Vista vista;
     private Main main;
 
-    private int KeyLength = 617;
+    private int KeyLength = 2048;
     private BigInteger publicaN;
     private BigInteger publicaE;
     private BigInteger privadE;
