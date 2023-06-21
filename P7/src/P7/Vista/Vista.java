@@ -12,12 +12,19 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     private JButton stop;
     private JButton reset;
     private JButton opcions;
+    private PanellCentral panellCentral;
+    private MonitorVista mv;
 
     public Vista(String nom, Main main) {
         super(nom);
         this.main = main;
         addWindowListener(this);
 
+
+        this.getContentPane().setLayout(new BorderLayout());
+
+        panellCentral = new PanellCentral(800, 800, this);
+        this.add(panellCentral, BorderLayout.CENTER);
         // Zona botonera
         play = new JButton(new ImageIcon("img/play.png"));
         stop = new JButton(new ImageIcon("img/stop.png"));
@@ -54,10 +61,9 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         //reset.setVisible(false);
 
         this.add(botonera, BorderLayout.NORTH);
-        /*mv = new MonitorVista();
-        Dibuixador dibuxador = new Dibuixador(panellPuzzle, this, mv);
+        mv = new MonitorVista();
+        Dibuixador dibuxador = new Dibuixador(panellCentral, this, mv);
         dibuxador.start();
-        panellPuzzle.addMouseListener(this);*/
         this.setResizable(false);
         mostrar();
     }
@@ -89,17 +95,26 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 break;
         }
     }
-    public void popup(String s){
-        JOptionPane.showMessageDialog(this,s);
-    }
 
     private void demana_opcions() {
-        String[] options = {"Canviar dimensió (n)", "Crear Puzzle (usuari)", "Generar puzzle (automàtic full random)",
-                "Generar puzzle (automàtic fàcil)", "Set Foto", "Esborra Foto","Set Heurística"};
+        String[] options = {"Mostra gràfic","Obtenir temps aproximat per n", "Verificar primer", "Factoritzar nombre",
+                "Generar claus RSA", "Xifrar RSA"};
 
         int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
         switch (option) {
-
+            case 0:
+                break;
+            case 1:
+//                popup valor n
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
         }
     }
 

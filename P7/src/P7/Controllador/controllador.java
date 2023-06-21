@@ -10,19 +10,28 @@ public class controllador {
     Primalidad p;
     Model model;
     Vista vista;
-    public controllador(Vista vista, Model model){
+
+    public controllador(Vista vista, Model model) {
         this.vista = vista;
         this.model = model;
     }
-    public void inici(BigInteger number){
+
+    // Funció que retorna quant de temps aproxima el controlador que tardarà en factoritzar un número de llargària N
+    // Aquesta funció ha estat emprant interpolació de Newton
+    public static final double temps_aproximat(int n) {
+        double i = 0.000368357066 * Math.pow(n, 6) - 0.0198795751 * Math.pow(n, 5) + 0.43510339 * Math.pow(n, 4) - 4.92310776 * Math.pow(n, 3) + 30.2531138 * Math.pow(n, 2) - 95.3486723 * n + 119.892874;
+        return i;
+    }
+
+    public void inici(BigInteger number) {
         p = new Primalidad();
         factor(number);
     }
 
-    private void factor(BigInteger numero){
+    private void factor(BigInteger numero) {
         p = new Primalidad();
         BigInteger factor;
-        while(!p.esPrimer(numero)){
+        while (!p.esPrimer(numero)) {
             factor = factoritzar(numero);
             model.addNumero(factor);
             numero = numero.divide(factor);

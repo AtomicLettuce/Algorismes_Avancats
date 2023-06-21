@@ -8,7 +8,7 @@ import P7.Controllador.controllador;
 import java.math.BigInteger;
 
 public class Main implements InterficieComunicacio {
-
+    public static boolean CONTINUAR=true;
     private Vista vista;
     private controllador controllador;
     private Model model;
@@ -17,11 +17,6 @@ public class Main implements InterficieComunicacio {
         new Main().inici();
     }
 
-    //DEIX AIXÒ AQUÍ DE FORMA PROVISIONAL. LLAVORS HO ARREGLARÉ I HO POS ON TOCA
-    double  func(int n){
-        double i =0.000368357066*Math.pow(n,6)-0.0198795751*Math.pow(n,5)+0.43510339*Math.pow(n,4)-4.92310776*Math.pow(n,3)+30.2531138*Math.pow(n,2)-95.3486723*n+119.892874;
-        return i;
-    }
 
     private void inici(){
         System.out.println("UEP!");
@@ -38,7 +33,6 @@ public class Main implements InterficieComunicacio {
                 new BigInteger("47081630774621"),
                 new BigInteger("5674018715441897")
         };
-        System.out.println(func(16));
         /*for(BigInteger numero : numeros ){
             unNumero(numero);
             model.vaciarHashMap();
