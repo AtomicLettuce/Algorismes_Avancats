@@ -1,5 +1,6 @@
 package P7;
 
+import P7.Controllador.Primalidad;
 import P7.Interficies.InterficieComunicacio;
 import P7.Model.Model;
 import P7.Vista.Vista;
@@ -62,9 +63,13 @@ public class Main implements InterficieComunicacio {
                 break;
         }if (instruccio.startsWith("Verificar primer")){
             String numero =instruccio.split(":")[1];
+//            Primalidad.esPrimer(numero);
             //
         } else if (instruccio.startsWith("Factoritzar:")) {
             String numero =instruccio.split(":")[1];
+            controllador = new controllador(vista, model);
+            //controllador.inici(numero);
+            //sout(model.prinnums)
         }
 
     }

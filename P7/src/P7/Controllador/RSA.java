@@ -16,13 +16,14 @@ public class RSA {
     private BigInteger publicaE;
     private BigInteger privadE;
 
-    public RSA(int i){
+    public RSA(int i) {
         KeyLength = Integer.SIZE - Integer.numberOfLeadingZeros(i);
     }
 
-    public RSA(){}
+    public RSA() {
+    }
 
-    public void generarClaus(){
+    public void generarClaus() {
 
         //Generar els dos primers grans
         BigInteger p = generarPrimers(KeyLength / 2);
@@ -45,7 +46,6 @@ public class RSA {
         SecureRandom random = new SecureRandom();
         return BigInteger.probablePrime(bitLength, random);
     }
-
 
 
     public BigInteger getPublicaN() {
