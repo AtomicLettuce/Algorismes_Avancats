@@ -47,6 +47,21 @@ public class RSA {
         return BigInteger.probablePrime(bitLength, random);
     }
 
+    public String encriptar(byte[] text) {
+        BigInteger textInt = new BigInteger(text);
+        BigInteger encriptat = textInt.modPow(publicaE, publicaN);
+        byte[] encriptatString = encriptat.toByteArray();
+        return new String(encriptatString);
+    }
+
+    public String desencriptar(byte[] text) {
+        BigInteger textInt = new BigInteger(text);
+        BigInteger desencriptat = textInt.modPow(privadE, publicaN);
+        byte[] desencriptatString = desencriptat.toByteArray();
+        return new String(desencriptatString);
+    }
+
+
 
     public BigInteger getPublicaN() {
         return publicaN;
