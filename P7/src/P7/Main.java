@@ -24,7 +24,7 @@ public class Main implements InterficieComunicacio {
         vista = new Vista("mondongo",this);
         model = new Model();
         controllador = new controllador(vista, model);
-        BigInteger[] numeros = {
+        /*BigInteger[] numeros = {
                 new BigInteger("4661"),
                 new BigInteger("453007"),
                 new BigInteger("41136371"),
@@ -53,6 +53,19 @@ public class Main implements InterficieComunicacio {
 
     @Override
     public void comunicacio(String instruccio) {
+        switch (instruccio){
+            case "stop":
+                CONTINUAR=false;
+                break;
+            case "GeneraClausRSA":
+                //[IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                break;
+        }if (instruccio.startsWith("Verificar primer")){
+            String numero =instruccio.split(":")[1];
+            //
+        } else if (instruccio.startsWith("Factoritzar:")) {
+            String numero =instruccio.split(":")[1];
+        }
 
     }
 }

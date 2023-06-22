@@ -1,5 +1,6 @@
 package P7.Vista;
 
+import P7.Controllador.controllador;
 import P7.Main;
 
 import javax.swing.*;
@@ -84,6 +85,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 break;
             case "stop":
                 dispose();
+                mv.notificarSortida();
                 main.comunicacio("stop");
                 break;
             case "reset":
@@ -103,31 +105,52 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
         int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
         switch (option) {
             case 0:
+                panellCentral.setOpcions("Grafic");
+                actualitzar();
                 break;
             case 1:
-//                popup valor n
+                int n = Integer.parseInt(JOptionPane.showInputDialog(this, "N de dígits per calcular temps aproximat"));
+                double temps =controllador.temps_aproximat(n);
+
+                int year = (int) temps / (365 * 24 * 60 * 60);
+                int day =(int) (temps / (24 * 60 * 60)) % 365;
+                int hour = (int)(temps / (60 * 60)) % 24;
+                int minute = (int)(temps / 60) % 60;
+                int second =(int) temps % 60;
+
+                String tempsFormatat = String.format("%d anys, %d dies, %d hores, %d minuts, %d segons",year, day, hour, minute, second);
+                popup(tempsFormatat);
                 break;
             case 2:
+                String num = JOptionPane.showInputDialog(this, "Número a verificar");
+                main.comunicacio("Verificar primer:"+num);
                 break;
             case 3:
+                String numFactoritzar = JOptionPane.showInputDialog(this, "Número a factoritzar");
+                main.comunicacio("Factoritzar:"+numFactoritzar);
                 break;
             case 4:
+                main.comunicacio("GeneraClausRSA");
                 break;
             case 5:
+
                 break;
         }
+    }
+    public void popup(String s){
+        JOptionPane.showMessageDialog(this,s);
     }
 
     // Per rebre notificació que s'ha de refrescar la pantalla
     public void actualitzar() {
-        //mv.notificarActualitzar();
+        mv.notificarActualitzar();
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
         main.comunicacio("stop");
-        //mv.notificarSortida();
-        //dispose();
+        mv.notificarSortida();
+        dispose();
     }
 
     @Override

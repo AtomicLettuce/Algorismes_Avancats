@@ -46,6 +46,8 @@ public class RSA {
         return BigInteger.probablePrime(bitLength, random);
     }
 
+
+
     public BigInteger getPublicaN() {
         return publicaN;
     }

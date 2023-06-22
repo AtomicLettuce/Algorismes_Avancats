@@ -10,19 +10,28 @@ import java.util.Collections;
 public class PanellCentral extends JPanel {
 
     private Vista vista;
+    private String opcions;
     private static final int  GRAFIC_QT_VALORS=10;
     public PanellCentral(int width, int height, Vista vista) {
         super();
         this.setPreferredSize(new Dimension(width, height));
         this.vista =vista;
+        this.opcions="";
     }
 
+    public void setOpcions(String opcions) {
+        this.opcions = opcions;
+    }
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
         g2.setColor(Color.WHITE);
-        dibuixaGrafica(g2);
+        switch (opcions){
+            case "Grafic":
+                dibuixaGrafica(g2);
+                break;
+        }
     }
 
     private void dibuixaGrafica(Graphics2D g2){
@@ -67,7 +76,6 @@ public class PanellCentral extends JPanel {
 
 
             g2.drawLine(50+(i*incrementX),a,50+((i+1)*incrementX),b);
-            System.out.println(valors_grafic[i]*(getHeight()-50)/valors_grafic[GRAFIC_QT_VALORS-1]);
         }
 
 
