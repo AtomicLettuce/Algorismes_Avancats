@@ -52,7 +52,6 @@ public class PanellCentral extends JPanel {
         Font newFont = currentFont.deriveFont(currentFont.getSize() * 1.4F);
         g2.setFont(newFont);
 
-        System.out.println("asdgsdg");
         String numero = opcions.split(":")[1];
         String text = "Factors de " + numero + " :";
         Font font = g2.getFont();

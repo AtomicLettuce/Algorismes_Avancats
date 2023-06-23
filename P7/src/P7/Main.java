@@ -6,10 +6,10 @@ import P7.Interficies.InterficieComunicacio;
 import P7.Model.Model;
 import P7.Vista.Vista;
 import P7.Controllador.controllador;
+import mesurament.Mesurament;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,8 +28,9 @@ public class Main implements InterficieComunicacio {
 
 
     private void inici() {
+        //new Mesurament().mesura();
         model = new Model();
-        vista = new Vista("mondongo", this, model);
+        vista = new Vista("P7: Primalitat", this, model);
         controllador = new controllador(this, model);
         rsa = new RSA();
     }
@@ -99,7 +100,6 @@ public class Main implements InterficieComunicacio {
             byte[] fitxerNormal = entrada(filePath);
             byte[] fitxerEncriptat = rsa.encriptar(fitxerNormal);
             sortida(fitxerEncriptat,filePath+"cod.txt");
-            sortida(rsa.desencriptar(fitxerEncriptat), filePath+"decod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -110,7 +110,7 @@ public class Main implements InterficieComunicacio {
         try {
             byte[] fitxerNormal = entrada(filePath);
             byte[] fitxerDesencriptat = rsa.desencriptar(fitxerNormal);
-            //sortida(fitxerDesencriptat,filePath +"decod.txt");
+            sortida(fitxerDesencriptat,filePath +"decod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -119,20 +119,16 @@ public class Main implements InterficieComunicacio {
     public byte[] entrada(String filePath) throws IOException {
         Path fitxer = Path.of(filePath);
         byte[] bytes = Files.readAllBytes(fitxer);
-        System.out.println(bytes);
         return bytes;
     }
 
     public void sortida(byte[] content, String filePath) throws IOException {
-        System.out.println(filePath);
         Path path = Path.of(filePath);
         String s = content.toString();
-        System.out.println(s);
         Files.write(path, content, StandardOpenOption.CREATE);
     }
 
     public void sortida(String content, String filePath) throws IOException {
-        System.out.println(filePath);
         Path path = Path.of(filePath);
         Files.writeString(path, content, StandardOpenOption.CREATE);
     }
