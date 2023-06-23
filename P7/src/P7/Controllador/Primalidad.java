@@ -11,7 +11,7 @@ import java.util.Random;
 public class Primalidad {
     private static final int iteracions = 100; // Number of iterations for accuracy
 
-    public  boolean esPrimer(BigInteger n) {
+    public static boolean esPrimer(BigInteger n) {
         if (n.compareTo(BigInteger.ONE) <= 0) {
             return false; // Numbers less than or equal to 1 are not prime
         }

@@ -58,8 +58,9 @@ public class Main implements InterficieComunicacio {
     public void codificar(String filePath, RSA rsa) {
         try {
             byte[] fitxerNormal = entrada(filePath);
-            String fitxerEncriptat = rsa.encriptar(fitxerNormal);
-            sortida(filePath+".cod", fitxerEncriptat);
+            System.out.println(new String(fitxerNormal));
+            byte[] fitxerEncriptat = rsa.encriptar(fitxerNormal);
+            sortida(fitxerEncriptat,filePath+"cod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,8 +70,11 @@ public class Main implements InterficieComunicacio {
     public void decodificar(String filePath, RSA rsa) {
         try {
             byte[] fitxerNormal = entrada(filePath);
-            String fitxerDesencriptat = rsa.desencriptar(fitxerNormal);
-            sortida(filePath+".decod", fitxerDesencriptat);
+            System.out.println(new String(fitxerNormal));
+            byte[] fitxerDesencriptat = rsa.desencriptar(fitxerNormal);
+            System.out.println("--"+fitxerDesencriptat);
+            System.out.println("++"+(new String(fitxerDesencriptat)));
+            sortida(fitxerDesencriptat,filePath +"decod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -82,10 +86,17 @@ public class Main implements InterficieComunicacio {
         return bytes;
     }
 
+    public void sortida(byte[] content, String filePath) throws IOException {
+        System.out.println(filePath);
+        Path path = Path.of(filePath);
+        String s = new String(content);
+        Files.writeString(path, new String(content), StandardOpenOption.CREATE);
+    }
+
     public void sortida(String content, String filePath) throws IOException {
         System.out.println(filePath);
         Path path = Path.of(filePath);
-        Files.writeString(path, content, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.writeString(path, content, StandardOpenOption.CREATE);
     }
 
     public void unNumero(BigInteger numero) {
@@ -111,7 +122,7 @@ public class Main implements InterficieComunicacio {
                 Path path= Paths.get(System.getProperty("user.home")).resolve("claus.txt");
                 try {
                     System.out.println(path);
-                    Files.createFile(path);
+                    //Files.createFile(path);
 
                     sortida("Clau pública: "+rsa.getPublicaE()+"\n Clau privada: "+rsa.getPrivadE(),path.toString());
                 } catch (IOException e) {
@@ -140,14 +151,14 @@ public class Main implements InterficieComunicacio {
 
         else if (instruccio.startsWith("XifrarRSA:")) {
             String clau = instruccio.split(":")[1];
-            rsa.setPublicaE(new BigInteger(clau));
+            //rsa.setPublicaE(new BigInteger(clau));
             codificar(model.fitxer.getPath(),rsa);
 
 
 
         } else if (instruccio.startsWith("DesxifrarRSA:")) {
             String clau = instruccio.split(":")[1];
-            rsa.setPrivadE(new BigInteger(clau));
+            //rsa.setPrivadE(new BigInteger(clau));
             decodificar(model.fitxer.getPath(),rsa);
 
 
