@@ -30,10 +30,69 @@ public class Main implements InterficieComunicacio {
     private void inici() {
         model = new Model();
         vista = new Vista("mondongo", this, model);
-        controllador = new controllador(this, vista, model);
+        controllador = new controllador(this, model);
         rsa = new RSA();
     }
 
+
+    @Override
+    public void comunicacio(String instruccio) {
+        switch (instruccio) {
+            case "stop":
+                CONTINUAR = false;
+                break;
+            case "actualitzar":
+                vista.actualitzar();
+                break;
+            case "GeneraClausRSA":
+                rsa.generarClaus();
+
+                Path path = Paths.get(System.getProperty("user.home")).resolve("claus.txt");
+                try {
+                    if (Files.exists(path)) {
+                        Files.delete(path);
+                    }
+                    Files.createFile(path);
+                    sortida("Clau pública: " + rsa.getPublicaE() + "\nClau privada: " + rsa.getPrivadE()+ "\nPublicaN:"+rsa.getPublicaN(), path.toString());
+                    vista.popup("Claus generades. Pots consultar-les a: " + path.toString());
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+        }
+        if (instruccio.startsWith("Verificar primer")) {
+            String numero = instruccio.split(":")[1];
+            if (Primalidad.esPrimer(new BigInteger(numero))) {
+                vista.popup("El número " + numero + " és probablement primer");
+            } else {
+                vista.popup("El número " + numero + " és definitivament no primer");
+            }
+        } else if (instruccio.startsWith("Factoritzar:")) {
+            model.vaciarHashMap();
+            String numero = instruccio.split(":")[1];
+            controllador = new controllador(this, model);
+            controllador.setNumber(new BigInteger(numero));
+            controllador.run();
+        } else if (instruccio.startsWith("XifrarRSA:")) {
+            String clau = instruccio.split(":")[1];
+            String clauN =instruccio.split(":")[2];
+            //rsa.setPublicaN(new BigInteger(clauN));
+            //rsa.setPublicaE(new BigInteger(clau));
+            codificar(model.fitxer.getPath(), rsa);
+        } else if (instruccio.startsWith("DesxifrarRSA:")) {
+            String clau = instruccio.split(":")[1];
+            String clauN =instruccio.split(":")[2];
+            rsa.setPublicaN(new BigInteger(clauN));
+            rsa.setPrivadE(new BigInteger(clau));
+            decodificar(model.fitxer.getPath(), rsa);
+
+
+        } else if (instruccio.startsWith("Temps:")) {
+            vista.popup(instruccio);
+        }
+    }
 
     public void codificar(String filePath, RSA rsa) {
         try {
@@ -76,64 +135,5 @@ public class Main implements InterficieComunicacio {
         System.out.println(filePath);
         Path path = Path.of(filePath);
         Files.writeString(path, content, StandardOpenOption.CREATE);
-    }
-
-    @Override
-    public void comunicacio(String instruccio) {
-        switch (instruccio) {
-            case "stop":
-                CONTINUAR = false;
-                break;
-            case "actualitzar":
-                vista.actualitzar();
-                break;
-            case "GeneraClausRSA":
-                rsa.generarClaus();
-
-                Path path = Paths.get(System.getProperty("user.home")).resolve("claus.txt");
-                try {
-                    if (Files.exists(path)) {
-                        Files.delete(path);
-                    }
-                    Files.createFile(path);
-                    sortida("Clau pública: " + rsa.getPublicaE() + "\nClau privada: " + rsa.getPrivadE()+ "\nPublicaN:"+rsa.getPublicaN(), path.toString());
-                    vista.popup("Claus generades. Pots consultar-les a: " + path.toString());
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                break;
-        }
-        if (instruccio.startsWith("Verificar primer")) {
-            String numero = instruccio.split(":")[1];
-            if (Primalidad.esPrimer(new BigInteger(numero))) {
-                vista.popup("El número " + numero + " és probablement primer");
-            } else {
-                vista.popup("El número " + numero + " és definitivament no primer");
-            }
-        } else if (instruccio.startsWith("Factoritzar:")) {
-            model.vaciarHashMap();
-            String numero = instruccio.split(":")[1];
-            controllador = new controllador(this, vista, model);
-            controllador.setNumber(new BigInteger(numero));
-            controllador.run();
-        } else if (instruccio.startsWith("XifrarRSA:")) {
-            String clau = instruccio.split(":")[1];
-            String clauN =instruccio.split(":")[2];
-            //rsa.setPublicaN(new BigInteger(clauN));
-            //rsa.setPublicaE(new BigInteger(clau));
-            codificar(model.fitxer.getPath(), rsa);
-        } else if (instruccio.startsWith("DesxifrarRSA:")) {
-            String clau = instruccio.split(":")[1];
-            String clauN =instruccio.split(":")[2];
-            rsa.setPublicaN(new BigInteger(clauN));
-            rsa.setPrivadE(new BigInteger(clau));
-            decodificar(model.fitxer.getPath(), rsa);
-
-
-        } else if (instruccio.startsWith("Temps:")) {
-            vista.popup(instruccio);
-        }
     }
 }

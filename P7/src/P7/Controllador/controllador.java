@@ -7,16 +7,15 @@ import P7.Vista.Vista;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class controllador extends Thread{
+public class controllador extends Thread {
     Primalidad p;
     Model model;
-    Vista vista;
     Main main;
-BigInteger number;
-    public controllador(Main main   , Vista vista, Model model) {
-        this.vista = vista;
+    BigInteger number;
+
+    public controllador(Main main, Model model) {
         this.model = model;
-        this.main=main;
+        this.main = main;
     }
 
     // Funció que retorna quant de temps aproxima el controlador que tardarà en factoritzar un número de llargària N
@@ -28,11 +27,11 @@ BigInteger number;
 
     public void run() {
         p = new Primalidad();
-        long t1=System.nanoTime();
+        long t1 = System.nanoTime();
         factor(number);
-        long t2=System.nanoTime();
+        long t2 = System.nanoTime();
         main.comunicacio("actualitzar");
-        main.comunicacio("Temps: "+(t2-t1)+" nanosegons");
+        main.comunicacio("Temps: " + (t2 - t1) + " nanosegons");
     }
 
     public void setNumber(BigInteger number) {
