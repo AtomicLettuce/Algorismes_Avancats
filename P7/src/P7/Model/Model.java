@@ -40,7 +40,8 @@ public class Model {
     public String printNumeros() {
         String str="";
         for (Map.Entry<BigInteger, Integer> entry : recuento.entrySet()) {
-            str=str+"\tfactor: --------> " + entry.getKey() + "  (x" + entry.getValue() + " )\n";
+            str=str+"factor: --> " + entry.getKey() + "  (x" + entry.getValue() + " )";
+            str=str+"\n";
         }
         return str;
     }

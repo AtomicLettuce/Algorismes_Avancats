@@ -1,5 +1,6 @@
 package P7.Controllador;
 
+import P7.Main;
 import P7.Model.Model;
 import P7.Vista.Vista;
 
@@ -10,10 +11,12 @@ public class controllador extends Thread{
     Primalidad p;
     Model model;
     Vista vista;
-
-    public controllador(Vista vista, Model model) {
+    Main main;
+BigInteger number;
+    public controllador(Main main   , Vista vista, Model model) {
         this.vista = vista;
         this.model = model;
+        this.main=main;
     }
 
     // Funció que retorna quant de temps aproxima el controlador que tardarà en factoritzar un número de llargària N
@@ -23,9 +26,17 @@ public class controllador extends Thread{
         return i;
     }
 
-    public void run(BigInteger number) {
+    public void run() {
         p = new Primalidad();
+        long t1=System.nanoTime();
         factor(number);
+        long t2=System.nanoTime();
+        main.comunicacio("actualitzar");
+        main.comunicacio("Temps: "+(t2-t1)+" nanosegons");
+    }
+
+    public void setNumber(BigInteger number) {
+        this.number = number;
     }
 
     private void factor(BigInteger numero) {

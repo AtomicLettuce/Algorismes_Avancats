@@ -14,9 +14,7 @@ import java.nio.file.Path;
 
 public class Vista extends JFrame implements ActionListener, WindowListener {
     private Main main;
-    private JButton play;
     private JButton stop;
-    private JButton reset;
     private JButton opcions;
     private PanellCentral panellCentral;
     private MonitorVista mv;
@@ -31,37 +29,27 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
 
         this.getContentPane().setLayout(new BorderLayout());
 
-        panellCentral = new PanellCentral(800, 800, this);
+        panellCentral = new PanellCentral(800, 800, this, model);
         this.add(panellCentral, BorderLayout.CENTER);
         // Zona botonera
-        play = new JButton(new ImageIcon("img/play.png"));
         stop = new JButton(new ImageIcon("img/stop.png"));
-        reset = new JButton(new ImageIcon("img/reset.png"));
         opcions = new JButton(new ImageIcon("img/elegirN.png"));
 
         // Zona botonera (identificadors)
-        play.setActionCommand("play");
         stop.setActionCommand("stop");
-        reset.setActionCommand("rest");
         opcions.setActionCommand("opcions");
 
         // Zona botonera (manejador d'esdeveniments)
-        play.addActionListener(this);
         stop.addActionListener(this);
-        reset.addActionListener(this);
         opcions.addActionListener(this);
 
         // Zona botonera (motius estètics)
-        play.setBackground(Color.WHITE);
         stop.setBackground(Color.WHITE);
-        reset.setBackground(Color.WHITE);
         opcions.setBackground(Color.WHITE);
 
         // Zona botonera (afegir-los en pantalla)
         JPanel botonera = new JPanel();
         botonera.setBackground(Color.DARK_GRAY);
-        botonera.add(play);
-        botonera.add(reset);
         botonera.add(stop);
         botonera.add(opcions);
 
@@ -87,16 +75,10 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
-            case "play":
-                main.comunicacio("play");
-                break;
             case "stop":
                 dispose();
                 mv.notificarSortida();
                 main.comunicacio("stop");
-                break;
-            case "reset":
-                main.comunicacio("actualitzar");
                 break;
             case "opcions":
                 // demana a l'usuari amb quines opcions vol treballar i ho notifica a main
@@ -106,6 +88,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     }
 
     private void demana_opcions() {
+        panellCentral.setOpcions("");
         String[] options = {"Mostra gràfic", "Obtenir temps aproximat per n", "Verificar primer", "Factoritzar nombre",
                 "Generar claus RSA", "Xifrar RSA", "Desxifrar RSA"};
 
@@ -166,6 +149,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
 
                 break;
         }
+        actualitzar();
     }
 
     public void popup(String s) {

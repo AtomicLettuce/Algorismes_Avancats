@@ -28,30 +28,10 @@ public class Main implements InterficieComunicacio {
 
 
     private void inici() {
-        System.out.println("UEP!");
-
-
         model = new Model();
-        vista = new Vista("mondongo", this,model);
-        controllador = new controllador(vista, model);
-        rsa=new RSA();
-        /*BigInteger[] numeros = {
-                new BigInteger("4661"),
-                new BigInteger("453007"),
-                new BigInteger("41136371"),
-                new BigInteger("5900338729"),
-                new BigInteger("648773765743"),
-                new BigInteger("47081630774621"),
-                new BigInteger("5674018715441897")
-        };
-        /*for(BigInteger numero : numeros ){
-            unNumero(numero);
-            model.vaciarHashMap();
-        }*/
-
-        RSA rsa = new RSA();
-        rsa.generarClaus();
-
+        vista = new Vista("mondongo", this, model);
+        controllador = new controllador(this, vista, model);
+        rsa = new RSA();
     }
 
 
@@ -60,7 +40,7 @@ public class Main implements InterficieComunicacio {
             byte[] fitxerNormal = entrada(filePath);
             System.out.println(new String(fitxerNormal));
             byte[] fitxerEncriptat = rsa.encriptar(fitxerNormal);
-            sortida(fitxerEncriptat,filePath+"cod.txt");
+            sortida(fitxerEncriptat, filePath + "cod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,9 +52,9 @@ public class Main implements InterficieComunicacio {
             byte[] fitxerNormal = entrada(filePath);
             System.out.println(new String(fitxerNormal));
             byte[] fitxerDesencriptat = rsa.desencriptar(fitxerNormal);
-            System.out.println("--"+fitxerDesencriptat);
-            System.out.println("++"+(new String(fitxerDesencriptat)));
-            sortida(fitxerDesencriptat,filePath +"decod.txt");
+            System.out.println("--" + fitxerDesencriptat);
+            System.out.println("++" + (new String(fitxerDesencriptat)));
+            sortida(fitxerDesencriptat, filePath + "decod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -99,32 +79,27 @@ public class Main implements InterficieComunicacio {
         Files.writeString(path, content, StandardOpenOption.CREATE);
     }
 
-    public void unNumero(BigInteger numero) {
-        System.out.println("Longitud del número a factorizar: " + numero.toString().length() + " cifras.");
-        Long t1 = System.nanoTime();
-        controllador.run(numero);
-        Long t2 = System.nanoTime();
-        System.out.println("Voy a factorizar " + numero);
-        model.printNumeros();
-        System.out.println("He tardado " + (t2 - t1) + " nanosec");
-        System.out.println("He tardado " + ((double) (t2 - t1) / 1000000000) + " sec");
-    }
-
     @Override
     public void comunicacio(String instruccio) {
         switch (instruccio) {
             case "stop":
                 CONTINUAR = false;
                 break;
+            case "actualitzar":
+                vista.actualitzar();
+                break;
             case "GeneraClausRSA":
                 rsa.generarClaus();
-                vista.popup("Clau pública: "+rsa.getPublicaE()+"\n Clau privada: "+rsa.getPrivadE());
-                Path path= Paths.get(System.getProperty("user.home")).resolve("claus.txt");
-                try {
-                    System.out.println(path);
-                    //Files.createFile(path);
 
-                    sortida("Clau pública: "+rsa.getPublicaE()+"\n Clau privada: "+rsa.getPrivadE(),path.toString());
+                Path path = Paths.get(System.getProperty("user.home")).resolve("claus.txt");
+                try {
+                    if (Files.exists(path)) {
+                        Files.delete(path);
+                    }
+                    Files.createFile(path);
+                    sortida("Clau pública: " + rsa.getPublicaE() + "\n Clau privada: " + rsa.getPrivadE(), path.toString());
+                    vista.popup("Claus generades. Pots consultar-les a: " + path.toString());
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -135,36 +110,28 @@ public class Main implements InterficieComunicacio {
             String numero = instruccio.split(":")[1];
             if (Primalidad.esPrimer(new BigInteger(numero))) {
                 vista.popup("El número " + numero + " és probablement primer");
-            }else{
+            } else {
                 vista.popup("El número " + numero + " és definitivament no primer");
             }
-        }
-
-
-        else if (instruccio.startsWith("Factoritzar:")) {
+        } else if (instruccio.startsWith("Factoritzar:")) {
             String numero = instruccio.split(":")[1];
-            controllador = new controllador(vista, model);
-            //controllador.inici(numero);
-            //sout(model.printnums)
-        }
-
-
-        else if (instruccio.startsWith("XifrarRSA:")) {
+            controllador = new controllador(this, vista, model);
+            controllador.setNumber(new BigInteger(numero));
+            controllador.run();
+        } else if (instruccio.startsWith("XifrarRSA:")) {
             String clau = instruccio.split(":")[1];
             //rsa.setPublicaE(new BigInteger(clau));
-            codificar(model.fitxer.getPath(),rsa);
-
+            codificar(model.fitxer.getPath(), rsa);
 
 
         } else if (instruccio.startsWith("DesxifrarRSA:")) {
             String clau = instruccio.split(":")[1];
             //rsa.setPrivadE(new BigInteger(clau));
-            decodificar(model.fitxer.getPath(),rsa);
+            decodificar(model.fitxer.getPath(), rsa);
 
 
-
-
+        } else if (instruccio.startsWith("Temps:")) {
+            vista.popup(instruccio);
         }
-
     }
 }
