@@ -12,12 +12,14 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public class Main implements InterficieComunicacio {
-    public static boolean CONTINUAR=true;
+    public static boolean CONTINUAR = true;
     private Vista vista;
     private controllador controllador;
+    private RSA rsa;
     private Model model;
 
     public static void main(String[] args) {
@@ -25,12 +27,14 @@ public class Main implements InterficieComunicacio {
     }
 
 
-    private void inici(){
+    private void inici() {
         System.out.println("UEP!");
 
-        vista = new Vista("mondongo",this);
+
         model = new Model();
+        vista = new Vista("mondongo", this,model);
         controllador = new controllador(vista, model);
+        rsa=new RSA();
         /*BigInteger[] numeros = {
                 new BigInteger("4661"),
                 new BigInteger("453007"),
@@ -51,7 +55,7 @@ public class Main implements InterficieComunicacio {
     }
 
 
-    public void codificar(String filePath, RSA rsa){
+    public void codificar(String filePath, RSA rsa) {
         try {
             byte[] fitxerNormal = entrada(filePath);
             String fitxerEncriptat = rsa.encriptar(fitxerNormal);
@@ -62,55 +66,93 @@ public class Main implements InterficieComunicacio {
 
     }
 
-    public void decodificar(String filePath, RSA rsa){
+    public void decodificar(String filePath, RSA rsa) {
         try {
             byte[] fitxerNormal = entrada(filePath);
             String fitxerDesencriptat = rsa.desencriptar(fitxerNormal);
-            sortida(filePath, fitxerDesencriptat);
+            sortida(filePath+".decod", fitxerDesencriptat);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
     public byte[] entrada(String filePath) throws IOException {
         Path fitxer = Path.of(filePath);
         byte[] bytes = Files.readAllBytes(fitxer);
         return bytes;
     }
 
-    public  void sortida(String content, String filePath) throws IOException {
+    public void sortida(String content, String filePath) throws IOException {
+        System.out.println(filePath);
         Path path = Path.of(filePath);
         Files.writeString(path, content, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
-    public void unNumero(BigInteger numero){
-        System.out.println("Longitud del número a factorizar: "+numero.toString().length()+" cifras.");
+    public void unNumero(BigInteger numero) {
+        System.out.println("Longitud del número a factorizar: " + numero.toString().length() + " cifras.");
         Long t1 = System.nanoTime();
         controllador.inici(numero);
         Long t2 = System.nanoTime();
         System.out.println("Voy a factorizar " + numero);
         model.printNumeros();
-        System.out.println("He tardado "+(t2-t1)+" nanosec");
-        System.out.println("He tardado "+((double)(t2-t1)/1000000000)+" sec");
+        System.out.println("He tardado " + (t2 - t1) + " nanosec");
+        System.out.println("He tardado " + ((double) (t2 - t1) / 1000000000) + " sec");
     }
 
     @Override
     public void comunicacio(String instruccio) {
-        switch (instruccio){
+        switch (instruccio) {
             case "stop":
-                CONTINUAR=false;
+                CONTINUAR = false;
                 break;
             case "GeneraClausRSA":
-                //[IMPLEMENTAR][IMPLEMENTAR][IMPLEMENTAR]
+                rsa.generarClaus();
+                vista.popup("Clau pública: "+rsa.getPublicaE()+"\n Clau privada: "+rsa.getPrivadE());
+                Path path= Paths.get(System.getProperty("user.home")).resolve("claus.txt");
+                try {
+                    System.out.println(path);
+                    Files.createFile(path);
+
+                    sortida("Clau pública: "+rsa.getPublicaE()+"\n Clau privada: "+rsa.getPrivadE(),path.toString());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 break;
-        }if (instruccio.startsWith("Verificar primer")){
-            String numero =instruccio.split(":")[1];
-//            Primalidad.esPrimer(numero);
-            //
-        } else if (instruccio.startsWith("Factoritzar:")) {
-            String numero =instruccio.split(":")[1];
+        }
+        if (instruccio.startsWith("Verificar primer")) {
+            String numero = instruccio.split(":")[1];
+            if (Primalidad.esPrimer(new BigInteger(numero))) {
+                vista.popup("El número " + numero + " és probablement primer");
+            }else{
+                vista.popup("El número " + numero + " és definitivament no primer");
+            }
+        }
+
+
+        else if (instruccio.startsWith("Factoritzar:")) {
+            String numero = instruccio.split(":")[1];
             controllador = new controllador(vista, model);
             //controllador.inici(numero);
-            //sout(model.prinnums)
+            //sout(model.printnums)
+        }
+
+
+        else if (instruccio.startsWith("XifrarRSA:")) {
+            String clau = instruccio.split(":")[1];
+            rsa.setPublicaE(new BigInteger(clau));
+            codificar(model.fitxer.getPath(),rsa);
+
+
+
+        } else if (instruccio.startsWith("DesxifrarRSA:")) {
+            String clau = instruccio.split(":")[1];
+            rsa.setPrivadE(new BigInteger(clau));
+            decodificar(model.fitxer.getPath(),rsa);
+
+
+
+
         }
 
     }

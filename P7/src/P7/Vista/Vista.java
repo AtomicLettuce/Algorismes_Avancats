@@ -2,10 +2,15 @@ package P7.Vista;
 
 import P7.Controllador.controllador;
 import P7.Main;
+import P7.Model.Model;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Vista extends JFrame implements ActionListener, WindowListener {
     private Main main;
@@ -15,10 +20,12 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     private JButton opcions;
     private PanellCentral panellCentral;
     private MonitorVista mv;
+    private Model model;
 
-    public Vista(String nom, Main main) {
+    public Vista(String nom, Main main, Model model) {
         super(nom);
         this.main = main;
+        this.model=model;
         addWindowListener(this);
 
 
@@ -99,8 +106,8 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
     }
 
     private void demana_opcions() {
-        String[] options = {"Mostra gràfic","Obtenir temps aproximat per n", "Verificar primer", "Factoritzar nombre",
-                "Generar claus RSA", "Xifrar RSA"};
+        String[] options = {"Mostra gràfic", "Obtenir temps aproximat per n", "Verificar primer", "Factoritzar nombre",
+                "Generar claus RSA", "Xifrar RSA", "Desxifrar RSA"};
 
         int option = JOptionPane.showOptionDialog(this, "Què vols fer?", "Opcions de Programa", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, null);
         switch (option) {
@@ -110,35 +117,59 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 break;
             case 1:
                 int n = Integer.parseInt(JOptionPane.showInputDialog(this, "N de dígits per calcular temps aproximat"));
-                double temps =controllador.temps_aproximat(n);
+                double temps = controllador.temps_aproximat(n);
 
                 int year = (int) temps / (365 * 24 * 60 * 60);
-                int day =(int) (temps / (24 * 60 * 60)) % 365;
-                int hour = (int)(temps / (60 * 60)) % 24;
-                int minute = (int)(temps / 60) % 60;
-                int second =(int) temps % 60;
+                int day = (int) (temps / (24 * 60 * 60)) % 365;
+                int hour = (int) (temps / (60 * 60)) % 24;
+                int minute = (int) (temps / 60) % 60;
+                int second = (int) temps % 60;
 
-                String tempsFormatat = String.format("%d anys, %d dies, %d hores, %d minuts, %d segons",year, day, hour, minute, second);
+                String tempsFormatat = String.format("%d anys, %d dies, %d hores, %d minuts, %d segons", year, day, hour, minute, second);
                 popup(tempsFormatat);
                 break;
             case 2:
                 String num = JOptionPane.showInputDialog(this, "Número a verificar");
-                main.comunicacio("Verificar primer:"+num);
+                main.comunicacio("Verificar primer:" + num);
                 break;
             case 3:
                 String numFactoritzar = JOptionPane.showInputDialog(this, "Número a factoritzar");
-                main.comunicacio("Factoritzar:"+numFactoritzar);
+                panellCentral.setOpcions("Factoritzar:" + numFactoritzar);
+                actualitzar();
+                main.comunicacio("Factoritzar:" + numFactoritzar);
                 break;
             case 4:
                 main.comunicacio("GeneraClausRSA");
                 break;
             case 5:
+                String clauX = JOptionPane.showInputDialog(this, "Introdueix clau");
+
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+
+                // If the user selects a file, print its name
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    model.fitxer= fileChooser.getSelectedFile();
+                }
+                main.comunicacio("XifrarRSA:"+clauX);
+                break;
+            case 6:
+                String clauD = JOptionPane.showInputDialog(this, "Introdueix clau");
+                JFileChooser jfc = new JFileChooser();
+                int resultat = jfc.showOpenDialog(null);
+
+                // If the user selects a file, print its name
+                if (resultat == JFileChooser.APPROVE_OPTION) {
+                    model.fitxer= jfc.getSelectedFile();
+                }
+                main.comunicacio("DesxifrarRSA:"+clauD);
 
                 break;
         }
     }
-    public void popup(String s){
-        JOptionPane.showMessageDialog(this,s);
+
+    public void popup(String s) {
+        JOptionPane.showMessageDialog(this, s);
     }
 
     // Per rebre notificació que s'ha de refrescar la pantalla

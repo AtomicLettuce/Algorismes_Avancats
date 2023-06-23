@@ -10,6 +10,8 @@ public class Model {
     HashMap<BigInteger, Integer> recuento = new HashMap<>();
     public File fitxer;
 
+    private Boolean esPrimer;
+
     public Model() {
     }
 
@@ -35,10 +37,12 @@ public class Model {
         }
     }
 
-    public void printNumeros() {
+    public String printNumeros() {
+        String str="";
         for (Map.Entry<BigInteger, Integer> entry : recuento.entrySet()) {
-            System.out.println("\tfactor: --------> " + entry.getKey() + "  (x" + entry.getValue() + " )");
+            str=str+"\tfactor: --------> " + entry.getKey() + "  (x" + entry.getValue() + " )\n";
         }
+        return str;
     }
 
     public void vaciarHashMap() {
