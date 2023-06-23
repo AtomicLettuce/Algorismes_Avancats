@@ -59,7 +59,7 @@ public class Main implements InterficieComunicacio {
         try {
             byte[] fitxerNormal = entrada(filePath);
             String fitxerEncriptat = rsa.encriptar(fitxerNormal);
-            sortida(filePath, fitxerEncriptat);
+            sortida(filePath+".cod", fitxerEncriptat);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
