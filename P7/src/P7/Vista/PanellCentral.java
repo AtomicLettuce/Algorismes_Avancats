@@ -5,6 +5,9 @@ import P7.Controllador.controllador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.GlyphVector;
+import java.awt.geom.Rectangle2D;
 import java.util.Collections;
 
 public class PanellCentral extends JPanel {
@@ -31,9 +34,38 @@ public class PanellCentral extends JPanel {
             case "Grafic":
                 dibuixaGrafica(g2);
                 break;
+            case "Factoritzar":
+                mostraFactoritzacio(g2);
+                break;
+        }
+        if(opcions.startsWith("Factoritzar")){
+mostraFactoritzacio(g2);
         }
     }
+    private void mostraFactoritzacio(Graphics2D g2){
+        g2.setColor(Color.BLACK);
+        Font currentFont = g2.getFont();
+        Font newFont = currentFont.deriveFont(currentFont.getSize() * 1.4F);
+        g2.setFont(newFont);
 
+        System.out.println("asdgsdg");
+        String numero = opcions.split(":")[1];
+        String text = "Factors de "+numero+" :";
+        Font font = g2.getFont();
+        int x = getWidth()/2;
+        int y= getHeight()/10;
+
+        FontRenderContext frc = g2.getFontRenderContext();
+        GlyphVector gv = font.createGlyphVector(frc, text);
+        Rectangle2D bounds = gv.getVisualBounds();
+        int textWidth = (int) bounds.getWidth();
+        int textHeight = (int) bounds.getHeight();
+        int centerX = x - textWidth / 2;
+        int centerY = y - textHeight / 2;
+        g2.drawString(text, centerX, centerY + font.getSize());
+
+
+    }
     private void dibuixaGrafica(Graphics2D g2){
         g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(10));
