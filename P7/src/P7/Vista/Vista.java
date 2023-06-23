@@ -126,6 +126,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 break;
             case 5:
                 String clauX = JOptionPane.showInputDialog(this, "Introdueix clau");
+                String clauN =JOptionPane.showInputDialog(this, "Introdueix clau PúblicaN");
 
                 JFileChooser fileChooser = new JFileChooser();
                 int result = fileChooser.showOpenDialog(null);
@@ -134,10 +135,11 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     model.fitxer= fileChooser.getSelectedFile();
                 }
-                main.comunicacio("XifrarRSA:"+clauX);
+                main.comunicacio("XifrarRSA:"+clauX+":"+clauN);
                 break;
             case 6:
                 String clauD = JOptionPane.showInputDialog(this, "Introdueix clau");
+                String clauuN =JOptionPane.showInputDialog(this, "Introdueix clau PúblicaN");
                 JFileChooser jfc = new JFileChooser();
                 int resultat = jfc.showOpenDialog(null);
 
@@ -145,7 +147,7 @@ public class Vista extends JFrame implements ActionListener, WindowListener {
                 if (resultat == JFileChooser.APPROVE_OPTION) {
                     model.fitxer= jfc.getSelectedFile();
                 }
-                main.comunicacio("DesxifrarRSA:"+clauD);
+                main.comunicacio("DesxifrarRSA:"+clauD+":"+clauuN);
 
                 break;
         }
