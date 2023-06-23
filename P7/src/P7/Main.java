@@ -38,9 +38,9 @@ public class Main implements InterficieComunicacio {
     public void codificar(String filePath, RSA rsa) {
         try {
             byte[] fitxerNormal = entrada(filePath);
-            System.out.println(new String(fitxerNormal));
             byte[] fitxerEncriptat = rsa.encriptar(fitxerNormal);
-            sortida(fitxerEncriptat, filePath + "cod.txt");
+            sortida(fitxerEncriptat,filePath+"cod.txt");
+            sortida(rsa.desencriptar(fitxerEncriptat), filePath+"decod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,11 +50,8 @@ public class Main implements InterficieComunicacio {
     public void decodificar(String filePath, RSA rsa) {
         try {
             byte[] fitxerNormal = entrada(filePath);
-            System.out.println(new String(fitxerNormal));
             byte[] fitxerDesencriptat = rsa.desencriptar(fitxerNormal);
-            System.out.println("--" + fitxerDesencriptat);
-            System.out.println("++" + (new String(fitxerDesencriptat)));
-            sortida(fitxerDesencriptat, filePath + "decod.txt");
+            //sortida(fitxerDesencriptat,filePath +"decod.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,14 +60,16 @@ public class Main implements InterficieComunicacio {
     public byte[] entrada(String filePath) throws IOException {
         Path fitxer = Path.of(filePath);
         byte[] bytes = Files.readAllBytes(fitxer);
+        System.out.println(bytes);
         return bytes;
     }
 
     public void sortida(byte[] content, String filePath) throws IOException {
         System.out.println(filePath);
         Path path = Path.of(filePath);
-        String s = new String(content);
-        Files.writeString(path, new String(content), StandardOpenOption.CREATE);
+        String s = content.toString();
+        System.out.println(s);
+        Files.write(path, content, StandardOpenOption.CREATE);
     }
 
     public void sortida(String content, String filePath) throws IOException {
