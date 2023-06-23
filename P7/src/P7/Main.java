@@ -85,7 +85,7 @@ public class Main implements InterficieComunicacio {
     public void unNumero(BigInteger numero){
         System.out.println("Longitud del número a factorizar: "+numero.toString().length()+" cifras.");
         Long t1 = System.nanoTime();
-        controllador.inici(numero);
+        controllador.run(numero);
         Long t2 = System.nanoTime();
         System.out.println("Voy a factorizar " + numero);
         model.printNumeros();

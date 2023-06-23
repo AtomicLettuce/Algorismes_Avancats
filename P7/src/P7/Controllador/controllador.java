@@ -6,7 +6,7 @@ import P7.Vista.Vista;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class controllador {
+public class controllador extends Thread{
     Primalidad p;
     Model model;
     Vista vista;
@@ -23,7 +23,7 @@ public class controllador {
         return i;
     }
 
-    public void inici(BigInteger number) {
+    public void run(BigInteger number) {
         p = new Primalidad();
         factor(number);
     }
